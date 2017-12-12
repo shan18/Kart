@@ -19,6 +19,15 @@
           <p>{{ content }}</p>
         </div>
       </div>
+
+      {% if request.user.is_authenticated %}
+        <div class="row">
+          <div class="col">
+            <h1>Premium</h1>
+            {{ premium_content }}
+          </div>
+        </div>
+      {% endif %}
     </div>
 
     <!-- jQuery first, then Tether, then Bootstrap JS. -->
