@@ -45,7 +45,7 @@ class RegisterForm(forms.Form):
         email = self.cleaned_data.get('email')
         qs = User.objects.filter(email=email)
         if qs.exists():
-            raise forms.ValidationError('Username is taken')
+            raise forms.ValidationError('Email is taken')
         return email
 
     def clean(self):
