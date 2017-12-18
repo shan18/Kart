@@ -3,3 +3,4 @@ __pycache__/
 */__init__.py
 *.pyc
 db.sqlite3
+imp_pts.txt
