@@ -18,10 +18,22 @@ class ProductListView(ListView):
     #     print(context)
     #     return(context)
 
+    def get_queryset(self, *args, **kwargs):   # Custom Model Manager
+        request = self.request
+        return Product.objects.all()
+
 
 class ProductDetailView(DetailView):
-    queryset = Product.objects.all()
+    # queryset = Product.objects.all()
     template_name = 'products/detail.html'
+
+    def get_object(self, *args, **kwargs):  # custom model manager
+        request = self.request
+        pk = self.kwargs.get('pk')
+        instance = Product.objects.get_by_id(pk)
+        if instance is None:
+            raise Http404("Product dosen't exist")
+        return instance
 
 
 """ Function Based Views """
