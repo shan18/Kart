@@ -9,7 +9,7 @@ from .models import Product
 
 
 class ProductListView(ListView):
-    queryset = Product.objects.all()
+    # queryset = Product.objects.all()
     template_name = 'products/list.html'
 
     # use this to check which key in context has the data, then use that in the template
@@ -34,6 +34,11 @@ class ProductDetailView(DetailView):
         if instance is None:
             raise Http404("Product dosen't exist")
         return instance
+
+    # def get_queryset(self, *args, **kwargs):   # Another version of Custom Model Manager
+    #     request = self.request
+    #     pk = self.kwargs.get('pk')
+    #     return Product.objects.filter(pk=pk)
 
 
 """ Function Based Views """
