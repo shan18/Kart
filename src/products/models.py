@@ -21,11 +21,22 @@ def upload_image_path(instance, filename):
     )
 
 
+# Custom Model Manager, it extends the default one
+class ProductManager(models.Manager):
+    def get_by_id(self, id):
+        qs = self.get_queryset().filter(id=id)  # equivalent to Product.objects.filter()
+        if qs.count() == 1:
+            return qs.first()
+        return None
+
+
 class Product(models.Model):
     title = models.CharField(max_length=120)
     description = models.TextField()
     price = models.DecimalField(max_digits=20, decimal_places=2, default=0.00)
     image = models.ImageField(upload_to=upload_image_path, null=True, blank=True)
+
+    objects = ProductManager()  # extends the default with the customized manager
 
     def __str__(self):  # For python 3
         return self.title

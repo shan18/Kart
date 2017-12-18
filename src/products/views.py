@@ -49,13 +49,19 @@ def product_detail_view(request, pk, *args, **kwargs):
 
     # If multiple entries exist with same title/pk, we can manually handle such errors with this method
     # For default actions, we can directly use get_object_or_404 method for this.
-    queryset = Product.objects.filter(id=pk)
-    if queryset.exists() and queryset.count() == 1:  # len(queryset)
-        instance = queryset.first()
-    else:
+    # queryset = Product.objects.filter(id=pk)
+    # if queryset.exists() and queryset.count() == 1:  # len(queryset)
+    #     instance = queryset.first()
+    # else:
+    #     raise Http404("Product dosen't exist")
+
+    # Above approach can be done using custom model managers too
+    instance = Product.objects.get_by_id(pk)
+    if instance is None:
         raise Http404("Product dosen't exist")
 
     context = {
         'object': instance
     }
+
     return render(request, 'products/detail.html', context)
