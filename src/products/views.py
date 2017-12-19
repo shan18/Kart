@@ -36,6 +36,25 @@ class ProductListView(ListView):
         return Product.objects.all()
 
 
+class ProductDetailSlugView(DetailView):
+    queryset = Product.objects.all()
+    template_name = 'products/detail.html'
+
+    def get_object(self, *args, **kwargs):  # custom model manager
+        request = self.request
+        slug = self.kwargs.get('slug')
+        try:
+            instance = Product.objects.get(slug=slug, active=True)
+        except Product.DoesNotExist:
+            raise Http404("No such product exists")
+        except Product.MultipleObjectsReturned:
+            qs = Product.objects.filter(slug=slug, active=True)
+            return qs.first()
+        except:
+            raise Http404("Huh!!")
+        return instance
+
+
 class ProductDetailView(DetailView):
     # queryset = Product.objects.all()
     template_name = 'products/detail.html'
