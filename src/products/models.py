@@ -21,12 +21,28 @@ def upload_image_path(instance, filename):
     )
 
 
+# Custom QuerySet, it extends the default one
+class ProductQuerySet(models.query.QuerySet):
+
+    def active(self):
+        return self.filter(active=True)
+
+    def featured(self):  # Product.objects.all()featured()
+        return self.filter(featured=True)
+
+
 # Custom Model Manager, it extends the default one
 class ProductManager(models.Manager):
 
-    def featured(self):
-        return self.get_queryset().filter(featured=True)
-        
+    def get_queryset(self):
+        return ProductQuerySet(self.model, using=self._db)
+
+    def all(self):  # Overrides Product.objects.all()
+        return self.get_queryset().active()
+
+    def featured(self):  # Product.objects.featured()
+        return self.get_queryset().featured()
+
     def get_by_id(self, id):
         qs = self.get_queryset().filter(id=id)  # equivalent to Product.objects.filter()
         if qs.count() == 1:
@@ -40,6 +56,7 @@ class Product(models.Model):
     price = models.DecimalField(max_digits=20, decimal_places=2, default=0.00)
     image = models.ImageField(upload_to=upload_image_path, null=True, blank=True)
     featured = models.BooleanField(default=False)
+    active = models.BooleanField(default=True)
 
     objects = ProductManager()  # extends the default with the customized manager
 

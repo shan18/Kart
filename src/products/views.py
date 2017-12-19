@@ -13,11 +13,11 @@ class ProductFeaturedListView(ListView):
 
     def get_queryset(self, *args, **kwargs):   # Custom Model Manager
         request = self.request
-        return Product.objects.featured()
+        return Product.objects.all().featured()
 
 
 class ProductFeaturedDetailView(DetailView):
-    queryset = Product.objects.featured()
+    queryset = Product.objects.all().featured()
     template_name = 'products/featured-detail.html'
 
 
