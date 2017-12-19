@@ -64,6 +64,9 @@ class Product(models.Model):
 
     objects = ProductManager()  # extends the default with the customized manager
 
+    def get_absolute_url(self):
+        return '/products/{slug}'.format(slug=self.slug)
+
     def __str__(self):  # For python 3
         return self.title
 
