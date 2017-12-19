@@ -8,6 +8,19 @@ from .models import Product
 """ Class Based Views """
 
 
+class ProductFeaturedListView(ListView):
+    template_name = 'products/list.html'
+
+    def get_queryset(self, *args, **kwargs):   # Custom Model Manager
+        request = self.request
+        return Product.objects.featured()
+
+
+class ProductFeaturedDetailView(DetailView):
+    queryset = Product.objects.featured()
+    template_name = 'products/featured-detail.html'
+
+
 class ProductListView(ListView):
     # queryset = Product.objects.all()
     template_name = 'products/list.html'

@@ -23,6 +23,10 @@ def upload_image_path(instance, filename):
 
 # Custom Model Manager, it extends the default one
 class ProductManager(models.Manager):
+
+    def featured(self):
+        return self.get_queryset().filter(featured=True)
+        
     def get_by_id(self, id):
         qs = self.get_queryset().filter(id=id)  # equivalent to Product.objects.filter()
         if qs.count() == 1:
@@ -35,6 +39,7 @@ class Product(models.Model):
     description = models.TextField()
     price = models.DecimalField(max_digits=20, decimal_places=2, default=0.00)
     image = models.ImageField(upload_to=upload_image_path, null=True, blank=True)
+    featured = models.BooleanField(default=False)
 
     objects = ProductManager()  # extends the default with the customized manager
 
