@@ -1,6 +1,6 @@
 from django.db import models
 from django.conf import settings
-from django.db.models.signals import m2m_changed
+from django.db.models.signals import pre_save, m2m_changed
 
 from products.models import Product
 
@@ -35,7 +35,8 @@ class CartManager(models.Manager):
 class Cart(models.Model):
     user = models.ForeignKey(User, null=True, blank=True)  # Non-logged in user can also create a cart
     products = models.ManyToManyField(Product, blank=True)  # Cart can be blank
-    total = models.DecimalField(default=0.00, max_digits=100, decimal_places=2)
+    subtotal = models.DecimalField(default=0.00, max_digits=100, decimal_places=2) # stores the total of cart
+    total = models.DecimalField(default=0.00, max_digits=100, decimal_places=2) # stores the final price
     updated = models.DateTimeField(auto_now=True)  # Last updated time
     timestamp = models.DateTimeField(auto_now_add=True)  # Created time
 
@@ -45,14 +46,22 @@ class Cart(models.Model):
         return str(self.id)
 
 
-def pre_save_cart_receiver(sender, instance, action, *args, **kwargs):
+def m2m_changed_cart_receiver(sender, instance, action, *args, **kwargs):
     # The following if block avoids calculations during pre actions
     if action == 'post_remove' or action == 'post_add' or action == 'post_clear':
         products = instance.products.all()
         total = 0
         for product in products:
             total += product.price
-        instance.total = total
-        instance.save()
+        if instance.subtotal != total:
+            instance.subtotal = total
+            instance.save()
 
-m2m_changed.connect(pre_save_cart_receiver, sender=Cart.products.through)
+m2m_changed.connect(m2m_changed_cart_receiver, sender=Cart.products.through)
+
+
+# This is used to include/deduct amount from subtotal like shipping charges, discounts e.t.c.
+def pre_save_cart_receiver(sender, instance, *args, **kwargs):
+    instance.total = instance.subtotal + 10
+
+pre_save.connect(pre_save_cart_receiver, sender=Cart)
