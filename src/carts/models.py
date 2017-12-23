@@ -1,5 +1,6 @@
 from django.db import models
 from django.conf import settings
+from django.db.models.signals import m2m_changed
 
 from products.models import Product
 
@@ -22,6 +23,7 @@ class CartManager(models.Manager):
             cart_obj = Cart.objects.new(user=request.user)
             new_obj = True
             request.session['cart_id'] = cart_obj.id
+        return cart_obj, new_obj
 
     def new(self, user=None):
         user_obj = None
@@ -41,3 +43,16 @@ class Cart(models.Model):
 
     def __str__(self):
         return str(self.id)
+
+
+def pre_save_cart_receiver(sender, instance, action, *args, **kwargs):
+    # The following if block avoids calculations during pre actions
+    if action == 'post_remove' or action == 'post_add' or action == 'post_clear':
+        products = instance.products.all()
+        total = 0
+        for product in products:
+            total += product.price
+        instance.total = total
+        instance.save()
+
+m2m_changed.connect(pre_save_cart_receiver, sender=Cart.products.through)
