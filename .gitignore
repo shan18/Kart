@@ -1,7 +1,5 @@
 __pycache__/
-**/migrations/
-*/__init__.py
+**/__init__.py
 *.pyc
-db.sqlite3
 imp_pts.txt
 /src/tags/shell_commands.py
