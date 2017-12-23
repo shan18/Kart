@@ -4,15 +4,5 @@ from .models import Cart
 
 
 def cart_home(request):
-    cart_id = request.session.get('cart_id', None)
-    qs = Cart.objects.filter(id=cart_id)
-    if qs.count() == 1:
-        print('Cart ID exists')
-        cart_obj = qs.first()
-        if request.user.is_authenticated() and cart_obj.user is None:
-            cart_obj.user = request.user
-            cart_obj.save()
-    else:  # This block will be executed when no such id exists or id cotntains non-numeric characters
-        cart_obj = Cart.objects.new(user=request.user)
-        request.session['cart_id'] = cart_obj.id
+    cart_obj = Cart.objects.get_or_new(request)
     return render(request, 'carts/home.html', {})
