@@ -89,6 +89,10 @@ class Product(models.Model):
     def __unicode__(self):  # For python 2
         return self.title
 
+    @property
+    def name(self): # optional: with this Product.name will also work
+        return self.title
+
 
 def product_pre_save_receiver(sender, instance, *args, **kwargs):
     if not instance.slug:
