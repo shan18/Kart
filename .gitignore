@@ -1,5 +1,6 @@
 __pycache__/
 **/__init__.py
 *.pyc
+*.sqlite3
 imp_pts.txt
 /src/tags/shell_commands.py
