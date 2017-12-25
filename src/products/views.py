@@ -71,7 +71,7 @@ class ProductDetailView(DetailView):
         pk = self.kwargs.get('pk')
         instance = Product.objects.get_by_id(pk)
         if instance is None:
-            raise Http404("Product dosen't exist")
+            raise Http404("Product doesn't exist")
         return instance
 
     # def get_queryset(self, *args, **kwargs):   # Another version of Custom Model Manager
@@ -99,7 +99,7 @@ def product_detail_view(request, pk, *args, **kwargs):
     #     instance = Product.objects.get(id=pk)
     # except Product.DoesNotExist:
     #     print("No such product exists.")
-    #     raise Http404("Product dosen't exist")
+    #     raise Http404("Product doesn't exist")
     # except:
     #     print('huh!')
 
@@ -109,12 +109,12 @@ def product_detail_view(request, pk, *args, **kwargs):
     # if queryset.exists() and queryset.count() == 1:  # len(queryset)
     #     instance = queryset.first()
     # else:
-    #     raise Http404("Product dosen't exist")
+    #     raise Http404("Product doesn't exist")
 
     # Above approach can be done using custom model managers too
     instance = Product.objects.get_by_id(pk)
     if instance is None:
-        raise Http404("Product dosen't exist")
+        raise Http404("Product doesn't exist")
 
     context = {
         'object': instance
