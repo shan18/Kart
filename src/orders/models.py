@@ -1,5 +1,5 @@
 from django.db import models
-from django.db.models.signals import pre_save
+from django.db.models.signals import pre_save, post_save
 
 from kart.utils import unique_order_id_generator
 from carts.models import Cart
@@ -29,6 +29,11 @@ class Order(models.Model):
     def __str__(self):
         return self.order_id
 
+    def update_total(self):
+        self.total = self.cart.total + self.shipping_total
+        self.save()
+        return self.total
+
 
 # Generate order_id
 def order_id_pre_save_receiver(sender, instance, *args, **kwargs):
@@ -37,4 +42,29 @@ def order_id_pre_save_receiver(sender, instance, *args, **kwargs):
 
 pre_save.connect(order_id_pre_save_receiver, sender=Order)
 
-# Calculate total
+
+# It is used to update the order total when the cart is updated
+# This method is executed only when changes occur in cart
+# Here, instance = Cart
+def cart_total_post_save_receiver(sender, instance, created, *args, **kwargs):
+    if not created:  # 'created' checks if the cart has just been created
+        # If the cart was just created then we don't execute the following code because
+        # newly created cart won't have any order
+        cart_total = instance.total
+        qs = Order.objects.filter(cart__id=instance.id)
+        if qs.count() == 1:  # Each order can belong to only one cart
+            order_obj = qs.first()
+            order_obj.update_total()
+
+post_save.connect(cart_total_post_save_receiver, sender=Cart)
+
+
+# This method is executed when the order object is modified, whether it is directly or through the cart
+def order_post_save_receiver(sender, instance, created, *args, **kwargs):
+    # The check below ensures that the code here is executed only once when the order is created
+    # For rest of the times, the order total should change only with cart updation
+    # If the check is not present, this method is executed repeatedly and thus giving RecursionDepthError
+    if created:  # If the order has just been created, then enter the block
+        instance.update_total()
+
+post_save.connect(order_post_save_receiver, sender=Order)
