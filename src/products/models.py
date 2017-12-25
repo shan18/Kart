@@ -6,7 +6,7 @@ from django.db.models.signals import pre_save
 from django.db.models import Q
 from django.urls import reverse
 
-from .utils import unique_slug_generator
+from kart.utils import unique_slug_generator
 
 
 def get_filename_extension(filepath):
