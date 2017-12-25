@@ -58,6 +58,7 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'kart.urls'
+LOGOUT_REDIRECT_URL = '/login/'
 
 TEMPLATES = [
     {

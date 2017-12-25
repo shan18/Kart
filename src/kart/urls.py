@@ -3,6 +3,7 @@ from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static
 from django.views.generic import TemplateView
+from django.contrib.auth.views import LogoutView
 
 from .views import home_page, about_page, contact_page
 from accounts.views import login_page, register_page
@@ -13,6 +14,7 @@ urlpatterns = [
     url(r'^contact/$', contact_page, name='contact'),
     url(r'^login/$', login_page, name='login'),
     url(r'^register/$', register_page, name='register'),
+    url(r'^logout/$', LogoutView.as_view(), name='logout'),
     url(r'bootstrap/$', TemplateView.as_view(template_name='bootstrap/example.html')),
     url(r'^products/', include('products.urls', namespace='products')),
     url(r'^search/', include('search.urls', namespace='search')),
