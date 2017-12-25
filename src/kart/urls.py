@@ -4,7 +4,8 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.views.generic import TemplateView
 
-from .views import home_page, about_page, contact_page, login_page, register_page
+from .views import home_page, about_page, contact_page
+from accounts.views import login_page, register_page
 
 urlpatterns = [
     url(r'^$', home_page, name='home'),
