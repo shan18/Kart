@@ -14,6 +14,10 @@
 			</div>
 			<div class="col-12 col-md-6">
 				<p class="lead">Continue as Guest</p>
+				<!-- To pass the URL into action_url we have to store it in a varable -->
+				{% url 'guest_register' as guest_register_url %}
+				<!-- Instead of this, we can also pass the url in context -->
+				{% include 'accounts/snippets/forms.html' with form=guest_form next_url=request.build_absolute_uri action_url=guest_register_url %}
 			</div>
 		</div>
 	{% else %}
