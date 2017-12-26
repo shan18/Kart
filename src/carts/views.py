@@ -41,11 +41,14 @@ def checkout_home(request):
     login_form = LoginForm()
     guest_form = GuestForm()
     guest_obj_id = request.session.get('guest_obj_id')
+
     if user.is_authenticated():
+        # Logged in user checkout; remebers payment stuff
         billing_profile, billing_profile_created = BillingProfile.objects.get_or_create(
                                                        user=user, email=user.email
                                                    )
     elif guest_obj_id is not None:
+        # Guest user checkout; auto reloads payment stuff
         guest_obj = GuestModel.objects.get(id=guest_obj_id)
         billing_profile, billing_guest_profile_created = BillingProfile.objects.get_or_create(
                                                              email=guest_obj.email
@@ -53,23 +56,9 @@ def checkout_home(request):
     else:
         pass
 
-    # Since billing profile is associated with order during checkout, initially due to consecutive
-    # login and logouts with guest or user, there can be multiple orders associated with a cart
-    # which don't have a billing profile or have the wrong profile, so we make all those orders
-    # inactive and create a single active order associated with the cart and billing profile.
+    # if order related to the billing profile exists, use that. Else create one.
     if billing_profile is not None: # Without billing profile, order should not exist
-        order_qs = Order.objects.filter(
-            billing_profile=billing_profile, cart=cart_obj, active=True
-        )
-        if order_qs.count() == 1:
-            order_obj = order_qs.first()
-        else:
-            old_order_qs = Order.objects.exclude(
-                billing_profile=billing_profile
-            ).filter(cart=cart_obj, active=True)
-            if old_order_qs.exists():
-                old_order_qs.update(active=False)
-            order_obj = Order.objects.create(billing_profile=billing_profile, cart=cart_obj)
+        order_obj, order_obj_created = Order.objects.get_or_new(billing_profile, cart_obj)
 
     context = {
         "object": order_obj,
