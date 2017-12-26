@@ -36,26 +36,11 @@ def checkout_home(request):
     order_obj = None
     if new_cart or cart_obj.products.count() == 0:
         return redirect('cart:home')
-    user = request.user
-    billing_profile = None
+
     login_form = LoginForm()
     guest_form = GuestForm()
-    guest_obj_id = request.session.get('guest_obj_id')
-
-    if user.is_authenticated():
-        # Logged in user checkout; remebers payment stuff
-        billing_profile, billing_profile_created = BillingProfile.objects.get_or_create(
-                                                       user=user, email=user.email
-                                                   )
-    elif guest_obj_id is not None:
-        # Guest user checkout; auto reloads payment stuff
-        guest_obj = GuestModel.objects.get(id=guest_obj_id)
-        billing_profile, billing_guest_profile_created = BillingProfile.objects.get_or_create(
-                                                             email=guest_obj.email
-                                                         )
-    else:
-        pass
-
+    
+    billing_profile, billing_profile_created = BillingProfile.objects.get_or_new(request)
     # if order related to the billing profile exists, use that. Else create one.
     if billing_profile is not None: # Without billing profile, order should not exist
         order_obj, order_obj_created = Order.objects.get_or_new(billing_profile, cart_obj)
