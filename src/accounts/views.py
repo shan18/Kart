@@ -36,6 +36,10 @@ def login_page(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
+            try:  # If user logs back in after registering as a guest, then delete the guest session
+                del request.session['guest_obj_id']
+            except:
+                pass
             if is_safe_url(redirect_path, request.get_host()):
                 return redirect(redirect_path)
             else:
