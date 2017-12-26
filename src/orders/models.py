@@ -23,7 +23,9 @@ ORDER_STATUS_CHOICES = (
 class OrderManager(models.Manager):
 
     def get_or_new(self, billing_profile, cart_obj):
-        qs = self.get_queryset().filter(billing_profile=billing_profile, cart=cart_obj, active=True)
+        qs = self.get_queryset().filter(
+            billing_profile=billing_profile, cart=cart_obj, active=True, status='created'
+        )
         created = False
         if qs.count() == 1:
             obj = qs.first()
@@ -50,9 +52,21 @@ class Order(models.Model):
         return self.order_id
 
     def update_total(self):
-        self.total = math.fsum([self.cart.total, self.shipping_total])
+        new_total = math.fsum([self.cart.total, self.shipping_total])
+        self.total = format(new_total, '.2f')
         self.save()
         return self.total
+
+    def check_done(self):
+        if self.billing_profile and self.shipping_address and self.billing_address and self.total > 0:
+            return True
+        return False
+
+    def mark_paid(self):
+        if self.check_done():
+            self.status = 'paid'
+            self.save()
+        return self.status
 
 
 # Generate order_id

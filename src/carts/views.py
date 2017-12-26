@@ -60,6 +60,13 @@ def checkout_home(request):
         if shipping_address_id or billing_address_id:
             order_obj.save()
 
+    if request.method == 'POST':
+        if order_obj.check_done():
+            order_obj.mark_paid()
+            request.session['cart_items_number'] = 0
+            del request.session['cart_id']
+            return redirect('/cart/success')
+
     context = {
         "object": order_obj,
         "billing_profile": billing_profile,
