@@ -26,11 +26,11 @@ class ProductListView(ListView):
     # queryset = Product.objects.all()
     template_name = 'products/list.html'
 
-    # use this to check which key in context has the data, then use that in the template
-    # def get_context_data(self, *args, **kwargs):
-    #     context = super(ProductListView, self).get_context_data(*args, **kwargs)
-    #     print(context)
-    #     return(context)
+    def get_context_data(self, *args, **kwargs):
+        context = super(ProductListView, self).get_context_data(*args, **kwargs)
+        cart_obj, new_obj = Cart.objects.get_or_new(self.request)
+        context['cart'] = cart_obj
+        return context
 
     def get_queryset(self, *args, **kwargs):   # Custom Model Manager
         request = self.request

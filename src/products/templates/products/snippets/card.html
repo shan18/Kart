@@ -9,5 +9,6 @@
     <!-- This is an example of using URL shorcuts in templates
     	<a href="{% url 'products:detail' slug=instance.slug %}" class="btn btn-warning">URL Shortcut</a>
     -->
+    {% include 'products/snippets/update-cart.html' with product=instance cart=cart %}
   </div>
 </div>

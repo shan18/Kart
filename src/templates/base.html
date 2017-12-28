@@ -24,7 +24,8 @@
         productForm.submit(function(event){
           event.preventDefault();
           var thisForm = $(this);
-          var actionEndpoint = thisForm.attr("action");
+          // var actionEndpoint = thisForm.attr("action");
+          var actionEndpoint = thisForm.attr("data-endpoint");  // See javascript_notes.txt
           var httpMethod = thisForm.attr("method");
           var formData = thisForm.serialize();
 
@@ -39,8 +40,14 @@
               } else {
                 submitSpan.html("<button type='submit' class='btn btn-success'>Add to cart</button>")
               }
-              var cartItemCount = $(".cart-item-count")
+
+              var cartItemCount = $(".cart-item-count")  // Refresh count in Navbar
               cartItemCount.text(data.cartItemCount)
+
+              var currentPath = window.location.href      // Get current url
+              if (currentPath.indexOf("cart") != -1) {    // If url contains 'cart'
+                refreshCart()
+              }
             },
             error: function(errorData){
               console.log("error")
@@ -48,6 +55,46 @@
             }
           })
         })
+
+        function refreshCart() {    // Refrest cart homepage if cart contents change
+          console.log("In refresh method")
+          var cartTable = $(".cart-table")
+          var cartBody = cartTable.find(".cart-body")
+          var productRow = cartBody.find(".cart-product")
+          var currentUrl = window.location.href
+
+          var refreshCartUrl = '/api/cart/'
+          var refreshCartMethod = "GET"
+          var data = {};
+          $.ajax({
+            url: refreshCartUrl,
+            method: refreshCartMethod,
+            data: data,
+            success: function(data){
+              var hiddenCartItemRemoveForm = $(".cart-item-remove-form")
+              if(data.products.length > 0) {
+                productRow.html("")
+                i = data.products.length
+                $.each(data.products, function(index, value) {
+                  var newCartItemRemove = hiddenCartItemRemoveForm.clone()
+                  newCartItemRemove.css("display", "block")
+                  // newCartItemRemove.removeClass("hidden-class") // If class was used instead of style
+                  newCartItemRemove.find(".cart-item-product-id").val(value.id)
+                  cartBody.prepend("<tr><th scope=\"row\">" + i + "</th><td><a href='" + value.url + "'>" + value.name + "</a>" + newCartItemRemove.html() + "</td><td>" + value.price + "</td></tr>")
+                  i --
+                })
+                cartBody.find('.cart-subtotal').text(data.subtotal)
+                cartBody.find('.cart-total').text(data.total)
+              } else {
+                window.location.href = currentUrl
+              }
+            },
+            error: function(errorData){
+              console.log("error")
+              console.log(errorData)
+            }
+          })
+        }
       })
     </script>
   </body>
