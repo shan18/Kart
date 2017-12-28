@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.http import JsonResponse
 
 from .models import Cart
 from products.models import Product
@@ -28,9 +29,18 @@ def cart_update(request):
         cart_obj, new_obj = Cart.objects.get_or_new(request)
         if product_obj in cart_obj.products.all():
             cart_obj.products.remove(product_obj)
+            added = False
         else:
             cart_obj.products.add(product_obj)
-    request.session['cart_items_number'] = cart_obj.products.count()
+            added = True
+        request.session['cart_items_number'] = cart_obj.products.count()
+
+        if request.is_ajax():   # If ajax data, then send back form data in JSON
+            print("Ajax request")
+            json_data = {       # Additional data we want to send along with the form data
+                "added": added
+            }
+            return JsonResponse(json_data)  # JsonResponse sends only form data if no parameters are given
     return redirect('cart:home')
 
 
