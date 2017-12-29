@@ -19,6 +19,32 @@
 
     <script type="text/javascript">
       $(document).ready(function(){
+        // Auto Search
+        var searchForm = $(".search-form")
+        var searchInput = searchForm.find("[name='q']")   // input name = 'q'
+        var typingInterval = 1500  // in ms
+        var typingTimer;
+
+        // key released
+        searchInput.keyup(function(event){
+          // If the clearTimeout function is not used, then search begins after the specified time
+          // starting from the time first keystroke was entered.
+          clearTimeout(typingTimer)   // The timer is reset everytime something is entered in search bar
+          typingTimer = setTimeout(performSearch, typingInterval)
+        })
+
+        // key pressed
+        searchInput.keydown(function(event){
+          clearTimeout(typingTimer)
+        })
+
+        function performSearch(){
+          var query = searchInput.val()
+          window.location.href = "/search/?q=" + query
+        }
+
+
+        // Cart + Add Products
         var productForm = $(".form-product-ajax")
 
         productForm.submit(function(event){
