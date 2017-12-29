@@ -54,7 +54,7 @@ def cart_update(request):
                 "added": added,
                 "cartItemCount": cart_obj.products.count()
             }
-            return JsonResponse(json_data)  # JsonResponse sends only form data if no parameters are given
+            return JsonResponse(json_data, status=200)  # JsonResponse sends only form data if no parameters are given
             # return JsonResponse({"message": "Error 400"}, status=400)
     return redirect('cart:home')
 

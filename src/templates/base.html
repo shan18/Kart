@@ -19,41 +19,8 @@
 
     <script type="text/javascript">
       $(document).ready(function(){
-        // Auto Search
-        var searchForm = $(".search-form")
-        var searchInput = searchForm.find("[name='q']")   // input name = 'q'
-        var typingInterval = 500  // in ms
-        var typingTimer;
-        var searchButton = searchForm.find("[type='submit']")
 
-        // key released
-        searchInput.keyup(function(event){
-          // If the clearTimeout function is not used, then search begins after the specified time
-          // starting from the time first keystroke was entered.
-          clearTimeout(typingTimer)   // The timer is reset everytime something is entered in search bar
-          typingTimer = setTimeout(performSearch, typingInterval)
-        })
-
-        // key pressed
-        searchInput.keydown(function(event){
-          clearTimeout(typingTimer)
-        })
-
-        function searchIndicator(){
-          searchButton.addClass("disabled")
-          searchButton.html("<i class='fa fa-spin fa-spinner'></i> Searching...")
-        }
-
-        function performSearch(){
-          searchIndicator()
-          var query = searchInput.val()
-          setTimeout(function(){
-            window.location.href = '/search/?q=' + query
-          }, 1000)
-        }
-
-
-        // Cart + Add Products
+        /* Cart + Add Products */
         var productForm = $(".form-product-ajax")
 
         productForm.submit(function(event){
@@ -84,7 +51,7 @@
                 refreshCart()
               }
             },
-            error: function(errorData){
+            error: function(error){
               // Using '$.' uses jQuery-confirm instead of default
               $.alert({
                 title: "Oops!",
@@ -128,7 +95,7 @@
                 window.location.href = currentUrl
               }
             },
-            error: function(errorData){
+            error: function(error){
               $.alert({
                 title: "Oops!",
                 content: "An error may have occured!",
@@ -137,6 +104,103 @@
             }
           })
         }
+
+        /* Auto Search */
+        var searchForm = $(".search-form")
+        var searchInput = searchForm.find("[name='q']")   // input name = 'q'
+        var typingInterval = 500  // in ms
+        var typingTimer;
+        var searchButton = searchForm.find("[type='submit']")
+
+        searchInput.keyup(function(event){
+          // key released
+          // If the clearTimeout function is not used, then search begins after the specified time
+          // starting from the time first keystroke was entered.
+          clearTimeout(typingTimer)   // The timer is reset everytime something is entered in search bar
+          typingTimer = setTimeout(performSearch, typingInterval)
+        })
+
+        searchInput.keydown(function(event){
+          // key pressed
+          clearTimeout(typingTimer)
+        })
+
+        function searchIndicator(){
+          searchButton.addClass("disabled")
+          searchButton.html("<i class='fa fa-spin fa-spinner'></i> Searching...")
+        }
+
+        function performSearch(){
+          searchIndicator()
+          var query = searchInput.val()
+          setTimeout(function(){
+            window.location.href = '/search/?q=' + query
+          }, 1000)
+        }
+
+        /* Contact Form Handler */
+        var contactForm = $(".contact-form")
+        var contactFormMethod = contactForm.attr("method")
+        var contactFormEndpoint = contactForm.attr("action")
+
+        function submitIndicator(submitButton, defaultText, doSubmit){
+          if (doSubmit){
+            submitButton.addClass("disabled")
+            submitButton.html("<i class='fa fa-spin fa-spinner'></i> Sending...")
+          } else {
+            submitButton.removeClass("disabled")
+            submitButton.html(defaultText)
+          }
+        }
+
+        // forms can be submitted by pressing Enter key too, This .submit function
+        // handles that too, thus we use this instead of .click method.
+        contactForm.submit(function(event){
+          event.preventDefault()
+          var contactFormSubmitButton = contactForm.find("[type='submit']")
+          var contactFormSubmitButtonText = contactFormSubmitButton.text()
+          var contactFormData = contactForm.serialize()
+          var thisForm = $(this)
+          submitIndicator(contactFormSubmitButton, "", true)
+          $.ajax({
+            method: contactFormMethod,
+            url: contactFormEndpoint,
+            data: contactFormData,
+            success: function(data){
+              thisForm[0].reset()
+              console.log(data)
+              $.alert({
+                title: "Success!",
+                content: data.message,
+                theme: "modern"
+              })
+
+              setTimeout(function(){
+                submitIndicator(contactFormSubmitButton, contactFormSubmitButtonText, false)
+              }, 500)
+            },
+            error: function(error){
+              console.log(error.responseJSON)
+              var jsonData = error.responseJSON
+              var message = ""
+
+              // since it is a dictionary, we can use key & value in loop
+              $.each(jsonData, function(key, value){
+                message += key + ": " + value[0].message + "<br/>"
+              })
+
+              $.alert({
+                title: "Oops!",
+                content: message,
+                theme: "modern"
+              })
+
+              setTimeout(function(){
+                submitIndicator(contactFormSubmitButton, contactFormSubmitButtonText, false)
+              }, 500)
+            }
+          })
+        })
       })
     </script>
   </body>
