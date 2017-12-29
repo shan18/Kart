@@ -22,8 +22,9 @@
         // Auto Search
         var searchForm = $(".search-form")
         var searchInput = searchForm.find("[name='q']")   // input name = 'q'
-        var typingInterval = 1500  // in ms
+        var typingInterval = 500  // in ms
         var typingTimer;
+        var searchButton = searchForm.find("[type='submit']")
 
         // key released
         searchInput.keyup(function(event){
@@ -38,9 +39,17 @@
           clearTimeout(typingTimer)
         })
 
+        function searchIndicator(){
+          searchButton.addClass("disabled")
+          searchButton.html("<i class='fa fa-spin fa-spinner'></i> Searching...")
+        }
+
         function performSearch(){
+          searchIndicator()
           var query = searchInput.val()
-          window.location.href = "/search/?q=" + query
+          setTimeout(function(){
+            window.location.href = '/search/?q=' + query
+          }, 1000)
         }
 
 
