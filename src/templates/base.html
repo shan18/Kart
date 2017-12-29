@@ -85,8 +85,12 @@
               }
             },
             error: function(errorData){
-              console.log("error")
-              console.log(errorData)
+              // Using '$.' uses jQuery-confirm instead of default
+              $.alert({
+                title: "Oops!",
+                content: "An error may have occured!",
+                theme: "modern"
+              })
             }
           })
         })
@@ -125,8 +129,11 @@
               }
             },
             error: function(errorData){
-              console.log("error")
-              console.log(errorData)
+              $.alert({
+                title: "Oops!",
+                content: "An error may have occured!",
+                theme: "modern"
+              })
             }
           })
         }
