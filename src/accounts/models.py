@@ -29,7 +29,7 @@ class UserManager(BaseUserManager):
     def create_superuser(self, email, password=None):
         user = self.create_user(
                    email,
-                   password=self.password,
+                   password=password,
                    is_staff=True,
                    is_admin=True
                )
@@ -40,7 +40,7 @@ class UserManager(BaseUserManager):
 class User(AbstractBaseUser):
     email = models.EmailField(unique=True, max_length=255)
     # full_name = models.CharField(max_length=255, blank=True, null=True)
-    active = models.BooleanField(default=True)
+    active = models.BooleanField(default=True)  # can login
     staff = models.BooleanField(default=False)  # staff (non superuser) user
     admin = models.BooleanField(default=False)
     timestamp = models.DateTimeField(auto_now_add=True)
@@ -48,6 +48,8 @@ class User(AbstractBaseUser):
     USERNAME_FIELD = 'email'    # email now acts as the username
     # USERNAME_FIELD and password are required by default
     REQUIRED_FIELDS = []    # ['full_name']  # these fields will be asked even when creating a superuser
+
+    objects = UserManager()
 
     def __str__(self):
         return self.email

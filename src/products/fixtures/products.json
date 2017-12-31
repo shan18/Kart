@@ -1,0 +1,72 @@
+[
+{
+  "model": "products.product",
+  "pk": 1,
+  "fields": {
+    "title": "T-shirt",
+    "slug": "t-shirt",
+    "description": "This is a star wars and Breaking Bad T-shirt.",
+    "price": "499.99",
+    "image": "products/2946056/2946056.jpg",
+    "featured": false,
+    "active": true,
+    "timestamp": "2017-12-20T21:13:25.567Z"
+  }
+},
+{
+  "model": "products.product",
+  "pk": 2,
+  "fields": {
+    "title": "Batman Action Figure",
+    "slug": "batman",
+    "description": "A 5 feet tall Batman action figure.",
+    "price": "5099.99",
+    "image": "products/940385/940385.jpg",
+    "featured": false,
+    "active": true,
+    "timestamp": "2017-12-20T21:13:25.567Z"
+  }
+},
+{
+  "model": "products.product",
+  "pk": 3,
+  "fields": {
+    "title": "Supercomputer",
+    "slug": "supercomputer",
+    "description": "This is a supercomputer which is primarily built for applications in Data Science.",
+    "price": "450000.00",
+    "image": "products/2565608/2565608.jpg",
+    "featured": true,
+    "active": true,
+    "timestamp": "2017-12-20T21:13:25.567Z"
+  }
+},
+{
+  "model": "products.product",
+  "pk": 4,
+  "fields": {
+    "title": "T-shirt",
+    "slug": "t-shirt-w4h6",
+    "description": "This is a programmer t-shirt.",
+    "price": "500.00",
+    "image": "products/4321801/4321801.jpg",
+    "featured": false,
+    "active": true,
+    "timestamp": "2017-12-20T21:13:25.567Z"
+  }
+},
+{
+  "model": "products.product",
+  "pk": 5,
+  "fields": {
+    "title": "Lorem Ipsum",
+    "slug": "lorem-ipsum",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec suscipit, orci at malesuada condimentum, sapien nisl venenatis nibh, a sollicitudin ligula arcu et sapien. Pellentesque in lorem id velit lobortis venenatis in quis neque. Mauris condimentum arcu dui, eget tristique nibh dictum a. Vestibulum aliquet eu lacus nec mollis. Duis justo elit, volutpat nec porttitor eu, luctus eget libero. Maecenas sed eleifend est. Maecenas ac lacus sapien. Donec quis dignissim quam. Praesent at pellentesque risus, in ullamcorper felis.\r\n\r\nCurabitur venenatis sem nec nulla ullamcorper tincidunt. Duis at ipsum faucibus, vehicula ex lobortis, iaculis enim. Vivamus rutrum dui non risus tincidunt, vitae placerat dui dictum. Morbi iaculis mauris pretium justo fermentum pharetra accumsan non magna. Maecenas feugiat vestibulum facilisis. Quisque ultricies convallis eros nec placerat. Aliquam finibus in neque et iaculis. Pellentesque eu dapibus felis, non sodales sem. Integer id scelerisque massa, a laoreet urna. Suspendisse potenti. Maecenas fermentum nulla sed dapibus aliquet. Ut sed fermentum risus, et laoreet risus. Nam felis diam, interdum iaculis odio eu, porta commodo justo. Ut maximus lorem vitae bibendum luctus.\r\n\r\nSed lectus metus, tempus a viverra sed, varius nec arcu. Etiam venenatis dolor mi, at laoreet libero sodales et. Phasellus imperdiet urna ut odio viverra scelerisque. Nam accumsan euismod nisi vel fermentum. Nam id lacinia dolor. Integer in pretium est. Praesent ipsum velit, tincidunt ac turpis a, eleifend vestibulum eros. Morbi tellus quam, condimentum quis nunc sit amet, tempus feugiat massa. Donec tincidunt aliquam sem ut semper. Morbi eu viverra sem. Nam fermentum gravida enim lobortis euismod.\r\n\r\nPhasellus hendrerit dapibus dui vel molestie. Etiam in nunc non nibh viverra malesuada vel quis libero. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Integer vitae rhoncus dolor, id tempus ex. Cras pellentesque ante sed consectetur feugiat. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Maecenas in sollicitudin turpis. Mauris eget porta felis, vulputate pulvinar neque.\r\n\r\nDonec scelerisque faucibus tempor. Etiam blandit semper euismod. Nulla ex eros, dignissim eget felis quis, rutrum fringilla urna. Vestibulum eget tortor quis nulla congue pulvinar ac nec eros. Integer at vehicula massa. Pellentesque tincidunt enim neque, eget molestie risus fringilla quis. Curabitur tincidunt est ac sem blandit commodo. Quisque at accumsan nisl. Curabitur fringilla arcu quis odio facilisis, vel commodo nulla ultrices. Ut ac ligula euismod, semper nunc sit amet, iaculis leo.",
+    "price": "10.00",
+    "image": "",
+    "featured": false,
+    "active": true,
+    "timestamp": "2017-12-20T21:13:25.567Z"
+  }
+}
+]
