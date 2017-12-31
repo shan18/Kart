@@ -36,8 +36,8 @@ class UserManager(BaseUserManager):
         return user
 
 
-# Fields id, password and last_login are pre-defined in AbstractBaseUser
 class User(AbstractBaseUser):
+    # Fields id, password and last_login are pre-defined in AbstractBaseUser
     email = models.EmailField(unique=True, max_length=255)
     # full_name = models.CharField(max_length=255, blank=True, null=True)
     active = models.BooleanField(default=True)  # can login
@@ -54,11 +54,25 @@ class User(AbstractBaseUser):
     def __str__(self):
         return self.email
 
+    # The following functions have to included when using a custom user model
+
     def get_full_name(self):
+        # The user is identified by their email address
         return self.email
 
     def get_short_name(self):
+        # The user is identified by their email address
         return self.email
+
+    def has_perm(self, perm, object=None):
+        # Does the user have a specific permission?
+        # Simplest possible answer: Yes, always
+        return True
+
+    def has_module_perms(self, app_label):
+        # Does the user have permissions to view the app `app_label`?
+        # Simplest possible answer: Yes, always
+        return True
 
     @property
     def is_staff(self):
