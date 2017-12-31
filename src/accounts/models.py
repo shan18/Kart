@@ -1,5 +1,39 @@
 from django.db import models
-from django.contrib.auth.models import AbstractBaseUser
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
+
+
+class UserManager(BaseUserManager):
+
+    def create_user(self, email, password=None, is_active=True, is_staff=False, is_admin=False):
+        if not email:
+            raise ValueError("Users must have an email.")
+        if not password:
+            raise ValueError("Users must have a password")
+
+        user_obj = self.model(email=self.normalize_email(email))
+        user_obj.set_password(password)    # Also used for changing the password
+        user_obj.active = is_active
+        user_obj.staff = is_staff
+        user_obj.admin = is_admin
+        user_obj.save(using=self._db)
+        return user_obj
+
+    def create_staffuser(self, email, password=None):
+        user = self.create_user(
+                   email,
+                   password=self.password,
+                   is_staff=True
+               )
+        return user
+
+    def create_superuser(self, email, password=None):
+        user = self.create_user(
+                   email,
+                   password=self.password,
+                   is_staff=True,
+                   is_admin=True
+               )
+        return user
 
 
 # Fields id, password and last_login are pre-defined in AbstractBaseUser
