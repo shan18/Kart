@@ -2,7 +2,4 @@ __pycache__/
 notes/
 fasttracktojquery/
 .idea/
-**/migrations/
-**/__init__.py
 *.pyc
-*.sqlite3
