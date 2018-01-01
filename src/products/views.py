@@ -4,6 +4,7 @@ from django.http import Http404
 
 from .models import Product
 from carts.models import Cart
+from analytics.signals import object_viewed_signal
 
 
 """ Class Based Views """
@@ -59,6 +60,9 @@ class ProductDetailSlugView(DetailView):
             return qs.first()
         except:
             raise Http404("Huh!!")
+
+        # Calling the custom signal
+        # object_viewed_signal.send(instance.__class__, instance=instance, request=request)
         return instance
 
 
