@@ -27,6 +27,9 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+FORCE_SESSION_TO_ONE = False
+FORCE_INACTIVE_USER_END_SESSION = False
+
 
 # Application definition
 

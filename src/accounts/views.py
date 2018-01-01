@@ -5,6 +5,7 @@ from django.views.generic import CreateView, FormView
 
 from .models import GuestModel
 from .forms import LoginForm, RegisterForm, GuestForm
+from .signals import user_session_signal
 
 
 def guest_register_view(request):
@@ -38,6 +39,7 @@ class LoginView(FormView):
         user = authenticate(request, username=email, password=password)
         if user is not None:
             login(request, user)
+            user_session_signal.send(user.__class__, instance=user, request=request)
             try:  # If user logs back in after registering as a guest, then delete the guest session
                 del request.session['guest_obj_id']
             except:
