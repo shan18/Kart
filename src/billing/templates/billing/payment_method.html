@@ -99,8 +99,15 @@
 			});
 		});
 
+		function redirectToNext(nextPath, timeoffset){
+			if (nextPath){
+				setTimeout(function(){
+					window.location.href = nextPath
+				}, timeoffset)
+			}
+		}
+
 		function stripeTokenHandler(token, nextUrl){
-			// console.log(token.id)
 			var paymentMethodEndpoint = 'create/'
 			var data = {
 				'token': token.id
@@ -110,12 +117,17 @@
 				url: paymentMethodEndpoint,
 				method: "POST",
 				success: function(data){
-					// console.log(data)
+					var successMsg = data.message || "Success! Your card was added."
+					card.clear()  // Clears out form contents
 					if (nextUrl){
-						window.location.href = nextUrl
-					} else {
-						window.location.reload()
+						successMsg += "<br><br><i class='fa fa-spin fa-spinner'></i> Redirecting..."
 					}
+					if ($.alert){  // If the custom defined alert class exists
+						$.alert(successMsg)
+					} else {
+						alert(successMsg)
+					}
+					redirectToNext(nextUrl, 1500)
 				},
 				error: function(error) {
 					console.log(error)
