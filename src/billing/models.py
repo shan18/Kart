@@ -1,9 +1,14 @@
 from django.conf import settings
 from django.db import models
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save, pre_save
+
+import stripe
 
 from accounts.models import GuestModel
+from billing import credentials
 
+
+stripe.api_key = credentials.SECRET_KEY
 
 User = settings.AUTH_USER_MODEL
 
@@ -38,7 +43,7 @@ class BillingProfile(models.Model):
     active = models.BooleanField(default=True)
     update = models.DateTimeField(auto_now=True)
     timestamp = models.DateTimeField(auto_now_add=True)
-    # customer_id for stripe or braintee
+    customer_id = models.CharField(max_length=120, blank=True, null=True)  # for stripe
 
     objects = BillingProfileManager()
 
@@ -51,3 +56,16 @@ def user_created_post_save_receiver(sender, instance, created, *args, **kwargs):
         BillingProfile.objects.get_or_create(user=instance, email=instance.email)
 
 post_save.connect(user_created_post_save_receiver, sender=User)
+
+
+def billing_profile_created_receiver(sender, instance, *args, **kwargs):
+    # create a customer id for stripe
+    # This is done as pre_save because we want to change customer_id if needed in future by just deleting
+    # the id from admin panel and doing save and also delete the id from stripe panel.
+    if not instance.customer_id and instance.email:
+        print("api request for stripe")
+        customer = stripe.Customer.create(email=instance.email)
+        instance.customer_id = customer.id
+        print(customer)
+
+pre_save.connect(billing_profile_created_receiver, sender=BillingProfile)
