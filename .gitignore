@@ -1,5 +1,8 @@
 __pycache__/
+k-venv/
 notes/
 fasttracktojquery/
 .idea/
+**/credentials.py
 *.pyc
+*.sqlite3
