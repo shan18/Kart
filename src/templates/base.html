@@ -11,10 +11,10 @@
     {% include 'base/navbar.html' with brand_name='eCommerce' %}
 
     <div class="container">
-      {% block content %}
-      {% endblock %}
+      {% block content %}{% endblock %}
     </div>
 
     {% include 'base/js.html' %}
+    {% block javascript %}{% endblock %}
   </body>
 </html>
