@@ -34,8 +34,7 @@ class BillingProfileManager(models.Manager):
         return obj, created
 
 
-# Each registered user can have only one billing Profile
-# Guest users can have multiple billing profiles
+# Each registered email can have only one billing Profile
 class BillingProfile(models.Model):
     user = models.OneToOneField(User, null=True, blank=True)
     # OR --> user = models.ForeignKey(User, unique=True, null=True, blank=True) --> this can give some errors
