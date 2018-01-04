@@ -23,6 +23,8 @@ $(document).ready(function(){
 	} else if (paymentForm.length == 1) {
 		var pubKey = paymentForm.attr("data-token")
 		var nextUrl = paymentForm.attr("data-next-url")
+		var paymentFormButton = paymentForm.find(".payment-form-button")
+		var paymentFormButtonText = paymentFormButton.text()
 
 		// Create a Stripe client
 		var stripe = Stripe(pubKey);
@@ -69,6 +71,7 @@ $(document).ready(function(){
 		var form = document.getElementById('payment-form');
 		form.addEventListener('submit', function(event) {
 			event.preventDefault();
+			addPaymentIndicator(paymentFormButton, "", "Adding", true)
 
 			stripe.createToken(card).then(function(result) {
 				if (result.error) {
@@ -90,8 +93,18 @@ $(document).ready(function(){
 			}
 		}
 
+		function addPaymentIndicator(submitButton, defaultText, submitText, doSubmit){
+			if (doSubmit){
+				submitButton.addClass("disabled")
+				submitButton.html("<i class='fa fa-spin fa-spinner'></i> " + submitText + "...")
+			} else {
+				submitButton.removeClass("disabled")
+				submitButton.html(defaultText)
+			}
+		}
+
 		function stripeTokenHandler(token, nextUrl){
-			var paymentMethodEndpoint = 'create/'
+			var paymentMethodEndpoint = 'create/'  // billing/payment-method/create/
 			var data = {
 				'token': token.id
 			}
@@ -111,9 +124,11 @@ $(document).ready(function(){
 						alert(successMsg)
 					}
 					redirectToNext(nextUrl, 1500)
+					addPaymentIndicator(paymentFormButton, paymentFormButtonText, "", false)
 				},
 				error: function(error) {
 					console.log(error)
+					addPaymentIndicator(paymentFormButton, paymentFormButtonText, "", false)
 				}
 			})
 		}

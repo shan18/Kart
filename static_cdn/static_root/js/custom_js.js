@@ -123,10 +123,10 @@ $(document).ready(function(){
 	var contactFormMethod = contactForm.attr("method")
 	var contactFormEndpoint = contactForm.attr("action")
 
-	function submitIndicator(submitButton, defaultText, doSubmit){
+	function submitIndicator(submitButton, defaultText, submitText, doSubmit){
 		if (doSubmit){
 			submitButton.addClass("disabled")
-			submitButton.html("<i class='fa fa-spin fa-spinner'></i> Sending...")
+			submitButton.html("<i class='fa fa-spin fa-spinner'></i> " + submitText + "...")
 		} else {
 			submitButton.removeClass("disabled")
 			submitButton.html(defaultText)
@@ -141,7 +141,7 @@ $(document).ready(function(){
 		var contactFormSubmitButtonText = contactFormSubmitButton.text()
 		var contactFormData = contactForm.serialize()
 		var thisForm = $(this)
-		submitIndicator(contactFormSubmitButton, "", true)
+		submitIndicator(contactFormSubmitButton, "", "Sending", true)
 		$.ajax({
 			method: contactFormMethod,
 			url: contactFormEndpoint,
@@ -156,8 +156,8 @@ $(document).ready(function(){
 				})
 
 				setTimeout(function(){
-					submitIndicator(contactFormSubmitButton, contactFormSubmitButtonText, false)
-				}, 500)
+					submitIndicator(contactFormSubmitButton, contactFormSubmitButtonText, "", false)
+				}, 1500)
 			},
 			error: function(error){
 				console.log(error.responseJSON)
@@ -176,7 +176,7 @@ $(document).ready(function(){
 				})
 
 				setTimeout(function(){
-					submitIndicator(contactFormSubmitButton, contactFormSubmitButtonText, false)
+					submitIndicator(contactFormSubmitButton, contactFormSubmitButtonText, "", false)
 				}, 500)
 			}
 		})
