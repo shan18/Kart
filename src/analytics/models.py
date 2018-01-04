@@ -105,7 +105,7 @@ if FORCE_SESSION_TO_ONE:
 def post_save_user_changed_receiver(sender, instance, created, *args, **kwargs):
     if not created:
         # if user becomes inactive, delete all of its inactive sessions
-        if instance.is_active == False:
+        if not instance.is_active:
             qs = UserSession.objects.filter(user=instance.user, ended=False, active=False)
             for session in qs:
                 session.end_session()

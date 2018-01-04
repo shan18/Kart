@@ -68,3 +68,40 @@ def billing_profile_created_receiver(sender, instance, *args, **kwargs):
         print(customer)
 
 pre_save.connect(billing_profile_created_receiver, sender=BillingProfile)
+
+
+class CardManager(models.Manager):
+
+    def add_new(self, billing_profile, stripe_card_response):
+        if str(stripe_card_response.object) == 'card':
+            new_card = self.model(
+                billing_profile=billing_profile,
+                stripe_id=stripe_card_response.id,
+                brand=stripe_card_response.brand,
+                country=stripe_card_response.country,
+                exp_month=stripe_card_response.exp_month,
+                exp_year=stripe_card_response.exp_year,
+                last4=stripe_card_response.last4
+            )
+            new_card.save()
+            return new_card
+        return None
+
+
+class Card(models.Model):
+    """ We can fetch all the card data from the api just by using the stripe id, so we make it and the
+    billing profile as required fields. We want to minimize the number of api calls made, thus we store
+    some card data locally in the database. """
+    billing_profile = models.ForeignKey(BillingProfile)
+    stripe_id = models.CharField(max_length=120, blank=True, null=True)
+    brand = models.CharField(max_length=120, blank=True, null=True)
+    country = models.CharField(max_length=20, blank=True, null=True)
+    exp_month = models.IntegerField(blank=True, null=True)
+    exp_year = models.IntegerField(blank=True, null=True)
+    last4 = models.CharField(max_length=4, blank=True, null=True)
+    default = models.BooleanField(default=True)  # default payment method
+
+    objects = CardManager()
+
+    def __str__(self):
+        return '{} {}'.format(self.brand, self.last4)
