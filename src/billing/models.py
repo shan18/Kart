@@ -1,4 +1,5 @@
 from django.conf import settings
+from django.http import HttpResponseServerError
 from django.db import models
 from django.db.models.signals import post_save, pre_save
 
@@ -7,7 +8,7 @@ import stripe
 from accounts.models import GuestModel
 
 
-stripe.api_key = getattr(settings, 'STRIPE_SECRET_KEY')
+stripe.api_key = getattr(settings, 'STRIPE_SECRET_KEY', None)
 
 User = settings.AUTH_USER_MODEL
 
@@ -51,6 +52,20 @@ class BillingProfile(models.Model):
     # Alternatively, we can skip this method and do a separate import for Charge model in views
     def charge(self, order_obj, card=None):
         return Charge.objects.do(self, order_obj, card)
+
+    def get_cards(self):
+        return self.card_set.all()
+
+    @property
+    def has_card(self):
+        return self.get_cards().exists()
+
+    @property
+    def default_card(self):
+        default_cards = self.get_cards().filter(default=True)
+        if default_cards.exists():
+            return default_cards.first()
+        return None
 
 
 def user_created_post_save_receiver(sender, instance, created, *args, **kwargs):
@@ -135,7 +150,7 @@ class ChargeManager(models.Manager):
             currency="usd",
             customer=billing_profile.customer_id,
             source=card_obj.stripe_id,
-            description="charge " + str(order_obj.total) + " to " + billing_profile.user.email,
+            description="charged $" + str(order_obj.total),
             metadata={'order_id': order_obj.order_id}
         )
 
@@ -165,3 +180,6 @@ class Charge(models.Model):
     risk_level = models.CharField(max_length=120, blank=True, null=True)
 
     objects = ChargeManager()
+
+    def __str__(self):
+        return self.billing_profile.user.email + " - " + self.paid

@@ -52,16 +52,22 @@
 				</div>
 			</div>
 		{% else %}
-			<h1>Finalize Checkout</h1>
-			<p>Cart Items: {% for product in object.cart.products.all %}{{ product }}{% if not forloop.last %}, {% endif %}{% endfor %}</p>
-			<p>Shipping Address: {{ object.shipping_address.get_address }}</p>
-			<p>Billing Address: {{ object.billing_address.get_address }}</p>
-			<p>Cart Total: {{ object.cart.total }}</p>
-			<p>Shipping Total: {{ object.shipping_total }}</p>
-			<p>Order Total: {{ object.total }}</p>
-			<form class="form" method="POST" action=""> {% csrf_token %}
-				<button type="submit" class="btn btn-success">Checkout</button>
-			</form>
+			{% if has_card %}
+				<h1>Finalize Checkout</h1>
+				<p>Cart Items: {% for product in object.cart.products.all %}{{ product }}{% if not forloop.last %}, {% endif %}{% endfor %}</p>
+				<p>Shipping Address: {{ object.shipping_address.get_address }}</p>
+				<p>Billing Address: {{ object.billing_address.get_address }}</p>
+				<p>Cart Total: {{ object.cart.total }}</p>
+				<p>Shipping Total: {{ object.shipping_total }}</p>
+				<p>Order Total: {{ object.total }}</p>
+				<form class="form" method="POST" action=""> {% csrf_token %}
+					<button type="submit" class="btn btn-success">Checkout</button>
+				</form>
+			{% else %}
+				<h1>Add Payment Method</h1>
+				<!-- add stripe add payment module -->
+				<div class="stripe-payment-form" data-token="{{ publish_key }}" data-next-url="{{ request.build_absolute_uri }}" data-btn-title="Add Payment Method"></div>
+			{% endif %}
 		{% endif %}
 	{% endif %}
 

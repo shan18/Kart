@@ -104,7 +104,7 @@ $(document).ready(function(){
 		}
 
 		function stripeTokenHandler(token, nextUrl){
-			var paymentMethodEndpoint = 'create/'  // billing/payment-method/create/
+			var paymentMethodEndpoint = '/billing/payment-method/create/'
 			var data = {
 				'token': token.id
 			}

@@ -51,3 +51,7 @@ def contact_page(request):
 
 def home_page_old(request):
     return HttpResponse("<h1>Hello World!</h1>")
+
+
+def stripe_server_error(request):
+    return render(request, 'server_error.html', {'message': 'Stripe Integration Failed!'})

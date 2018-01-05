@@ -1,5 +1,8 @@
+from django.conf import settings
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
+
+import stripe
 
 from .models import Cart
 from products.models import Product
@@ -10,6 +13,10 @@ from addresses.models import Address
 
 from accounts.forms import LoginForm, GuestForm
 from addresses.forms import AddressForm
+
+
+stripe.api_key = getattr(settings, 'STRIPE_SECRET_KEY', None)
+STRIPE_PUB_KEY = getattr(settings, 'STRIPE_PUBLISH_KEY', None)
 
 
 def cart_home_api_view(request):
@@ -60,6 +67,10 @@ def cart_update(request):
 
 
 def checkout_home(request):
+    # check for stripe integration
+    if not STRIPE_PUB_KEY or not stripe.api_key:
+        return redirect('stripe_server_error')
+
     cart_obj, new_cart = Cart.objects.get_or_new(request)
     order_obj = None
     if new_cart or cart_obj.products.count() == 0:
@@ -74,6 +85,7 @@ def checkout_home(request):
     
     billing_profile, billing_profile_created = BillingProfile.objects.get_or_new(request)
     address_qs = None
+    has_card = False
     # if order related to the billing profile exists, use that. Else create one.
     if billing_profile is not None: # Without billing profile, order should not exist
         if request.user.is_authenticated():
@@ -87,6 +99,7 @@ def checkout_home(request):
             del request.session['billing_address_id']
         if shipping_address_id or billing_address_id:
             order_obj.save()
+        has_card = billing_profile.has_card
 
     if request.method == 'POST':
         if order_obj.check_done():
@@ -106,7 +119,9 @@ def checkout_home(request):
         "login_form": login_form,
         "guest_form": guest_form,
         "address_form": address_form,
-        "address_qs": address_qs
+        "address_qs": address_qs,
+        "has_card": has_card,
+        "publish_key": STRIPE_PUB_KEY
     }
     return render(request, 'carts/checkout.html', context)
 
