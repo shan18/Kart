@@ -5,10 +5,9 @@ from django.db.models.signals import post_save, pre_save
 import stripe
 
 from accounts.models import GuestModel
-from billing import credentials
 
 
-stripe.api_key = credentials.SECRET_KEY
+stripe.api_key = getattr(settings, 'STRIPE_SECRET_KEY')
 
 User = settings.AUTH_USER_MODEL
 

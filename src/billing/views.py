@@ -1,15 +1,15 @@
+from django.conf import settings
 from django.shortcuts import render, redirect
 from django.http import JsonResponse, HttpResponse
 from django.utils.http import is_safe_url
 
 import stripe
 
-from billing import credentials
 from .models import BillingProfile, Card
 
 
-stripe.api_key = credentials.SECRET_KEY
-STRIPE_PUB_KEY = credentials.PUBLISH_KEY
+stripe.api_key = getattr(settings, 'STRIPE_SECRET_KEY')
+STRIPE_PUB_KEY = getattr(settings, 'STRIPE_PUBLISH_KEY')
 
 
 def payment_method_view(request):

@@ -12,6 +12,9 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 
 import os
 
+from kart import credentials
+
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -26,6 +29,10 @@ SECRET_KEY = 'bebsv(pshw0%&i4k5w*bvgrx6o4ka&t+suwxami*2v7o_&xge1'
 DEBUG = True
 
 ALLOWED_HOSTS = []
+
+# stripe keys
+STRIPE_SECRET_KEY = credentials.SECRET_KEY
+STRIPE_PUBLISH_KEY = credentials.PUBLISH_KEY
 
 FORCE_SESSION_TO_ONE = False
 FORCE_INACTIVE_USER_END_SESSION = False
