@@ -76,7 +76,12 @@ pre_save.connect(billing_profile_created_receiver, sender=BillingProfile)
 
 class CardManager(models.Manager):
 
-    def add_new(self, billing_profile, stripe_card_response):
+    def add_new(self, billing_profile, token):
+        # create entry to stripe db
+        customer = stripe.Customer.retrieve(billing_profile.customer_id)
+        stripe_card_response = customer.sources.create(source=token)
+
+        # create entry to django db
         if str(stripe_card_response.object) == 'card':
             new_card = self.model(
                 billing_profile=billing_profile,

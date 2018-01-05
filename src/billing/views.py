@@ -41,9 +41,9 @@ def payment_method_createview(request):
             return HttpResponse({"message": "Cannot find this user"}, status=401)
         token = request.POST.get('token')
         if token is not None:
-            customer = stripe.Customer.retrieve(billing_profile.customer_id)
-            card_response = customer.sources.create(source=token)
-            new_card_obj = Card.objects.add_new(billing_profile, card_response)
-            print(new_card_obj)
+            # customer = stripe.Customer.retrieve(billing_profile.customer_id)
+            # card_response = customer.sources.create(source=token)
+            # new_card_obj = Card.objects.add_new(billing_profile, card_response)
+            new_card_obj = Card.objects.add_new(billing_profile, token)
         return JsonResponse({'message': 'Success! Your card was added.'})
     return HttpResponse('error', status=401)
