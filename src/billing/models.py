@@ -49,6 +49,10 @@ class BillingProfile(models.Model):
     def __str__(self):
         return self.email
 
+    # Alternatively, we can skip this method and do a separate import for Charge model in views
+    def charge(self, order_obj, card=None):
+        return Charge.objects.do(self, order_obj, card)
+
 
 def user_created_post_save_receiver(sender, instance, created, *args, **kwargs):
     if created and instance.email:
@@ -93,7 +97,7 @@ class Card(models.Model):
     billing profile as required fields. We want to minimize the number of api calls made, thus we store
     some card data locally in the database. """
     billing_profile = models.ForeignKey(BillingProfile)
-    stripe_id = models.CharField(max_length=120, blank=True, null=True)
+    stripe_id = models.CharField(max_length=120)
     brand = models.CharField(max_length=120, blank=True, null=True)
     country = models.CharField(max_length=20, blank=True, null=True)
     exp_month = models.IntegerField(blank=True, null=True)
@@ -105,3 +109,55 @@ class Card(models.Model):
 
     def __str__(self):
         return '{} {}'.format(self.brand, self.last4)
+
+
+class ChargeManager(models.Manager):
+    
+    def do(self, billing_profile, order_obj, card=None):
+        card_obj = card
+        if card_obj is None:
+            cards = billing_profile.card_set.filter(default=True)
+            if cards.exists():
+                card_obj = cards.first()
+        # If after fetching card it still remains None
+        if card_obj is None:
+            return False, "No cards available"
+
+        # create object in stripe
+        charge = stripe.Charge.create(
+            # amount has to be an integer in smallest currency unit (in this case - cents)
+            # thus, cents = usd * 100
+            amount=int(order_obj.total * 100),
+            currency="usd",
+            customer=billing_profile.customer_id,
+            source=card_obj.stripe_id,
+            description="charge " + str(order_obj.total) + " to " + billing_profile.user.email,
+            metadata={'order_id': order_obj.order_id}
+        )
+
+        # create object in django database
+        new_charge_obj = self.model(
+            billing_profile=billing_profile,
+            stripe_id=charge.id,
+            paid=charge.paid,
+            refunded=charge.refunded,
+            outcome=charge.outcome,
+            outcome_type=charge.outcome.get('type'),
+            seller_message=charge.outcome.get('seller_message'),  # human-readable message
+            risk_level=charge.outcome.get('risk_level')
+        )
+        new_charge_obj.save()
+        return new_charge_obj.paid, new_charge_obj.seller_message
+
+
+class Charge(models.Model):
+    billing_profile = models.ForeignKey(BillingProfile)
+    stripe_id = models.CharField(max_length=120)
+    paid = models.BooleanField(default=False)
+    refunded = models.BooleanField(default=False)
+    outcome = models.TextField(null=True, blank=True)  # Is a dictionary
+    outcome_type = models.CharField(max_length=120, blank=True, null=True)
+    seller_message = models.CharField(max_length=120, blank=True, null=True)
+    risk_level = models.CharField(max_length=120, blank=True, null=True)
+
+    objects = ChargeManager()
