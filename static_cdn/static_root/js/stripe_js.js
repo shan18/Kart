@@ -23,8 +23,6 @@ $(document).ready(function(){
 	} else if (paymentForm.length == 1) {
 		var pubKey = paymentForm.attr("data-token")
 		var nextUrl = paymentForm.attr("data-next-url")
-		var paymentFormButton = paymentForm.find(".payment-form-button")
-		var paymentFormButtonText = paymentFormButton.text()
 
 		// Create a Stripe client
 		var stripe = Stripe(pubKey);
@@ -67,23 +65,84 @@ $(document).ready(function(){
 			}
 		});
 
-		// Handle form submission
-		var form = document.getElementById('payment-form');
-		form.addEventListener('submit', function(event) {
+		// Handle form submission (using javascript)
+		// var form = document.getElementById('payment-form');
+		// form.addEventListener('submit', function(event) {
+		// 	event.preventDefault();
+
+		// 	var loadTime = 1500
+		// 	var errorHtml = "<i class='fa fa-warning'></i> An error occured"
+		// 	var errorClasses = "btn btn-danger disable my-3"
+		// 	var loadingHtml = "<t class='fa fa-spin fa-spinner'></i> Loading..."
+		// 	var loadingClasses = "btn btn-success disable my-3"
+
+		// 	stripe.createToken(card).then(function(result) {
+		// 		if (result.error) {
+		// 			// Inform the user if there was an error
+		// 			var errorElement = document.getElementById('card-errors');
+		// 			errorElement.textContent = result.error.message;
+		// 		} else {
+		// 			// Send the token to your server
+		// 			stripeTokenHandler(result.token, nextUrl);
+		// 		}
+		// 	});
+		// });
+
+		var form = $('#payment-form');
+		var formButton = form.find(".payment-form-button")
+		var formButtonDefaultHtml = formButton.html()
+		var formButtonDefaultClasses = formButton.attr("class")
+		
+		 // this is taken because of displayBtnStatus function we added below outside the else block
+		var formButtonPreviousClasses = formButtonDefaultClasses
+
+		// Handle form submission (using jQuery)
+		form.on('submit', function(event) {
 			event.preventDefault();
-			addPaymentIndicator(paymentFormButton, "", "Adding", true)
+
+			formButton.blur()  // remove focus around the button
+			/* We could have called the success displayBtnStatus in the else block below, but
+				 in a slow internet connection, the flow takes time to reach there and hence
+				 a lag is visible, so we add it here.
+			*/
+			displayBtnStatus(
+				formButton,
+				"<i class='fa fa-spin fa-spinner disable'></i> Adding...",
+				"btn btn-success my-3",
+				false
+			)
 
 			stripe.createToken(card).then(function(result) {
 				if (result.error) {
 					// Inform the user if there was an error
-					var errorElement = document.getElementById('card-errors');
+					var errorElement = $('#card-errors');
 					errorElement.textContent = result.error.message;
+					displayBtnStatus(
+						formButton,
+						"<i class='fa fa-warning disable'></i> An error occured",
+						"btn btn-danger my-3",
+						true
+					)
 				} else {
 					// Send the token to your server
 					stripeTokenHandler(result.token, nextUrl);
 				}
 			});
 		});
+
+		function displayBtnStatus(element, newHtml, newClasses, doTimeout){
+			element.html(newHtml)
+			element.removeClass(formButtonPreviousClasses)
+			element.addClass(newClasses)
+			formButtonPreviousClasses = newClasses
+			if (doTimeout) {
+				setTimeout(function(){
+					element.html(formButtonDefaultHtml)
+					element.removeClass(formButtonPreviousClasses)
+					element.addClass(formButtonDefaultClasses)
+				}, 1000)
+			}
+		}
 
 		function redirectToNext(nextPath, timeoffset){
 			if (nextPath){
@@ -93,18 +152,8 @@ $(document).ready(function(){
 			}
 		}
 
-		function addPaymentIndicator(submitButton, defaultText, submitText, doSubmit){
-			if (doSubmit){
-				submitButton.addClass("disabled")
-				submitButton.html("<i class='fa fa-spin fa-spinner'></i> " + submitText + "...")
-			} else {
-				submitButton.removeClass("disabled")
-				submitButton.html(defaultText)
-			}
-		}
-
 		function stripeTokenHandler(token, nextUrl){
-			var paymentMethodEndpoint = 'create/'  // billing/payment-method/create/
+			var paymentMethodEndpoint = '/billing/payment-method/create/'
 			var data = {
 				'token': token.id
 			}
@@ -123,12 +172,19 @@ $(document).ready(function(){
 					} else {
 						alert(successMsg)
 					}
+					formButton.html(formButtonDefaultHtml)
+					formButton.attr('class', formButtonDefaultClasses)
 					redirectToNext(nextUrl, 1500)
-					addPaymentIndicator(paymentFormButton, paymentFormButtonText, "", false)
 				},
 				error: function(error) {
 					console.log(error)
-					addPaymentIndicator(paymentFormButton, paymentFormButtonText, "", false)
+					if ($.alert){  // If the custom defined alert class exists
+						$.alert({title: "An error occured", content: "Please try adding your card again."})
+					} else {
+						alert("Error! Please try adding your card again.")
+					}
+					formButton.html(formButtonDefaultHtml)
+					formButton.attr('class', formButtonDefaultClasses)
 				}
 			})
 		}
