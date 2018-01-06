@@ -17,6 +17,11 @@ from addresses.forms import AddressForm
 
 stripe.api_key = getattr(settings, 'STRIPE_SECRET_KEY', None)
 STRIPE_PUB_KEY = getattr(settings, 'STRIPE_PUBLISH_KEY', None)
+# check for stripe integration
+if stripe.api_key is None:
+    raise NotImplementedError("STRIPE_SECRET_KEY must be set in the settings")
+if STRIPE_PUB_KEY is None:
+    raise NotImplementedError("STRIPE_PUB_KEY must be set in the settings")
 
 
 def cart_home_api_view(request):
@@ -67,9 +72,6 @@ def cart_update(request):
 
 
 def checkout_home(request):
-    # check for stripe integration
-    if not STRIPE_PUB_KEY or not stripe.api_key:
-        return redirect('stripe_server_error')
 
     cart_obj, new_cart = Cart.objects.get_or_new(request)
     order_obj = None

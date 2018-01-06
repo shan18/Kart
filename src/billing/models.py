@@ -10,6 +10,9 @@ from accounts.models import GuestModel
 
 
 stripe.api_key = getattr(settings, 'STRIPE_SECRET_KEY', None)
+# check for stripe integration
+if stripe.api_key is None:
+    raise NotImplementedError("STRIPE_SECRET_KEY must be set in the settings")
 
 User = settings.AUTH_USER_MODEL
 

@@ -10,12 +10,14 @@ from .models import BillingProfile, Card
 
 stripe.api_key = getattr(settings, 'STRIPE_SECRET_KEY', None)
 STRIPE_PUB_KEY = getattr(settings, 'STRIPE_PUBLISH_KEY', None)
+# check for stripe integration
+if stripe.api_key is None:
+    raise NotImplementedError("STRIPE_SECRET_KEY must be set in the settings")
+if STRIPE_PUB_KEY is None:
+    raise NotImplementedError("STRIPE_PUB_KEY must be set in the settings")
 
 
 def payment_method_view(request):
-    # check for stripe integration
-    if not STRIPE_PUB_KEY or not stripe.api_key:
-        return redirect('stripe_server_error')
     # if request.user.is_authenticated():
     #     # since billing profile is created just after user creation, we can access it like this
     #     billing_profile = request.user.billing_profile
