@@ -31,9 +31,15 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 # stripe keys
-STRIPE_SECRET_KEY = credentials.SECRET_KEY
-STRIPE_PUBLISH_KEY = credentials.PUBLISH_KEY
+STRIPE_SECRET_KEY = credentials.STRIPE_SECRET_KEY
+STRIPE_PUBLISH_KEY = credentials.STRIPE_PUBLISH_KEY
 
+# mailchimp keys
+MAILCHIMP_API_KEY = credentials.MAILCHIMP_API_KEY
+MAILCHIMP_DATA_CENTER = credentials.MAILCHIMP_DATA_CENTER
+MAILCHIMP_EMAIL_LIST_ID = credentials.MAILCHIMP_EMAIL_LIST_ID
+
+# use session management attributes
 FORCE_SESSION_TO_ONE = False
 FORCE_INACTIVE_USER_END_SESSION = False
 
@@ -57,7 +63,8 @@ INSTALLED_APPS = [
     'orders',
     'billing',
     'addresses',
-    'analytics'
+    'analytics',
+    'marketing'
 ]
 
 AUTH_USER_MODEL = 'accounts.User'   # Replaces the built-in user model with the custom model
