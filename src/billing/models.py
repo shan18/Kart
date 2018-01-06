@@ -2,6 +2,7 @@ from django.conf import settings
 from django.http import HttpResponseServerError
 from django.db import models
 from django.db.models.signals import post_save, pre_save
+from django.core.urlresolvers import reverse
 
 import stripe
 
@@ -60,6 +61,9 @@ class BillingProfile(models.Model):
         cards_qs = self.get_cards()
         cards_qs.update(active=False)
         return cards_qs.filter(active=True).count()
+
+    def get_payment_method_url(self):
+        return reverse('billing-payment-method')
 
     @property
     def has_card(self):
@@ -140,6 +144,17 @@ class Card(models.Model):
         return '{} {}'.format(self.brand, self.last4)
 
 
+# on adding or setting to default a card, set it to default and make the otherse non-default.
+# this will not change the default in stripe. TODO: do this
+def new_card_post_save_receiver(sender, instance, created, *args, **kwargs):
+    if instance.default:
+        billing_profile = instance.billing_profile
+        qs = Card.objects.filter(billing_profile=billing_profile).exclude(id=instance.id)
+        qs.update(default=False)
+
+post_save.connect(new_card_post_save_receiver, sender=Card)
+
+
 class ChargeManager(models.Manager):
     
     def do(self, billing_profile, order_obj, card=None):
@@ -192,4 +207,7 @@ class Charge(models.Model):
     objects = ChargeManager()
 
     def __str__(self):
-        return self.billing_profile.user.email + " - " + self.paid
+        if not self.billing_profile.user:
+            return 'guest - ' + str(self.paid)
+        else:
+            return self.billing_profile.user.email + ' - ' + str(self.paid)
