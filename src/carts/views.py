@@ -108,6 +108,10 @@ def checkout_home(request):
                 order_obj.mark_paid()
                 request.session['cart_items_number'] = 0
                 del request.session['cart_id']
+                if not billing_profile.user:
+                    """ TODO: Is this the best spot for this check?
+                    """
+                    billing_profile.set_cards_inactive()
                 return redirect('cart:success')
             else:
                 print(charge_message)

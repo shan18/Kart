@@ -56,13 +56,18 @@ class BillingProfile(models.Model):
     def get_cards(self):
         return self.card_set.all()
 
+    def set_cards_inactive(self):
+        cards_qs = self.get_cards()
+        cards_qs.update(active=False)
+        return cards_qs.filter(active=True).count()
+
     @property
     def has_card(self):
         return self.get_cards().exists()
 
     @property
     def default_card(self):
-        default_cards = self.get_cards().filter(default=True)
+        default_cards = self.get_cards().filter(active=True, default=True)
         if default_cards.exists():
             return default_cards.first()
         return None
@@ -89,6 +94,9 @@ pre_save.connect(billing_profile_created_receiver, sender=BillingProfile)
 
 
 class CardManager(models.Manager):
+
+    def all(self):  # overriding the default all() method
+        return self.get_queryset().filter(active=True)
 
     def add_new(self, billing_profile, token):
         # create entry to stripe db
@@ -123,6 +131,8 @@ class Card(models.Model):
     exp_year = models.IntegerField(blank=True, null=True)
     last4 = models.CharField(max_length=4, blank=True, null=True)
     default = models.BooleanField(default=True)  # default payment method
+    active = models.BooleanField(default=True)
+    timestamp = models.DateTimeField(auto_now_add=True)
 
     objects = CardManager()
 
