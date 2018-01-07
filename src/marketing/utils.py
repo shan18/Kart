@@ -67,6 +67,7 @@ class Mailchimp(object):
         # it is unsafe to send data in url directly, so the api uses the hashed form for security
         endpoint = self.get_members_endpoint() + '/' + hashed_email
         r = requests.get(endpoint, auth=("", self.key))
+        # we send the status_code in order to check for errors in django while making the call
         return r.status_code, r.json()
 
     def change_subscription_status(self, email, status='unsubscribed'):
