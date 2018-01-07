@@ -33,7 +33,7 @@ class ProductListView(ListView):
         context['cart'] = cart_obj
         return context
 
-    def get_queryset(self, *args, **kwargs):   # Custom Model Manager
+    def get_queryset(self, *args, **kwargs):  # Custom Model Manager, overrides the queryset attribute
         request = self.request
         return Product.objects.all()
 
@@ -48,7 +48,7 @@ class ProductDetailSlugView(ObjectViewedMixin, DetailView):
         context['cart'] = cart_obj
         return context
 
-    def get_object(self, *args, **kwargs):  # custom model manager
+    def get_object(self, *args, **kwargs):  # custom model manager, overrides the queryset attribute
         request = self.request
         slug = self.kwargs.get('slug')
         try:
