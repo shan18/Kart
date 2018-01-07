@@ -7,8 +7,16 @@ from django.conf import settings
 
 
 MAILCHIMP_API_KEY = getattr(settings, 'MAILCHIMP_API_KEY', None)
+if MAILCHIMP_API_KEY is None:
+    raise NotImplementedError("MAILCHIMP_API_KEY must be set in the settings")
+
 MAILCHIMP_DATA_CENTER = getattr(settings, 'MAILCHIMP_DATA_CENTER', None)
+if MAILCHIMP_DATA_CENTER is None:
+    raise NotImplementedError("MAILCHIMP_DATA_CENTER must be set in the settings, something like us17")
+
 MAILCHIMP_EMAIL_LIST_ID = getattr(settings, 'MAILCHIMP_EMAIL_LIST_ID', None)
+if MAILCHIMP_EMAIL_LIST_ID is None:
+    raise NotImplementedError("MAILCHIMP_EMAIL_LIST_ID must be set in the settings, something like us17")
 
 
 def check_email(email):
@@ -59,7 +67,7 @@ class Mailchimp(object):
         # it is unsafe to send data in url directly, so the api uses the hashed form for security
         endpoint = self.get_members_endpoint() + '/' + hashed_email
         r = requests.get(endpoint, auth=("", self.key))
-        return r.json()
+        return r.status_code, r.json()
 
     def change_subscription_status(self, email, status='unsubscribed'):
         # Things needed: endpoint(url), method, data, auth
@@ -70,7 +78,7 @@ class Mailchimp(object):
             'status': self.check_valid_status(status)
         }
         r = requests.put(endpoint, auth=("", self.key), data=json.dumps(data))
-        return r.json()
+        return r.status_code, r.json()
 
     def subscribe(self, email):
         return self.change_subscription_status(email, status='subscribed')
@@ -92,4 +100,4 @@ class Mailchimp(object):
         }
         endpoint = self.get_members_endpoint()
         r = requests.post(endpoint, auth=("", self.key), data=json.dumps(data))
-        return r.json()
+        return r.status_code, r.json()
