@@ -111,6 +111,14 @@ DATABASES = {
     }
 }
 
+# This overrides the production to use heroku db instead of the local one.
+import dj_database_url
+
+db_from_env = dj_database_url.config()  # postgreSQL Database in heroku
+DATABASES['default'].update(db_from_env)
+DATABASES['default']['CONN_MAX_AGE'] = 500
+
+
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
