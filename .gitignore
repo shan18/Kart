@@ -1,12 +1,15 @@
 notes/
 fasttracktojquery/
 .idea/
+**/credentials.py
 
 .DS_STORE
 
 # Django related
 # src/kart/settings/local.py
 # static-cdn/  # any collected static files
+*.log
+src/local_settings.py
 
 # Virtualenv related
 bin/
@@ -29,6 +32,16 @@ env/
 venv/
 ENV/
 k-venv/
+
+# Scrapy stuff:
+*.scrapy
+
+# Spyder project settings
+*.spyderproject
+*.spyproject
+
+# Rope project settings
+*.ropeproject
 
 # Distribution / packaging
 .Python
