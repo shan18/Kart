@@ -5,4 +5,3 @@ fasttracktojquery/
 .idea/
 **/credentials.py
 *.pyc
-*.sqlite3
