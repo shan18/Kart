@@ -28,7 +28,7 @@ SECRET_KEY = 'bebsv(pshw0%&i4k5w*bvgrx6o4ka&t+suwxami*2v7o_&xge1'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['herokuapp.com']
+ALLOWED_HOSTS = ['.herokuapp.com']
 
 # stripe keys
 STRIPE_SECRET_KEY = credentials.STRIPE_SECRET_KEY
