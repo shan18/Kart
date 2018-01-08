@@ -1,6 +1,7 @@
 notes/
 fasttracktojquery/
 .idea/
+*.sublime-project
 **/credentials.py
 
 .DS_STORE
