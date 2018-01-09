@@ -3,7 +3,6 @@ fasttracktojquery/
 .idea/
 *.sublime-project
 **/credentials.py
-src/kart/aws/conf.py
 
 .DS_STORE
 

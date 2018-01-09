@@ -1,20 +1,23 @@
 import datetime
+import os
+
+from kart import credentials
 
 
 # AWS credentials
-AWS_GROUP_NAME = 'group_name'
-AWS_USER_NAME = 'IAM_user_name'
-AWS_ACCESS_KEY_ID = 'access_key_id'
-AWS_SECRET_ACCESS_KEY = 'secret_access_key'
+AWS_GROUP_NAME = credentials.AWS_GROUP_NAME
+AWS_USER_NAME = credentials.AWS_USER_NAME
+AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID', credentials.AWS_ACCESS_KEY_ID)
+AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY', credentials.AWS_SECRET_ACCESS_KEY)
 
 AWS_FILE_EXPIRE = 200
 AWS_PRELOAD_METADATA = True
-AWS_QUERYSTRING_AUTH = True
+AWS_QUERYSTRING_AUTH = False
 
-DEFAULT_FILE_STORAGE = '<your-project>.aws.utils.MediaRootS3BotoStorage'
-STATICFILES_STORAGE = '<your-project>.aws.utils.StaticRootS3BotoStorage'
-AWS_STORAGE_BUCKET_NAME = '<your_bucket_name>'
-S3DIRECT_REGION = '<region>'
+DEFAULT_FILE_STORAGE = 'kart.aws.utils.MediaRootS3BotoStorage'
+STATICFILES_STORAGE = 'kart.aws.utils.StaticRootS3BotoStorage'
+AWS_STORAGE_BUCKET_NAME = credentials.AWS_STORAGE_BUCKET_NAME
+S3DIRECT_REGION = 'ap-southeast-1'
 S3_URL = '//%s.s3.amazonaws.com/' % AWS_STORAGE_BUCKET_NAME
 MEDIA_URL = '//%s.s3.amazonaws.com/media/' % AWS_STORAGE_BUCKET_NAME
 MEDIA_ROOT = MEDIA_URL
@@ -29,5 +32,3 @@ AWS_HEADERS = {
     'Expires': expires,
     'Cache-Control': 'max-age=%d' % (int(two_months.total_seconds()), ),
 }
-
-AWS_QUERYSTRING_AUTH = True
