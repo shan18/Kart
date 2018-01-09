@@ -8,6 +8,6 @@ class ObjectViewedMixin(object):
         request = self.request
         instance = context.get('object')
         # if is_authenticated is not checked then guest user will get errors in the detail view
-        if request.user.is_authenticated() and instance:
+        if instance:
             object_viewed_signal.send(instance.__class__, instance=instance, request=request)
         return context
