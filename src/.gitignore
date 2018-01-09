@@ -4,8 +4,8 @@
 .DS_STORE
 
 # Django related
-# kart/settings/local.py
 # static-cdn/  # any collected static files
+kart/settings/local.py
 *.log
 local_settings.py
 
