@@ -3,6 +3,10 @@ Store all sensitive data related to payments and other stuff in this file
 """
 
 
+# email settings
+EMAIL_HOST_USER = 'sendgrid_username'
+EMAIL_HOST_PASSWORD = 'sendgrid_password'
+
 # stripe keys
 STRIPE_SECRET_KEY = 'stripe_secret_key'
 STRIPE_PUBLISH_KEY = 'stripe_publish_key'

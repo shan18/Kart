@@ -30,6 +30,19 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+EMAIL_HOST = 'smtp.sendgrid.net'
+EMAIL_HOST_USER = credentials.EMAIL_HOST_USER
+EMAIL_HOST_PASSWORD = credentials.EMAIL_HOST_PASSWORD
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+
+# This allows sendgrid to send emails to the specified id whenever server error occurs.
+DEFAULT_FROM_EMAIL = 'Kart <thegeek.004@gmail.com>'
+MANAGERS = (
+    ('Shantanu Acharya', 'thegeek.004@gmail.com'),
+)
+ADMINS = MANAGERS
+
 # stripe keys
 STRIPE_SECRET_KEY = credentials.STRIPE_SECRET_KEY
 STRIPE_PUBLISH_KEY = credentials.STRIPE_PUBLISH_KEY
