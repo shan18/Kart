@@ -18,6 +18,7 @@ urlpatterns = [
     url(r'^contact/$', contact_page, name='contact'),
     # url(r'^accounts/login/$', RedirectView.as_view(url='/login')),
     url(r'^account/', include('accounts.urls', namespace='account')),
+    url(r'^accounts/', include('accounts.passwords.urls')),
     url(r'^accounts/$', RedirectView.as_view(url='/account')),
     url(r'^login/$', LoginView.as_view(), name='login'),
     url(r'^register/$', RegisterView.as_view(), name='register'),

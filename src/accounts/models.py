@@ -46,6 +46,7 @@ class User(AbstractBaseUser):
     email = models.EmailField(unique=True, max_length=255)
     full_name = models.CharField(max_length=255, blank=True, null=True)
     active = models.BooleanField(default=True)  # can login
+    is_active = models.BooleanField(default=True) # required by built in django password management
     staff = models.BooleanField(default=False)  # staff (non superuser) user
     admin = models.BooleanField(default=False)
     timestamp = models.DateTimeField(auto_now_add=True)
@@ -87,9 +88,10 @@ class User(AbstractBaseUser):
     def is_admin(self):
         return self.admin
 
-    @property
-    def is_active(self):
-        return self.active
+    # commented out because is_active was required as an attribute by built in django password management
+    # @property
+    # def is_active(self):
+    #     return self.active
 
 
 class GuestModel(models.Model):
