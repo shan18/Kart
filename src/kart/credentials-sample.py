@@ -3,6 +3,9 @@ Store all sensitive data related to payments and other stuff in this file
 """
 
 
+# django settings
+SECRET_KEY = 'bebsv(pshw0%&i4k5w*bvgrx6o4ka&t+suwxami*2v7o_&xge1'
+
 # email settings
 EMAIL_HOST_USER = 'sendgrid_username'
 EMAIL_HOST_PASSWORD = 'sendgrid_password'

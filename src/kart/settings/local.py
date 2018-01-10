@@ -23,16 +23,16 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__fil
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'bebsv(pshw0%&i4k5w*bvgrx6o4ka&t+suwxami*2v7o_&xge1'
+SECRET_KEY = os.environ.get('SECRET_KEY', credentials.SECRET_KEY)
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['0.0.0.0', '127.0.0.1', 'localhost']
 
 EMAIL_HOST = 'smtp.sendgrid.net'
-EMAIL_HOST_USER = credentials.EMAIL_HOST_USER
-EMAIL_HOST_PASSWORD = credentials.EMAIL_HOST_PASSWORD
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER', credentials.EMAIL_HOST_USER)
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', credentials.EMAIL_HOST_PASSWORD)
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
@@ -44,13 +44,13 @@ MANAGERS = (
 ADMINS = MANAGERS
 
 # stripe keys
-STRIPE_SECRET_KEY = credentials.STRIPE_SECRET_KEY
-STRIPE_PUBLISH_KEY = credentials.STRIPE_PUBLISH_KEY
+STRIPE_SECRET_KEY = os.environ.get('STRIPE_SECRET_KEY', credentials.STRIPE_SECRET_KEY)
+STRIPE_PUBLISH_KEY = os.environ.get('STRIPE_PUBLISH_KEY', credentials.STRIPE_PUBLISH_KEY)
 
 # mailchimp keys
-MAILCHIMP_API_KEY = credentials.MAILCHIMP_API_KEY
-MAILCHIMP_DATA_CENTER = credentials.MAILCHIMP_DATA_CENTER
-MAILCHIMP_EMAIL_LIST_ID = credentials.MAILCHIMP_EMAIL_LIST_ID
+MAILCHIMP_API_KEY = os.environ.get('MAILCHIMP_API_KEY', credentials.MAILCHIMP_API_KEY)
+MAILCHIMP_DATA_CENTER = os.environ.get('MAILCHIMP_DATA_CENTER', credentials.MAILCHIMP_DATA_CENTER)
+MAILCHIMP_EMAIL_LIST_ID = os.environ.get('MAILCHIMP_EMAIL_LIST_ID', credentials.MAILCHIMP_EMAIL_LIST_ID)
 
 # use session management attributes
 FORCE_SESSION_TO_ONE = False
