@@ -15,7 +15,7 @@ class UserManager(BaseUserManager):
                        full_name=full_name
                    )
         user_obj.set_password(password)    # Also used for changing the password
-        user_obj.active = is_active
+        user_obj.is_active = is_active
         user_obj.staff = is_staff
         user_obj.admin = is_admin
         user_obj.save(using=self._db)
@@ -45,8 +45,8 @@ class User(AbstractBaseUser):
     # Fields id, password and last_login are pre-defined in AbstractBaseUser
     email = models.EmailField(unique=True, max_length=255)
     full_name = models.CharField(max_length=255, blank=True, null=True)
-    active = models.BooleanField(default=True)  # can login
-    is_active = models.BooleanField(default=True) # required by built in django password management
+    # is_active required by built in django password management
+    is_active = models.BooleanField(default=True) # can login
     staff = models.BooleanField(default=False)  # staff (non superuser) user
     admin = models.BooleanField(default=False)
     timestamp = models.DateTimeField(auto_now_add=True)

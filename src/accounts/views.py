@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, get_user_model
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib import messages
 from django.utils.decorators import method_decorator
 from django.utils.http import is_safe_url
 from django.views.generic import CreateView, FormView, DetailView
@@ -70,6 +71,9 @@ class LoginView(FormView):
         password = form.cleaned_data.get('password')
         user = authenticate(request, username=email, password=password)
         if user is not None:
+            if not user.is_active:
+                messages.error('The email is inactive')  # django global messages
+                return super(LoginView, self).form_invalid(form)
             login(request, user)
             user_session_signal.send(user.__class__, instance=user, request=request)
             try:  # If user logs back in after registering as a guest, then delete the guest session
