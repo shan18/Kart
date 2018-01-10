@@ -1,11 +1,43 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, get_user_model
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.utils.decorators import method_decorator
 from django.utils.http import is_safe_url
-from django.views.generic import CreateView, FormView
+from django.views.generic import CreateView, FormView, DetailView
 
 from .models import GuestModel
 from .forms import LoginForm, RegisterForm, GuestForm
 from .signals import user_session_signal
+
+
+# class LoginRequiredMixin(object):
+#     """Custom login required mixin"""
+
+#     @method_decorator(login_required)
+#     def dispatch(self, request, *args, **kwargs):
+#         return super(LoginRequiredMixin, self).dispatch(request, *args, **kwargs)
+
+
+class AccountHomeView(LoginRequiredMixin, DetailView):
+    """Class based view for account home"""
+    template_name = 'accounts/home.html'
+
+    def get_object(self):
+        return self.request.user
+
+    # This can be used if we don't want to use a mixin
+    # @method_decorator(login_required)
+    # def dispatch(self, *args, **kwargs):
+    #     return super(AccountHomeView, self).dispatch(*args, **kwargs)
+
+
+# @login_required  # automatically redirects to /accounts/login/?next=/some/path/ if not logged in
+# def account_home_view(request):
+#     '''
+#     Function based view for account home
+#     '''
+#     return render(request, 'accounts/home.html', {})
 
 
 def guest_register_view(request):

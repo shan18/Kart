@@ -2,7 +2,7 @@ from django.conf.urls import url, include
 from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, RedirectView
 from django.contrib.auth.views import LogoutView
 
 from .views import home_page, about_page, contact_page
@@ -28,6 +28,8 @@ urlpatterns = [
     url(r'^billing/payment-method/create/$', payment_method_createview, name='billing-payment-method-endpoint'),
     url(r'^settings/email/$', MarketingPreferenceUpdateView.as_view(), name='marketing-preferences'),
     url(r'^webhooks/mailchimp/$', MailchimpWebhookView.as_view(), name='webhooks-mailchimp'),
+    # url(r'^accounts/login/$', RedirectView.as_view(url='/login')),
+    url(r'^accounts/', include('accounts.urls', namespace='accounts')),
     url(r'^products/', include('products.urls', namespace='products')),
     url(r'^search/', include('search.urls', namespace='search')),
     url(r'^cart/', include('carts.urls', namespace='cart')),

@@ -83,7 +83,11 @@ INSTALLED_APPS = [
     'marketing'
 ]
 
-AUTH_USER_MODEL = 'accounts.User'   # Replaces the built-in user model with the custom model
+# Replace the built-in values
+AUTH_USER_MODEL = 'accounts.User'
+LOGIN_URL = '/login/'
+LOGIN_URL_REDIRECT = '/'
+LOGOUT_URL = '/logout/'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
