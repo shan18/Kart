@@ -1,12 +1,18 @@
+from datetime import timedelta
+
 from django.conf import settings
 from django.db import models
 from django.db.models.signals import pre_save, post_save
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
+from django.utils import timezone
 
 from django.core.mail import send_mail
 from django.template.loader import get_template
 
 from kart.utils import unique_key_generator
+
+
+DEFAULT_ACTIVATION_DAYS = getattr(settings, 'DEFAULT_ACTIVATION_DAYS', 7)
 
 
 class UserManager(BaseUserManager):
@@ -101,6 +107,33 @@ class User(AbstractBaseUser):
     #     return self.active
 
 
+class EmailActivationQuerySet(models.query.QuerySet):
+
+    def confirmable(self):
+        '''
+        Returns those emails which can be confirmed i.e. which are not activated and expired
+        '''
+        now = timezone.now()
+        start_range = now - timedelta(days=DEFAULT_ACTIVATION_DAYS)
+        end_range = now
+        return self.filter(
+            activated=False,
+            forced_expire=False
+        ).filter(
+            timestamp__gt=start_range,
+            timestamp__lte=end_range
+        )
+
+
+class EmailActivationManager(models.Manager):
+
+    def get_queryset(self):
+        return EmailActivationQuerySet(self.model, using=self._db)
+
+    def confirmable(self):
+        return self.get_queryset().confirmable()
+
+
 class EmailActivation(models.Model):
     user = models.ForeignKey(User)
     email = models.EmailField()
@@ -111,8 +144,30 @@ class EmailActivation(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
     update = models.DateTimeField(auto_now=True)
 
+    objects = EmailActivationManager()
+
     def __str__(self):
         return self.email
+
+    def can_activate(self):
+        # A custom queryset was created because now a particular object can be checked directly
+        # without first fetching the instance
+        qs = self.objects.filter(pk=self.pk).confirmable()
+        if qs.exists():
+            return True
+        return False
+
+    def activate(self):
+        if self.can_activate():
+            # TODO: pre_save that user is activated (do something with this info)
+            user = self.user
+            user.is_active = True
+            user.save()
+            # TODO: post_save user activation signal (do something with this info)
+            self.activated=True
+            self.save()
+            return True
+        return False
 
     def regenerate(self):
         self.key = None

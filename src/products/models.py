@@ -32,7 +32,7 @@ class ProductQuerySet(models.query.QuerySet):
     def active(self):
         return self.filter(active=True)
 
-    def featured(self):  # Product.objects.all()featured()
+    def featured(self):  # Product.objects.all().featured()
         return self.filter(featured=True)
 
     def search(self, query):
