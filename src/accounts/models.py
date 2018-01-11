@@ -5,6 +5,7 @@ from django.db import models
 from django.db.models.signals import pre_save, post_save
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.utils import timezone
+from django.core.urlresolvers import reverse
 
 from django.core.mail import send_mail
 from django.template.loader import get_template
@@ -152,7 +153,7 @@ class EmailActivation(models.Model):
     def can_activate(self):
         # A custom queryset was created because now a particular object can be checked directly
         # without first fetching the instance
-        qs = self.objects.filter(pk=self.pk).confirmable()
+        qs = EmailActivation.objects.filter(pk=self.pk).confirmable()
         if qs.exists():
             return True
         return False
@@ -180,7 +181,7 @@ class EmailActivation(models.Model):
         if not self.activated and not self.forced_expire:
             if self.key:
                 base_url = getattr(settings, 'BASE_URL')
-                key_path = self.key
+                key_path = reverse('account:email-activate', kwargs={'key': self.key})
                 path = '{base}{path}'.format(base=base_url, path=key_path)
                 context = {
                     'path': path,
