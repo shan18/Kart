@@ -35,6 +35,7 @@ EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
+BASE_URL = 'https://shan-kart.herokuapp.com/'
 
 # This allows sendgrid to send emails to the specified id whenever server error occurs.
 DEFAULT_FROM_EMAIL = 'Kart <thegeek.004@gmail.com>'

@@ -5,7 +5,7 @@ from django.contrib.auth.models import Group
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 
 from .forms import UserAdminCreationForm, UserAdminChangeForm
-from .models import GuestModel
+from .models import GuestModel, EmailActivation
 
 
 User = get_user_model()
@@ -42,6 +42,16 @@ class UserAdmin(BaseUserAdmin):
 admin.site.register(User, UserAdmin)
 
 admin.site.unregister(Group)  # Remove Group Model from admin. We're not using it.
+
+
+class EmailActivationAdmin(admin.ModelAdmin):
+    search_fields = ['email']   # Search guest users by email in admin panel
+
+    class Meta:
+        model = EmailActivation
+
+
+admin.site.register(EmailActivation, EmailActivationAdmin)
 
 
 class GuestModelAdmin(admin.ModelAdmin):

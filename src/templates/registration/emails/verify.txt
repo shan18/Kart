@@ -1,0 +1,12 @@
+Hello,
+
+Please activate your account for {{ email }} by clicking the link below:
+
+{{ path }}
+
+Once you are activated, you can login!
+
+
+Thank You,
+
+Kart Team
