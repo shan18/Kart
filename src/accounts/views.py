@@ -13,6 +13,7 @@ from django.core.urlresolvers import reverse
 from .models import GuestModel, EmailActivation
 from .forms import LoginForm, RegisterForm, GuestForm, ReactivateEmailForm
 from .signals import user_session_signal
+from kart.mixins import NextUrlMixin, RequestFormAttachMixin
 
 
 # class LoginRequiredMixin(object):
@@ -113,33 +114,35 @@ def guest_register_view(request):
     return redirect('/register/')
 
 
-class LoginView(FormView):
+class LoginView(NextUrlMixin, RequestFormAttachMixin, FormView):
     form_class = LoginForm
     template_name = 'accounts/login.html'
     success_url = '/'
-
-    def get_form_kwargs(self):
-        '''
-        This method is overriden to send additional data from the view to the form.
-        In function based view, this can be done as "form = LoginForm(request=request)"
-        '''
-        kwargs = super(LoginView, self).get_form_kwargs()
-        kwargs['request'] = self.request
-        return kwargs
-
-    def get_next_url(self):
-        request = self.request
-        next_ = request.GET.get('next')
-        next_post = request.POST.get('next')
-        redirect_path = next_ or next_post or None
-        if is_safe_url(redirect_path, request.get_host()):
-            return redirect_path
-        else:
-            return '/'
+    default_url = '/'
 
     def form_valid(self, form):   # equivalent to "if form.is_valid()"
         next_path = self.get_next_url()
         return redirect(next_path)
+
+    # These methods were removed because they were later used from within mixins
+    # def get_form_kwargs(self):
+    #     '''
+    #     This method is overriden to send additional data from the view to the form.
+    #     In function based view, this can be done as "form = LoginForm(request=request)"
+    #     '''
+    #     kwargs = super(LoginView, self).get_form_kwargs()
+    #     kwargs['request'] = self.request
+    #     return kwargs
+
+    # def get_next_url(self):
+    #     request = self.request
+    #     next_ = request.GET.get('next')
+    #     next_post = request.POST.get('next')
+    #     redirect_path = next_ or next_post or None
+    #     if is_safe_url(redirect_path, request.get_host()):
+    #         return redirect_path
+    #     else:
+    #         return '/'
 
 
 # def login_page(request):
