@@ -3,6 +3,7 @@ from datetime import timedelta
 from django.conf import settings
 from django.db import models
 from django.db.models.signals import pre_save, post_save
+from django.db.models import Q
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.utils import timezone
 from django.core.urlresolvers import reverse
@@ -133,6 +134,16 @@ class EmailActivationManager(models.Manager):
 
     def confirmable(self):
         return self.get_queryset().confirmable()
+
+    def email_exists(self, email):
+        '''
+        EmailActivation is created when the user is created. When only EmailActivation is deleted, User object
+        still remains i.e. email still exists. But this function will send nothing because for this function
+        self.get_queryset() is None. So both user and EmailActivation should exist together for this to work.
+        '''
+        return self.get_queryset().filter(
+            Q(email=email) | Q(user__email=email)
+        ).filter(activated=False)
 
 
 class EmailActivation(models.Model):
