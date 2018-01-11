@@ -1,10 +1,11 @@
 from django import forms
-from django.contrib.auth import get_user_model
+from django.contrib.auth import authenticate, login, get_user_model
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 from django.core.urlresolvers import reverse
 from django.utils.safestring import mark_safe
 
 from .models import EmailActivation
+from .signals import user_session_signal
 
 
 User = get_user_model()
@@ -76,6 +77,35 @@ class GuestForm(forms.Form):
 class LoginForm(forms.Form):
     email = forms.EmailField(label='Email')
     password = forms.CharField(widget=forms.PasswordInput)
+
+    def __init__(self, request, *args, **kwargs):
+        '''
+        This method was overwritten because some additional data was passed to the form from the view.
+        '''
+        self.request = request
+        super(LoginForm, self).__init__(*args, **kwargs)
+
+    def clean(self):  # This clean() method gets the entire form's data
+        '''
+        With this function, the form itself handles the entire login process and only if the login
+        is successful, it sends the data to the respective view.
+        '''
+        request = self.request
+        data = self.cleaned_data
+        email = self.cleaned_data.get('email')
+        password = self.cleaned_data.get('password')
+        user = authenticate(request, username=email, password=password)
+        # If the is_active field is false, then the authenticate() method by default returns None
+        if user is None:
+            raise ValidationError('Invalid credentials')
+        login(request, user)
+        self.user = user  # Attach the form with the user so that the form can handle the model signals
+        user_session_signal.send(user.__class__, instance=user, request=request)
+        try:  # If user logs back in after registering as a guest, then delete the guest session
+            del request.session['guest_obj_id']
+        except:
+            pass
+        return data
 
 
 class RegisterForm(forms.ModelForm):
