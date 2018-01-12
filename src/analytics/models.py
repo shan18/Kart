@@ -17,6 +17,28 @@ FORCE_SESSION_TO_ONE = getattr(settings, 'FORCE_SESSION_TO_ONE', False)
 FORCE_INACTIVE_USER_END_SESSION = getattr(settings, 'FORCE_INACTIVE_USER_END_SESSION', False)
 
 
+class ObjectViewedQuerySet(models.query.QuerySet):
+
+    def by_model(self, model_class, model_queryset=False):
+        content_type = ContentType.objects.get_for_model(model_class)
+        qs = self.filter(content_type=content_type)  # all().filter(content_type__name=content_type)
+        if model_queryset:
+            viewed_ids = [x.object_id for x in qs]
+            ''' This will not give objects sorted by timestamp and will show each product only a single time
+                even if it was viewed multiple times.'''
+            return model_class.objects.filter(pk__in=viewed_ids)
+        return qs
+
+
+class ObjectViewedManager(models.Manager):
+
+    def get_queryset(self):
+        return ObjectViewedQuerySet(self.model, using=self._db)
+
+    def by_model(self, model_class, model_queryset=False):
+        return self.get_queryset().by_model(model_class, model_queryset=model_queryset)
+
+
 class ObjectViewed(models.Model):
     user = models.ForeignKey(User, blank=True, null=True)  # null/blank is enabled because we also want to track guest
     # We can use an IpField but then various systems have different permissions and we would have to handle all that
@@ -28,6 +50,8 @@ class ObjectViewed(models.Model):
     content_object = GenericForeignKey('content_type', 'object_id')  # Has the instance of the object of model selected
 
     timestamp = models.DateTimeField(auto_now_add=True)
+
+    objects = ObjectViewedManager()
 
     def __str__(self):
         return '%s viewed on %s' % (self.content_object, self.timestamp)

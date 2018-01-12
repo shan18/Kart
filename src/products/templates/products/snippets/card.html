@@ -2,10 +2,10 @@
   {% if instance.image %}
     <a href="{{ instance.get_absolute_url }}"><img class="card-img-top" src="{{ instance.image.url }}" alt="{{ instance.title }} logo" style="width: 20rem; height: 20rem;"></a>
   {% endif %}
-  <div class="card-block">
+  <div class="card-block mx-1 my-1">
     <h4 class="card-title">{{ instance.title }}</h4>
     <p class="card-text">{{ instance.description|linebreaks|truncatewords:14 }}</p>
-    <a href="{{ instance.get_absolute_url }}" class="btn btn-primary">View</a>
+    <a href="{{ instance.get_absolute_url }}" class="btn btn-primary my-1">View</a>
     <!-- This is an example of using URL shorcuts in templates
     	<a href="{% url 'products:detail' slug=instance.slug %}" class="btn btn-warning">URL Shortcut</a>
     -->

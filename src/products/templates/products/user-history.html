@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block base_head %}
+<title>Products History</title>
+{% endblock %}
+
+{% block content %}
+	<div class="row">
+		<div class="col-12 my-3">
+			<h1>Products View History</h1>
+			<hr/>
+		</div>
+		{% for obj in object_list %}
+			<div class="col my-2">
+				{% if obj.content_object %}
+				 {% include 'products/snippets/card.html' with instance=obj.content_object %}
+				{% else %}
+					{% include 'products/snippets/card.html' with instance=obj %}
+				{% endif %}
+		</div>
+		{% endfor %}
+	</div>
+{% endblock %}
