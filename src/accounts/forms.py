@@ -139,7 +139,7 @@ class LoginForm(forms.Form):
         user = authenticate(request, username=email, password=password)
         # If the is_active field is false, then the authenticate() method by default returns None
         if user is None:
-            raise ValidationError('Invalid credentials')
+            raise forms.ValidationError('Invalid credentials')
         login(request, user)
         self.user = user  # Attach the form with the user so that the form can handle the model signals
         user_session_signal.send(user.__class__, instance=user, request=request)
