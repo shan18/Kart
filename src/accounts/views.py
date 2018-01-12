@@ -6,12 +6,12 @@ from django.contrib import messages
 from django.utils.decorators import method_decorator
 from django.utils.http import is_safe_url
 from django.utils.safestring import mark_safe
-from django.views.generic import CreateView, FormView, DetailView, View
+from django.views.generic import CreateView, FormView, DetailView, View, UpdateView
 from django.views.generic.edit import FormMixin
 from django.core.urlresolvers import reverse
 
 from .models import GuestModel, EmailActivation
-from .forms import LoginForm, RegisterForm, GuestForm, ReactivateEmailForm
+from .forms import LoginForm, RegisterForm, GuestForm, ReactivateEmailForm, UserDetailChangeForm
 from .signals import user_session_signal
 from kart.mixins import NextUrlMixin, RequestFormAttachMixin
 
@@ -43,6 +43,26 @@ class AccountHomeView(LoginRequiredMixin, DetailView):
 #     Function based view for account home
 #     '''
 #     return render(request, 'accounts/home.html', {})
+
+
+class UserDetailUpdateView(LoginRequiredMixin, UpdateView):
+    form_class = UserDetailChangeForm
+    template_name = 'accounts/detail_update_view.html'
+
+    def get_object(self):
+        return self.request.user
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(UserDetailUpdateView, self).get_context_data(*args, **kwargs)
+        context['title'] = 'Change Your Account Details'
+        return context
+
+    def get_success_url(self):
+        '''
+        This is used instead of using the class variable 'success_url' because class variable
+        cannot be used with reverse
+        '''
+        return reverse('account:home')
 
 
 class AccountEmailActivateView(FormMixin, View):

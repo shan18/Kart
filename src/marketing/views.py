@@ -34,6 +34,7 @@ class MarketingPreferenceUpdateView(SuccessMessageMixin, UpdateView):
 
     def get_context_data(self, *args, **kwargs):
         context = super(MarketingPreferenceUpdateView, self).get_context_data(*args, **kwargs)
+        context['page_title'] = 'Email Preferences'
         context['title'] = 'Update Email Preferences'
         return context
 
