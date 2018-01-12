@@ -66,7 +66,7 @@ class AccountEmailActivateView(FormMixin, View):
                     reset_link = reverse('password_reset')
                     msg = """Your email has already been confirmed.
                     Do you want to <a href="{link}">reset you password</a>?""".format(link=reset_link)
-                    messages.success(request, mark_safe(msg))
+                    messages.success(request, mark_safe(msg))  # django's global messages
                     return redirect('login')
         context = {'form': self.get_form(), 'key': key}  # get_form() works because of the mixin
         return render(request, 'registration/activation_error.html', context)
@@ -98,27 +98,49 @@ class AccountEmailActivateView(FormMixin, View):
         return render(self.request, 'registration/activation_error.html', context)
 
 
-def guest_register_view(request):
-    form = GuestForm(request.POST or None)
-    next_ = request.GET.get('next')
-    next_post = request.POST.get('next')
-    redirect_path = next_ or next_post or None
-    if form.is_valid():
-        email = form.cleaned_data.get('email')
-        new_guest_obj = GuestModel.objects.create(email=email)
-        request.session['guest_obj_id'] = new_guest_obj.id
-        if is_safe_url(redirect_path, request.get_host()):
-            return redirect(redirect_path)
-        else:
-            return redirect('/register/')
-    return redirect('/register/')
+class GuestRegisterView(NextUrlMixin, RequestFormAttachMixin, FormView):
+    form_class = GuestForm
+    default_next = '/register/'
+
+    def get_success_url(self):
+        return self.get_next_url()
+
+    def form_invalid(self, form):
+        return redirect(self.default_next)
+
+    # This function was removed because now form handles all this data
+    # def form_valid(self, form):
+    #     request = self.request
+    #     email = form.cleaned_data.get('email')
+    #     new_guest_obj = GuestModel.objects.create(email=email)
+    #     request.session['guest_obj_id'] = new_guest_obj.id
+    #     return redirect(self.get_next_url())
+
+
+# def guest_register_view(request):
+#     '''
+#     Function based view for guest registration
+#     '''
+#     form = GuestForm(request.POST or None)
+#     next_ = request.GET.get('next')
+#     next_post = request.POST.get('next')
+#     redirect_path = next_ or next_post or None
+#     if form.is_valid():
+#         email = form.cleaned_data.get('email')
+#         new_guest_obj = GuestModel.objects.create(email=email)
+#         request.session['guest_obj_id'] = new_guest_obj.id
+#         if is_safe_url(redirect_path, request.get_host()):
+#             return redirect(redirect_path)
+#         else:
+#             return redirect('/register/')
+#     return redirect('/register/')
 
 
 class LoginView(NextUrlMixin, RequestFormAttachMixin, FormView):
     form_class = LoginForm
     template_name = 'accounts/login.html'
     success_url = '/'
-    default_url = '/'
+    default_next = '/'
 
     def form_valid(self, form):   # equivalent to "if form.is_valid()"
         next_path = self.get_next_url()

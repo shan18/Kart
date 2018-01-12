@@ -4,7 +4,7 @@ from django.contrib.auth.forms import ReadOnlyPasswordHashField
 from django.core.urlresolvers import reverse
 from django.utils.safestring import mark_safe
 
-from .models import EmailActivation
+from .models import EmailActivation, GuestModel
 from .signals import user_session_signal
 
 
@@ -70,8 +70,24 @@ class UserAdminChangeForm(forms.ModelForm):
         return self.initial["password"]
 
 
-class GuestForm(forms.Form):
-    email = forms.EmailField()
+class GuestForm(forms.ModelForm):
+
+    def __init__(self, request, *args, **kwargs):
+        self.request = request
+        super(GuestForm, self).__init__(*args, **kwargs)
+
+    def save(self, commit=True):
+        # Save the provided password in hashed format
+        obj = super(GuestForm, self).save(commit=False)
+        if commit:
+            obj.save()
+            request = self.request
+            request.session['guest_obj_id'] = obj.id
+        return obj
+    
+    class Meta:
+        model = GuestModel
+        fields = ['email']
 
 
 class LoginForm(forms.Form):
