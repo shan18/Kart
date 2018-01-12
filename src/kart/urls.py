@@ -34,6 +34,7 @@ urlpatterns = [
     url(r'^settings/email/$', MarketingPreferenceUpdateView.as_view(), name='marketing-preferences'),
     url(r'^webhooks/mailchimp/$', MailchimpWebhookView.as_view(), name='webhooks-mailchimp'),
     url(r'^products/', include('products.urls', namespace='products')),
+    url(r'^orders/', include('orders.urls', namespace='orders')),
     url(r'^search/', include('search.urls', namespace='search')),
     url(r'^cart/', include('carts.urls', namespace='cart')),
     url(r'^admin/', admin.site.urls),
