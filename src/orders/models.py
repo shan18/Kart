@@ -167,10 +167,32 @@ def order_post_save_receiver(sender, instance, created, *args, **kwargs):
 post_save.connect(order_post_save_receiver, sender=Order)
 
 
+class ProductPurchaseQuerySet(models.query.QuerySet):
+
+    def active(self):
+        return self.filter(refunded=False)
+
+    def by_request(self, request):
+        billing_profile, created = BillingProfile.objects.get_or_new(request)
+        return self.filter(billing_profile=billing_profile)
+
+    def digital(self):
+        return self.filter(product__is_digital=True)
+
+
 class ProductPurchaseManager(models.Manager):
 
+    def get_queryset(self):
+        return ProductPurchaseQuerySet(self.model, using=self._db)
+
     def all(self):
-        return self.get_queryset().filter(refunded=False)
+        return self.get_queryset().active()
+
+    def by_request(self, request):
+        return self.get_queryset().by_request(request)
+
+    def digital(self):
+        return self.get_queryset().active().digital()
 
 
 class ProductPurchase(models.Model):

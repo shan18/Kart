@@ -10,6 +10,7 @@ from accounts.views import LoginView, RegisterView, GuestRegisterView
 from addresses.views import checkout_address_create_view, checkout_address_reuse_view
 from carts.views import cart_home_api_view
 from billing.views import payment_method_view, payment_method_createview
+from orders.views import LibraryView
 from marketing.views import MarketingPreferenceUpdateView, MailchimpWebhookView
 
 urlpatterns = [
@@ -34,6 +35,7 @@ urlpatterns = [
     url(r'^settings/email/$', MarketingPreferenceUpdateView.as_view(), name='marketing-preferences'),
     url(r'^webhooks/mailchimp/$', MailchimpWebhookView.as_view(), name='webhooks-mailchimp'),
     url(r'^products/', include('products.urls', namespace='products')),
+    url(r'^library/$', LibraryView.as_view(), name='library'),
     url(r'^orders/', include('orders.urls', namespace='orders')),
     url(r'^search/', include('search.urls', namespace='search')),
     url(r'^cart/', include('carts.urls', namespace='cart')),
