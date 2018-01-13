@@ -76,6 +76,7 @@ class Product(models.Model):
     featured = models.BooleanField(default=False)
     active = models.BooleanField(default=True)
     timestamp = models.DateTimeField(auto_now_add=True)
+    is_digital = models.BooleanField(default=False)  # User Library
 
     objects = ProductManager()  # extends the default with the customized manager
 
