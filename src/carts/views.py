@@ -109,7 +109,7 @@ def checkout_home(request):
         if order_obj.check_done():
             did_charge_paid, charge_message = billing_profile.charge(order_obj)
             if did_charge_paid:
-                order_obj.mark_paid()
+                order_obj.mark_paid()  # acts as a signal when order is paid for
                 request.session['cart_items_number'] = 0
                 del request.session['cart_id']
                 if not billing_profile.user:
