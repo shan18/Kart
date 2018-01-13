@@ -94,7 +94,16 @@ class Order(models.Model):
         return self.total
 
     def check_done(self):
-        if self.billing_profile and self.shipping_address and self.billing_address and self.total > 0:
+        shipping_address_required = not self.cart.is_digital
+        shipping_done = False
+        if shipping_address_required:
+            if self.shipping_address:
+                shipping_done = True
+            else:
+                shipping_done = False
+        else:
+            shipping_done = True
+        if self.billing_profile and shipping_done and self.billing_address and self.total > 0:
             return True
         return False
 

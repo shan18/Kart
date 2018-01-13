@@ -21,7 +21,7 @@
 			</div>
 		</div>
 	{% else %}
-		{% if not object.shipping_address %}
+		{% if not object.shipping_address and shipping_address_required %}
 			<div class="row">
 				<div class="col-12">
 					<p class="lead">Shipping Address</p>
@@ -55,7 +55,7 @@
 			{% if has_card %}
 				<h1>Finalize Checkout</h1>
 				<p>Cart Items: {% for product in object.cart.products.all %}{{ product }}{% if not forloop.last %}, {% endif %}{% endfor %}</p>
-				<p>Shipping Address: {{ object.shipping_address.get_address }}</p>
+				<p>Shipping Address: {% if object.shipping_address.get_address %}{{ object.shipping_address.get_address }}{% else %}N/A{% endif %}</p>
 				<p>Billing Address: {{ object.billing_address.get_address }}</p>
 				<p>Payment Method: {{ billing_profile.default_card }} (<a href="{{ billing_profile.get_payment_method_url }}?next={{ request.build_absolute_uri }}">change payment method</a>)</p>
 				<p>Cart Total: {{ object.cart.total }}</p>
