@@ -8,7 +8,7 @@ from django.db.models.signals import pre_save
 from django.db.models import Q
 from django.urls import reverse
 
-from kart.utils import unique_slug_generator
+from kart.utils import unique_slug_generator, get_filename
 
 
 def get_filename_extension(filepath):
@@ -96,6 +96,10 @@ class Product(models.Model):
     def name(self): # optional: with this Product.name will also work
         return self.title
 
+    def get_downloads(self):
+        qs = self.productfile_set.all()
+        return qs
+
 
 def product_pre_save_receiver(sender, instance, *args, **kwargs):
     if not instance.slug:
@@ -120,3 +124,13 @@ class ProductFile(models.Model):
 
     def __str__(self):
         return str(self.file.name)
+
+    def get_download_url(self):
+        # return self.file.url  # This returns the path where file is stored
+        return reverse('products:download', kwargs={
+            'slug': self.product.slug, 'pk': self.pk
+        })  # This returns the endpoint where file download is handled
+
+    @property
+    def name(self):
+        return get_filename(self.file.name)

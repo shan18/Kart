@@ -23,7 +23,11 @@
 				{% for object in object_list %}
 					<tr>
 						<td><a href="{{ object.get_absolute_url }}">{{ object.title }}</a></td>
-						<td>Coming Soon</td>
+						<td>
+							{% for download in object.get_downloads %}
+								<a href="{{ download.get_download_url }}">{{ download.name }}</a>
+							{% endfor %}
+						</td>
 					</tr>
 				{% empty %}  <!-- If content produced by for loop is empty-->
 					<tr>
