@@ -18,7 +18,7 @@ $(document).ready(function(){
 			success: function(data){
 				var submitSpan = thisForm.find(".submit-span")
 				if (data.added) {
-					submitSpan.html("In cart <button type='submit' class='btn btn-link'>Remove?</button>")
+					submitSpan.html("<div class='btn-group'><a href='/cart/' class='btn btn-link'>In cart</a> <button type='submit' class='btn btn-link'>Remove?</button></div>")
 				} else {
 					submitSpan.html("<button type='submit' class='btn btn-success'>Add to cart</button>")
 				}

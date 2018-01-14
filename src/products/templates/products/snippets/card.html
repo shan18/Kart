@@ -5,10 +5,12 @@
   <div class="card-block mx-1 my-1">
     <h4 class="card-title">{{ instance.title }}</h4>
     <p class="card-text">{{ instance.description|linebreaks|truncatewords:14 }}</p>
-    <a href="{{ instance.get_absolute_url }}" class="btn btn-primary my-1">View</a>
-    <!-- This is an example of using URL shorcuts in templates
-    	<a href="{% url 'products:detail' slug=instance.slug %}" class="btn btn-warning">URL Shortcut</a>
-    -->
-    {% include 'products/snippets/update-cart.html' with product=instance cart=cart %}
+    <div class="text-center">
+      <a href="{{ instance.get_absolute_url }}" class="btn btn-primary my-2">View</a>
+      <!-- This is an example of using URL shorcuts in templates
+      	<a href="{% url 'products:detail' slug=instance.slug %}" class="btn btn-warning">URL Shortcut</a>
+      -->
+      {% include 'products/snippets/update-cart.html' with product=instance cart=cart %}
+    </div>
   </div>
 </div>
