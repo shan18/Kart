@@ -23,5 +23,4 @@ class NextUrlMixin(object):
         redirect_path = next_ or next_post or None
         if is_safe_url(redirect_path, request.get_host()):
             return redirect_path
-        else:
-            return self.default_next
+        return self.default_next
