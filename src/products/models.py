@@ -121,9 +121,14 @@ class ProductFile(models.Model):
     file = models.FileField(
         upload_to=upload_product_file_location, storage=FileSystemStorage(location=settings.PROTECTED_ROOT)
     )
+    free = models.BooleanField(default=False)  # default: purchase required
+    user_required = models.BooleanField(default=False)  # default: user not required
 
     def __str__(self):
         return str(self.file.name)
+
+    def get_default_url(self):
+        return self.product.get_absolute_url()
 
     def get_download_url(self):
         # return self.file.url  # This returns the path where file is stored
