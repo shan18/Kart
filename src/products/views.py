@@ -1,3 +1,8 @@
+import os
+from wsgiref.util import FileWrapper
+from mimetypes import guess_type
+
+from django.conf import settings
 from django.shortcuts import render, get_object_or_404
 from django.views.generic import ListView, DetailView, View
 from django.http import Http404, HttpResponse
@@ -71,14 +76,28 @@ class ProductDetailSlugView(ObjectViewedMixin, DetailView):
 class ProductDownloadView(View):
 
     def get(self, *args, **kwargs):
+        ''' Get the file object to be downloaded '''
         slug = kwargs.get('slug')
         pk = kwargs.get('pk')
         downloads_qs = ProductFile.objects.filter(pk=pk, product__slug=slug)
         if downloads_qs.count() != 1:
             raise Http404('Product Not Found')
         download_obj = downloads_qs.first()
-        response = HttpResponse(download_obj.get_download_url())
-        return response
+        
+        ''' Perform the file download through django '''
+        file_root = settings.PROTECTED_ROOT
+        filepath = download_obj.file.path  # .url /media/
+        final_filepath = os.path.join(file_root, filepath)
+        with open(final_filepath, 'rb') as f:
+            wrapper = FileWrapper(f)
+            mimetype = 'application/force-download'  # default MIME type for each file
+            guessed_mimetype = guess_type(filepath)  # guess the MIME type for the given file
+            if guessed_mimetype:
+                mimetype = guessed_mimetype
+            response = HttpResponse(wrapper, content_type=mimetype)
+            response['Content-Disposition'] = 'attachment;filename=%s' %(download_obj.name)
+            response['X-SendFile'] = str(download_obj.name)
+            return response
 
 
 class ProductDetailView(ObjectViewedMixin, DetailView):
