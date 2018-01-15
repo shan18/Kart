@@ -138,11 +138,19 @@ class ProductFile(models.Model):
         storage=ProtectedS3BotoStorage()
         # storage=FileSystemStorage(location=settings.PROTECTED_ROOT) # store in local static_cdn
     )
+    name = models.CharField(max_length=120, blank=True, null=True)
     free = models.BooleanField(default=False)  # default: purchase required
     user_required = models.BooleanField(default=False)  # default: user not required
 
     def __str__(self):
         return str(self.file.name)
+
+    @property
+    def display_name(self):
+        original_name = get_filename(self.file.name)
+        if self.name:
+            return self.name
+        return original_name
 
     def get_default_url(self):
         return self.product.get_absolute_url()
@@ -163,7 +171,7 @@ class ProductFile(models.Model):
         path = '{base}/{file_path}'.format(base=PROTECTED_DIR_NAME, file_path=str(self.file))
 
         aws_dl_object =  AWSDownload(access_key, secret_key, bucket, region)
-        file_url = aws_dl_object.generate_url(path)  # , new_filename='New awesome file')
+        file_url = aws_dl_object.generate_url(path, new_filename=self.display_name)
         return file_url
 
     def get_download_url(self):
@@ -174,7 +182,3 @@ class ProductFile(models.Model):
         return reverse('products:download', kwargs={
             'slug': self.product.slug, 'pk': self.pk
         })  # This returns the endpoint where file download is handled
-
-    @property
-    def name(self):
-        return get_filename(self.file.name)
