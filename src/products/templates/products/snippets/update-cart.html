@@ -1,5 +1,6 @@
-<form class="form-product-ajax" method="POST" action="{% url 'cart:update' %}" data-endpoint="{% url 'cart:update' %}" class="form"> {% csrf_token %}
-	<input type="hidden" name="product_id" value="{{ product.id }}">
+<!-- data-user attribute in form is user to check if the user is a guest or not. This is then used by javascript to display the library link -->
+<form class="form-product-ajax" method="POST" action="{% url 'cart:update' %}" data-endpoint="{% url 'cart:update' %}" class="form" {% if request.user.is_authenticated %} data-user="true" {% endif %}> {% csrf_token %}
+	<input type="hidden" name="product_id" value="{{ product.id }}" {% if product.is_digital %} data-is-digital="true" {% endif %}>
 	<span class="submit-span">
 		{% if product in cart.products.all %}
 			<div class="btn-group">
