@@ -180,6 +180,10 @@ STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR), 'static_cdn', 'static_root
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), 'static_cdn', 'media_root')
 
+PROTECTED_ROOT = os.path.join(os.path.dirname(BASE_DIR), 'static_cdn', 'protected_root')
+
+from kart.aws.conf import *
+
 
 # removing SSL/TLS settings for local environment
 CORS_REPLACE_HTTPS_REFERER = False

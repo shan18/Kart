@@ -8,6 +8,7 @@ from django.db.models.signals import pre_save
 from django.db.models import Q
 from django.urls import reverse
 
+from kart.aws.utils import ProtectedS3BotoStorage
 from kart.utils import unique_slug_generator, get_filename
 
 
@@ -109,17 +110,29 @@ pre_save.connect(product_pre_save_receiver, sender=Product)
 
 
 def upload_product_file_location(instance, filename):
+    # get the slug for the product
     slug = instance.product.slug
     if not slug:
         slug = unique_slug_generator(instance)
-    location = 'products/{}/'.format(slug)
+
+    # get the id
+    id_ = instance.id
+    if id_ is None:  # Newly uploaded files won't have an id, so get the new id by adding 1 to the last one.
+        Klass = instance.__class__
+        qs = Klass.objects.all().order_by('-pk')
+        id_ = qs.first().id + 1
+
+    # specify the path
+    location = 'products/{slug}/{id}/'.format(slug=slug, id=id_)
     return location + filename
 
 
 class ProductFile(models.Model):
     product = models.ForeignKey(Product)
     file = models.FileField(
-        upload_to=upload_product_file_location, storage=FileSystemStorage(location=settings.PROTECTED_ROOT)
+        upload_to=upload_product_file_location,
+        storage=ProtectedS3BotoStorage()
+        # storage=FileSystemStorage(location=settings.PROTECTED_ROOT) # store in local static_cdn
     )
     free = models.BooleanField(default=False)  # default: purchase required
     user_required = models.BooleanField(default=False)  # default: user not required
