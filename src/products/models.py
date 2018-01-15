@@ -9,6 +9,7 @@ from django.db.models import Q
 from django.urls import reverse
 
 from kart.aws.utils import ProtectedS3BotoStorage
+from kart.aws.download.utils import AWSDownload
 from kart.utils import unique_slug_generator, get_filename
 
 
@@ -120,7 +121,10 @@ def upload_product_file_location(instance, filename):
     if id_ is None:  # Newly uploaded files won't have an id, so get the new id by adding 1 to the last one.
         Klass = instance.__class__
         qs = Klass.objects.all().order_by('-pk')
-        id_ = qs.first().id + 1
+        if qs.exists():
+            id_ = qs.first().id + 1
+        else:
+            id_ = 0
 
     # specify the path
     location = 'products/{slug}/{id}/'.format(slug=slug, id=id_)
@@ -143,7 +147,29 @@ class ProductFile(models.Model):
     def get_default_url(self):
         return self.product.get_absolute_url()
 
+    def generate_download_url(self):
+        '''
+        Generates the download url for downloads through aws.
+        '''
+        access_key = getattr(settings, 'AWS_ACCESS_KEY_ID')
+        secret_key = getattr(settings, 'AWS_SECRET_ACCESS_KEY')
+        bucket = getattr(settings, 'AWS_STORAGE_BUCKET_NAME')
+        region = getattr(settings, 'S3DIRECT_REGION')
+        if not bucket or not region or not access_key or not secret_key:
+            return '/product-not-found/'  # TODO: raise custom 404 error
+
+        PROTECTED_DIR_NAME = getattr(settings, 'PROTECTED_DIR_NAME', 'protected')
+        # for aws, self.file is equivalent to self.file.path in local
+        path = '{base}/{file_path}'.format(base=PROTECTED_DIR_NAME, file_path=str(self.file))
+
+        aws_dl_object =  AWSDownload(access_key, secret_key, bucket, region)
+        file_url = aws_dl_object.generate_url(path)  # , new_filename='New awesome file')
+        return file_url
+
     def get_download_url(self):
+        '''
+        Gives the download url when project is used in local settings
+        '''
         # return self.file.url  # This returns the path where file is stored
         return reverse('products:download', kwargs={
             'slug': self.product.slug, 'pk': self.pk
