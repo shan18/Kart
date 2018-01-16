@@ -12,7 +12,8 @@
 		<hr/>
 	</div>
 	<div class="col">
-		<h3>Recent</h3>
+		<h3>Recent Total: ${{ recent_orders_total.total__sum }}</h3>
+		<!-- {{ recent_cart_data }} -->
 		<ol>
 			{% for order in recent_orders %}
 				<li>
