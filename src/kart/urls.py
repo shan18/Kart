@@ -31,6 +31,7 @@ urlpatterns = [
     url(r'^bootstrap/$', TemplateView.as_view(template_name='bootstrap/example.html')),
     url(r'^billing/payment-method/$', payment_method_view, name='billing-payment-method'),
     url(r'^billing/payment-method/create/$', payment_method_createview, name='billing-payment-method-endpoint'),
+    url(r'^analytics/', include('analytics.urls', namespace='analytics')),
     url(r'^settings/$', RedirectView.as_view(url='/account')),
     url(r'^settings/email/$', MarketingPreferenceUpdateView.as_view(), name='marketing-preferences'),
     url(r'^webhooks/mailchimp/$', MailchimpWebhookView.as_view(), name='webhooks-mailchimp'),
