@@ -11,6 +11,43 @@
 		<h1>Sales Data</h1>
 		<hr/>
 	</div>
+	<div class="col">
+		<h3>Recent</h3>
+		<ol>
+			{% for order in recent_orders %}
+				<li>
+					{{ order.order_id }}
+					{{ order.total }}
+					{{ order.updated }}
+				</li>
+			{% endfor %}
+		</ol>
+		<hr/>
+	</div>
+	<div class="col">
+		<h3>Shipped</h3>
+		<ol>
+			{% for order in shipped_orders %}
+				<li>
+					{{ order.order_id }}
+					{{ order.total }}
+					{{ order.updated }}
+				</li>
+			{% endfor %}
+		</ol>
+	</div>
+	<div class="col">
+		<h3>Paid</h3>
+		<ol>
+			{% for order in paid_orders %}
+				<li>
+					{{ order.order_id }}
+					{{ order.total }}
+					{{ order.updated }}
+				</li>
+			{% endfor %}
+		</ol>
+	</div>
 </div>
 
 {% endblock %}

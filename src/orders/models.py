@@ -17,13 +17,20 @@ ORDER_STATUS_CHOICES = (
     ('created', 'Created'),
     ('paid', 'Paid'),
     ('shipped', 'Shipped'),
-    ('refunded', 'Refunded'),
-    ('cancelled', 'Cancelled'),
-    ('delivered', 'Delivered')
+    ('refunded', 'Refunded')
 )
 
 
 class OrderQuerySet(models.query.QuerySet):
+
+    def recent(self):
+        return self.order_by('-updated', '-timestamp')
+
+    def by_status(self, status='shipped'):
+        return self.filter(status=status)
+
+    def not_refunded(self):
+        return self.exclude(status='refunded')
 
     def by_request(self, request):
         billing_profile, created = BillingProfile.objects.get_or_new(request)
@@ -83,10 +90,6 @@ class Order(models.Model):
             return 'Shipped'
         elif self.status == 'refunded':
             return 'Refunded'
-        elif self.status == 'cancelled':
-            return 'Cancelled'
-        elif self.status == 'delivered':
-            return 'Delivered'
         return 'Shipping Soon'
 
     def update_total(self):
