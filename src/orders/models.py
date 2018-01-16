@@ -2,6 +2,7 @@ import math
 
 from django.conf import settings
 from django.db import models
+from django.db.models import Count, Sum, Avg
 from django.db.models.signals import pre_save, post_save
 from django.core.urlresolvers import reverse
 
@@ -31,6 +32,16 @@ class OrderQuerySet(models.query.QuerySet):
 
     def not_refunded(self):
         return self.exclude(status='refunded')
+
+    def totals_data(self):
+        return self.aggregate(Sum('total'), Avg('total'))
+
+    def cart_data(self):
+        return self.aggregate(
+            Sum('cart__products__price'),
+            Avg('cart__products__price'),
+            Count('cart__products')
+        )
 
     def by_request(self, request):
         billing_profile, created = BillingProfile.objects.get_or_new(request)
