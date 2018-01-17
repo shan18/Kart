@@ -4,23 +4,107 @@
 <title>Sales</title>
 {% endblock %}
 
+{% block javascript %}
+
+<script>
+
+$(document).ready(function(){
+	function renderChart(id, data, labels){
+		// var ctx = document.getElementById("myChart").getContext('2d'); // javascript
+		var ctx = $("#" + id)  // jQuery
+		var myChart = new Chart(ctx, {
+				type: 'line',
+				data: {
+						labels: labels,
+						datasets: [{
+								label: 'Sales',
+								data: data,
+								backgroundColor: 'rgba(10, 12, 12, 0.2)',
+								borderColor: 'rgba(10, 12, 12, 1)'
+								// Not useful for a line chart.
+								// backgroundColor: [
+								//     'rgba(255, 99, 132, 0.2)',
+								//     'rgba(54, 162, 235, 0.2)',
+								//     'rgba(255, 206, 86, 0.2)',
+								//     'rgba(75, 192, 192, 0.2)',
+								//     'rgba(153, 102, 255, 0.2)',
+								//     'rgba(255, 159, 64, 0.2)',
+								//     'rgba(10, 12, 12, 0.2)'
+								// ],
+								// borderColor: [
+								//     'rgba(255,99,132,1)',
+								//     'rgba(54, 162, 235, 1)',
+								//     'rgba(255, 206, 86, 1)',
+								//     'rgba(75, 192, 192, 1)',
+								//     'rgba(153, 102, 255, 1)',
+								//     'rgba(255, 159, 64, 1)',
+								//     'rgba(10, 12, 12, 1)'
+								// ],
+								// borderWidth: 1
+						}]
+				},
+				options: {
+						scales: {
+								yAxes: [{
+										ticks: {
+												beginAtZero:true
+										}
+								}]
+						}
+				}
+		});
+	}
+
+	function getSalesData(id, type){
+		var url = '/analytics/sales/data/'
+		var method = 'GET'
+		var data = {'type': type}
+
+		$.ajax({
+			url: url,
+			method: method,
+			data: data,
+			success: function(responseData){
+				renderChart(id, responseData.data, responseData.labels)
+			},
+			error: function(error){
+				$.alert('An error may have occured.')
+			}
+		})
+	}
+
+	// getSalesData('thisWeekSales', 'week')
+	// getSalesData('fourWeekSales', 'four_weeks')
+
+	var salesCharts = $('.kart-render-chart')
+	$.each(salesCharts, function(index, html){
+		var $this = $(this)
+		if ($this.attr('id') && $this.attr('data-type')) {
+			getSalesData($this.attr('id'), $this.attr('data-type'))
+		}
+	})
+
+})
+
+
+</script>
+
+{% endblock %}
+
 {% block content %}
 
-<div class="row">
+<div class="row my-5">
 	<div class="col-12">
 		<h1>Sales Data</h1>
 		<hr/>
 	</div>
 </div>
 
-<div class="row">
-	<div class="col-12">
-		<h2>Today's Sales</h2>
+<div class="row my-5">
+	<div class="col-6">
+		<h3>Today's Sales</h3>
 		<hr/>
-	</div>
-	<div class="col">
 		<h5>Today's Total: ${{ today.recent_data.total__sum }}</h5>
-		<!-- {{ recent_cart_data }} -->
 		<ol>
 			{% for order in today.recent|slice:":5" %}
 				<li>
@@ -30,42 +114,10 @@
 				</li>
 			{% endfor %}
 		</ol>
-		<hr/>
-	</div>
-	<div class="col">
-		<h5>Shipped Total: {% if today.shipped_data.total__sum %}${{ today.shipped_data.total__sum }}{% endif %}</h5>
-		<ol>
-			{% for order in today.shipped|slice:":5" %}
-				<li>
-					{{ order.order_id }}
-					{{ order.total }}
-					{{ order.updated }}
-				</li>
-			{% endfor %}
-		</ol>
-	</div>
-	<div class="col">
-		<h5>Paid Total: ${{ today.paid_data.total__sum }}</h5>
-		<ol>
-			{% for order in today.paid|slice:":5" %}
-				<li>
-					{{ order.order_id }}
-					{{ order.total }}
-					{{ order.updated }}
-				</li>
-			{% endfor %}
-		</ol>
-	</div>
-</div>
 
-<div class="row">
-	<div class="col-12">
-		<h2>Last week</h2>
+		<h3>Last week</h3>
 		<hr/>
-	</div>
-	<div class="col">
 		<h5>Recent Total: ${{ this_week.recent_data.total__sum }}</h5>
-		<!-- {{ recent_cart_data }} -->
 		<ol>
 			{% for order in this_week.recent|slice:":5" %}
 				<li>
@@ -75,47 +127,24 @@
 				</li>
 			{% endfor %}
 		</ol>
-		<hr/>
 	</div>
 	<div class="col">
-		<h5>Shipped Total: {% if this_week.shipped_data.total__sum %}${{ this_week.shipped_data.total__sum }}{% endif %}</h5>
-		<ol>
-			{% for order in this_week.shipped|slice:":5" %}
-				<li>
-					{{ order.order_id }}
-					{{ order.total }}
-					{{ order.updated }}
-				</li>
-			{% endfor %}
-		</ol>
-	</div>
-	<div class="col">
-		<h5>Paid Total: ${{ this_week.paid_data.total__sum }}</h5>
-		<ol>
-			{% for order in this_week.paid|slice:":5" %}
-				<li>
-					{{ order.order_id }}
-					{{ order.total }}
-					{{ order.updated }}
-				</li>
-			{% endfor %}
-		</ol>
+		<canvas class="kart-render-chart" id="thisWeekSales" data-type="week" width="400" height="400"></canvas>
 	</div>
 </div>
 
-<div class="row">
+<div class="row my-5">
 	<div class="col-12">
 		<h2>Previous 4 weeks</h2>
 		<hr/>
 	</div>
 	<div class="col">
 		<h5>Orders Total: ${{ last_four_weeks.recent_data.total__sum }}</h5>
-	</div>
-	<div class="col">
 		<h5>Shipped Total: {% if last_four_weeks.shipped_data.total__sum %}${{ last_four_weeks.shipped_data.total__sum }}{% endif %}</h5>
+		<h5>Paid Total: ${{ last_four_weeks.paid_data.total__sum }}</h5>
 	</div>
 	<div class="col">
-		<h5>Paid Total: ${{ last_four_weeks.paid_data.total__sum }}</h5>
+		<canvas class="kart-render-chart" id="fourWeekSales" data-type="four_weeks" width="400" height="400"></canvas>
 	</div>
 </div>
 

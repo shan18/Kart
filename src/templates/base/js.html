@@ -13,19 +13,22 @@
 <!-- jQuery-confirm JS -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.js"></script>
 
-<!-- Django Secure AJAX JS -->
-<script src="{% static 'js/csrf_ajax.js' %}"></script>
-
 <!-- jsrender JS -->
 <!-- used to make form modules reusable -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jsrender/0.9.90/jsrender.min.js"></script>
 {% include 'base/stripe_js_templates.html' %}
 
+<!-- Chart.js CDN-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
+
 <!-- Stripe CDN JS -->
 <script src="https://js.stripe.com/v3/"></script>
 
-<!-- Custom JS -->
-<script src="{% static 'js/custom_js.js' %}"></script>
-
 <!-- Custom stripe JS -->
 <script src="{% static 'js/stripe_js.js' %}"></script>
+
+<!-- Django Secure AJAX JS -->
+<script src="{% static 'js/csrf_ajax.js' %}"></script>
+
+<!-- Custom JS -->
+<script src="{% static 'js/custom_js.js' %}"></script>

@@ -1,12 +1,27 @@
 import datetime
 
 from django.shortcuts import render
-from django.views.generic import TemplateView
-from django.http import HttpResponse
+from django.views.generic import TemplateView, View
+from django.http import HttpResponse, JsonResponse
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.utils import timezone
 
 from orders.models import Order
+
+
+class SalesAjaxView(View):
+    template_name = 'analytics/sales.html'
+
+    def get(self, request, *args, **kwargs):
+        data = {}
+        if request.user.is_staff:
+            if request.GET.get('type') == 'week':
+                data['labels'] = ["Mon", "Tue", "Wed", "Thurs", "Fri", "Sat", "Sun"]
+                data['data'] = [12, 19, 3, 5, 2, 3, 100]
+            elif request.GET.get('type') == 'four_weeks':
+                data['labels'] = ["Last Week", "Two Weeks Ago", "Three Weeks Ago", "Four Weeks Ago"]
+                data['data'] = [12, 19, 3, 5]
+        return JsonResponse(data)
 
 
 class SalesView(LoginRequiredMixin, TemplateView):
