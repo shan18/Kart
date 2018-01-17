@@ -15,12 +15,33 @@ class SalesAjaxView(View):
     def get(self, request, *args, **kwargs):
         data = {}
         if request.user.is_staff:
+            qs = Order.objects.all().by_weeks_range(weeks_ago=5, number_of_weeks=5)
             if request.GET.get('type') == 'week':
-                data['labels'] = ["Mon", "Tue", "Wed", "Thurs", "Fri", "Sat", "Sun"]
-                data['data'] = [12, 19, 3, 5, 2, 3, 100]
+                days = 7
+                start_date = timezone.now().today() - datetime.timedelta(days=days-1)
+                datetime_list = []
+                salesItems = []
+                labels = []
+
+                for x in range(days):
+                    new_time = start_date + datetime.timedelta(days=x)
+                    datetime_list.append(new_time)
+                    labels.append(new_time.strftime('%a'))  # 'mon', 'tue' ...
+                    new_qs = qs.filter(updated__day=new_time.day, updated__month=new_time.month)
+                    day_total = new_qs.totals_data()['total__sum'] or 0
+                    salesItems.append(day_total)
+
+                data['labels'] = labels
+                data['data'] = salesItems
             elif request.GET.get('type') == 'four_weeks':
-                data['labels'] = ["Last Week", "Two Weeks Ago", "Three Weeks Ago", "Four Weeks Ago"]
-                data['data'] = [12, 19, 3, 5]
+                data['labels'] = ["Four Weeks Ago", "Three Weeks Ago", "Two Weeks Ago", "Last Week"] #, "This Week"]
+                current = 5
+                data['data'] = []
+                for i in range(0, 5):
+                    new_qs = qs.by_weeks_range(weeks_ago=current, number_of_weeks=1)
+                    sales_total = new_qs.totals_data()['total__sum'] or 0
+                    data['data'].append(sales_total)
+                    current -= 1
         return JsonResponse(data)
 
 

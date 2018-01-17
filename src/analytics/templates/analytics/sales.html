@@ -101,32 +101,32 @@ $(document).ready(function(){
 </div>
 
 <div class="row my-5">
-	<div class="col-6">
+	<div class="col-4">
 		<h3>Today's Sales</h3>
 		<hr/>
 		<h5>Today's Total: ${{ today.recent_data.total__sum }}</h5>
-		<ol>
+		<ul>
 			{% for order in today.recent|slice:":5" %}
-				<li>
-					{{ order.order_id }}
-					{{ order.total }}
-					{{ order.updated }}
+				<li class="my-3">
+					Order: #{{ order.order_id }}<br/>
+					Amount: ${{ order.total }}<br/>
+					Last Updated: {{ order.updated|timesince }} ago
 				</li>
 			{% endfor %}
-		</ol>
+		</ul>
 
-		<h3>Last week</h3>
+		<h3>This week's Sales</h3>
 		<hr/>
 		<h5>Recent Total: ${{ this_week.recent_data.total__sum }}</h5>
-		<ol>
+		<ul>
 			{% for order in this_week.recent|slice:":5" %}
-				<li>
-					{{ order.order_id }}
-					{{ order.total }}
-					{{ order.updated }}
+				<li class="my-3">
+					Order: #{{ order.order_id }}<br/>
+					Amount: ${{ order.total }}<br/>
+					Last Updated: {{ order.updated|timesince }} ago
 				</li>
 			{% endfor %}
-		</ol>
+		</ul>
 	</div>
 	<div class="col">
 		<canvas class="kart-render-chart" id="thisWeekSales" data-type="week" width="400" height="400"></canvas>
