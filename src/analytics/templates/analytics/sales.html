@@ -11,11 +11,18 @@
 		<h1>Sales Data</h1>
 		<hr/>
 	</div>
+</div>
+
+<div class="row">
+	<div class="col-12">
+		<h2>Today's Sales</h2>
+		<hr/>
+	</div>
 	<div class="col">
-		<h3>Recent Total: ${{ recent_orders_data.total__sum }}</h3>
+		<h5>Today's Total: ${{ today.recent_data.total__sum }}</h5>
 		<!-- {{ recent_cart_data }} -->
 		<ol>
-			{% for order in recent_orders %}
+			{% for order in today.recent|slice:":5" %}
 				<li>
 					{{ order.order_id }}
 					{{ order.total }}
@@ -26,9 +33,9 @@
 		<hr/>
 	</div>
 	<div class="col">
-		<h3>Shipped Total: ${{ shipped_orders_data.total__sum }}</h3>
+		<h5>Shipped Total: {% if today.shipped_data.total__sum %}${{ today.shipped_data.total__sum }}{% endif %}</h5>
 		<ol>
-			{% for order in shipped_orders %}
+			{% for order in today.shipped|slice:":5" %}
 				<li>
 					{{ order.order_id }}
 					{{ order.total }}
@@ -38,9 +45,9 @@
 		</ol>
 	</div>
 	<div class="col">
-		<h3>Paid Total: ${{ paid_orders_data.total__sum }}</h3>
+		<h5>Paid Total: ${{ today.paid_data.total__sum }}</h5>
 		<ol>
-			{% for order in paid_orders %}
+			{% for order in today.paid|slice:":5" %}
 				<li>
 					{{ order.order_id }}
 					{{ order.total }}
@@ -48,6 +55,67 @@
 				</li>
 			{% endfor %}
 		</ol>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-12">
+		<h2>Last week</h2>
+		<hr/>
+	</div>
+	<div class="col">
+		<h5>Recent Total: ${{ this_week.recent_data.total__sum }}</h5>
+		<!-- {{ recent_cart_data }} -->
+		<ol>
+			{% for order in this_week.recent|slice:":5" %}
+				<li>
+					{{ order.order_id }}
+					{{ order.total }}
+					{{ order.updated }}
+				</li>
+			{% endfor %}
+		</ol>
+		<hr/>
+	</div>
+	<div class="col">
+		<h5>Shipped Total: {% if this_week.shipped_data.total__sum %}${{ this_week.shipped_data.total__sum }}{% endif %}</h5>
+		<ol>
+			{% for order in this_week.shipped|slice:":5" %}
+				<li>
+					{{ order.order_id }}
+					{{ order.total }}
+					{{ order.updated }}
+				</li>
+			{% endfor %}
+		</ol>
+	</div>
+	<div class="col">
+		<h5>Paid Total: ${{ this_week.paid_data.total__sum }}</h5>
+		<ol>
+			{% for order in this_week.paid|slice:":5" %}
+				<li>
+					{{ order.order_id }}
+					{{ order.total }}
+					{{ order.updated }}
+				</li>
+			{% endfor %}
+		</ol>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-12">
+		<h2>Previous 4 weeks</h2>
+		<hr/>
+	</div>
+	<div class="col">
+		<h5>Orders Total: ${{ last_four_weeks.recent_data.total__sum }}</h5>
+	</div>
+	<div class="col">
+		<h5>Shipped Total: {% if last_four_weeks.shipped_data.total__sum %}${{ last_four_weeks.shipped_data.total__sum }}{% endif %}</h5>
+	</div>
+	<div class="col">
+		<h5>Paid Total: ${{ last_four_weeks.paid_data.total__sum }}</h5>
 	</div>
 </div>
 
