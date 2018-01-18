@@ -6,13 +6,17 @@
 {% url 'logout' as logout_url %}
 {% url 'account:home' as account_url %}
 {% url 'cart:home' as cart_url %}
+{% url 'orders:list' as orders_url %}
+{% url 'library' as library_url %}
+{% url 'account:user-product-history' as user_product_history_url %}
 {% url 'analytics:sales' as analytics_sales_url %}
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-3">
 	<div class="container">
 		<a class="navbar-brand" href="{{ home_url }}">
-			<img src="https://www.getbootstrap.com/assets/brand/bootstrap-solid.svg" width="30" height="30" class="d-inline-block align-top" alt="">
+			<i class="fa fa-shopping-bag" aria-hidden="true"></i>
 			{% if brand_name %} {{ brand_name}} {% else %} Kart {% endif %}
+			<!-- <img src="https://png.icons8.com/wired/50/000000/shopping-cart.png" width="35" height="35" class="d-inline-block align-top" alt=""> -->
 		</a>
 		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 			<span class="navbar-toggler-icon"></span>
@@ -41,9 +45,9 @@
 						</a>
 						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
 							<a class="dropdown-item {% if request.path == account_url %}active{% endif %}" href="{{ account_url }}">Home</a>
-							<a class="dropdown-item" href="{{ account_url }}#billing">Billing</a>
-							<a class="dropdown-item" href="{% url 'library' %}">Library</a>
-							<a class="dropdown-item" href="{% url 'account:user-product-history' %}">History</a>
+							<a class="dropdown-item {% if request.path == orders_url %}active{% endif %}" href="{{ orders_url }}">Your Orders</a>
+							<a class="dropdown-item {% if request.path == library_url %}active{% endif %}" href="{{ library_url }}">Library</a>
+							<a class="dropdown-item {% if request.path == user_product_history_url %}active{% endif %}" href="{{ user_product_history_url }}">History</a>
 							<div class="dropdown-divider"></div>
 							<a class="dropdown-item {% if request.path == logout_url %}active{% endif %}" href="{{ logout_url }}">Logout</a>
 						</div>
@@ -57,7 +61,7 @@
 					</li>
 				{% endif %}
 				<li class="nav-item {% if request.path == cart_url %}active{% endif %}">
-					<a class="nav-link" href="{{ cart_url }}"><span class="cart-item-count">{{request.session.cart_items_number}}</span> <i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
+					<a class="nav-link" href="{{ cart_url }}"><span class="cart-item-count">{{request.session.cart_items_number}}</span> <i class="fa fa-shopping-cart" aria-hidden="true"></i><small>Cart</small></a>
 				</li>
 				<!-- <li class="nav-item dropdown">
 					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
