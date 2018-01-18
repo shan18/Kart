@@ -53,9 +53,13 @@ $(document).ready(function(){
 			success: function(data){
 				var submitSpan = thisForm.find(".submit-span")
 				if (data.added) {
-					submitSpan.html("<div class='btn-group'><a href='/cart/' class='btn btn-link'>In cart</a> <button type='submit' class='btn btn-link'>Remove?</button></div>")
+					submitSpan.html(
+						"<div class='btn-group'><button type='submit' class='btn btn-danger'>" +
+						"<i class='fa fa-shopping-cart' aria-hidden='true'></i> <i class='fa fa-times' aria-hidden='true'></i>" +
+						"</button></div>"
+					)
 				} else {
-					submitSpan.html("<button type='submit' class='btn btn-success'>Add to cart</button>")
+					submitSpan.html("<button type='submit' class='btn btn-info'><i class='fa fa-cart-plus' aria-hidden='true'></i> <i class='fa fa-long-arrow-down' aria-hidden='true'></i></button>")
 				}
 
 				var cartItemCount = $(".cart-item-count")  // Refresh count in Navbar
