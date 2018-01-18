@@ -6,6 +6,7 @@
 {% url 'logout' as logout_url %}
 {% url 'account:home' as account_url %}
 {% url 'cart:home' as cart_url %}
+{% url 'analytics:sales' as analytics_sales_url %}
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-3">
 	<div class="container">
@@ -29,6 +30,11 @@
 					<a class="nav-link" href="{{ products_list_url }}">Products</a>
 				</li>
 				{% if request.user.is_authenticated %}
+					{% if request.user.is_staff %}
+						<li class="nav-item {% if request.path == analytics_sales_url %}active{% endif %}">
+							<a class="nav-link" href="{{ analytics_sales_url }}">Sales</a>
+						</li>
+					{% endif %}
 					<li class="nav-item dropdown">
 						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 							Account
