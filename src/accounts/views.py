@@ -13,7 +13,7 @@ from django.core.urlresolvers import reverse
 from .models import GuestModel, EmailActivation
 from .forms import LoginForm, RegisterForm, GuestForm, ReactivateEmailForm, UserDetailChangeForm
 from .signals import user_session_signal
-from kart.mixins import NextUrlMixin, RequestFormAttachMixin
+from kart.mixins import NextUrlMixin, RequestFormAttachMixin, AnonymousRequiredMixin
 
 
 # class LoginRequiredMixin(object):
@@ -156,7 +156,7 @@ class GuestRegisterView(NextUrlMixin, RequestFormAttachMixin, CreateView):
 #     return redirect('/register/')
 
 
-class LoginView(NextUrlMixin, RequestFormAttachMixin, FormView):
+class LoginView(AnonymousRequiredMixin, NextUrlMixin, RequestFormAttachMixin, FormView):
     form_class = LoginForm
     template_name = 'accounts/login.html'
     success_url = '/'
@@ -214,7 +214,7 @@ class LoginView(NextUrlMixin, RequestFormAttachMixin, FormView):
 #     return render(request, 'accounts/login.html', context)
 
 
-class RegisterView(CreateView):
+class RegisterView(AnonymousRequiredMixin, CreateView):
     form_class = RegisterForm
     template_name = 'accounts/register.html'
     success_url = '/login/'
