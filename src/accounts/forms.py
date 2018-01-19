@@ -80,6 +80,9 @@ class UserDetailChangeForm(forms.ModelForm):
 
 
 class GuestForm(forms.ModelForm):
+    email = forms.EmailField(label='Email', widget=forms.EmailInput(
+        attrs={'class': 'form-control my-2', 'placeholder': 'Email'}
+    ))
 
     def __init__(self, request, *args, **kwargs):
         self.request = request
@@ -100,8 +103,12 @@ class GuestForm(forms.ModelForm):
 
 
 class LoginForm(forms.Form):
-    email = forms.EmailField(label='Email')
-    password = forms.CharField(widget=forms.PasswordInput)
+    email = forms.EmailField(label='Email', widget=forms.EmailInput(
+        attrs={'class': 'form-control my-2', 'placeholder': 'Email'}
+    ))
+    password = forms.CharField(widget=forms.PasswordInput(
+        attrs={'class': 'form-control my-2', 'placeholder': 'Password'}
+    ))
 
     def __init__(self, request, *args, **kwargs):
         '''
@@ -153,12 +160,22 @@ class LoginForm(forms.Form):
 class RegisterForm(forms.ModelForm):
     """A form for creating new users. Includes all the required
     fields, plus a repeated password."""
-    password1 = forms.CharField(label='Password', widget=forms.PasswordInput)
-    password2 = forms.CharField(label='Password confirmation', widget=forms.PasswordInput)
+    full_name = forms.EmailField(label='Full Name', widget=forms.TextInput(
+        attrs={'class': 'form-control my-2', 'placeholder': 'Full Name'}
+    ))
+    email = forms.EmailField(label='Email', widget=forms.EmailInput(
+        attrs={'class': 'form-control my-2', 'placeholder': 'Email'}
+    ))
+    password1 = forms.CharField(label='Password', widget=forms.PasswordInput(
+        attrs={'class': 'form-control my-2', 'placeholder': 'Password'}
+    ))
+    password2 = forms.CharField(label='Confirm Password', widget=forms.PasswordInput(
+        attrs={'class': 'form-control my-2', 'placeholder': 'Password'}
+    ))
 
     class Meta:
         model = User
-        fields = ('email', 'full_name')
+        fields = ('full_name', 'email')
 
     def clean_password2(self):
         # Check that the two password entries match

@@ -1,9 +1,24 @@
 {% extends 'base.html' %}
 
+{% block base_head %}
+<title>Register</title>
+{% endblock %}
+
 {% block content %}
-	<h1>Register</h1>
-	<form method="POST"> {% csrf_token %}
-	  {{ form }}
-	  <button type="submit" class="btn btn-default">Submit</button>
-	</form>
+
+<div class="row">
+	<div class="col-12 col-md-4 mx-auto my-3">
+		<h1 class="text-center">Register</h1>
+	</div>
+</div>
+<hr/>
+<div class="row">
+	<div class="col-12 col-md-4 mx-auto my-3">
+		<form class="account-form" method="POST" data-endpoint="{% url 'register' %}"> {% csrf_token %}
+  		{{ form }}
+  		<button type="submit" class="btn btn-primary my-1">Sign Up</button>
+		</form>
+	</div>
+</div>
+
 {% endblock %}
