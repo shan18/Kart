@@ -1,4 +1,6 @@
 from django import forms
+from django.http import JsonResponse
+from django.contrib import messages
 from django.contrib.auth import authenticate, login, get_user_model
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 from django.core.urlresolvers import reverse
@@ -81,7 +83,7 @@ class UserDetailChangeForm(forms.ModelForm):
 
 class GuestForm(forms.ModelForm):
     email = forms.EmailField(label='Email', widget=forms.EmailInput(
-        attrs={'class': 'form-control my-2', 'placeholder': 'Email'}
+        attrs={'class': 'form-control my-2', 'placeholder': 'Email', 'id': 'guest-form-email-field'}
     ))
 
     def __init__(self, request, *args, **kwargs):
@@ -127,6 +129,11 @@ class LoginForm(forms.Form):
         email = self.cleaned_data.get('email')
         password = self.cleaned_data.get('password')
 
+        response = {
+            'success': False,
+            'message': 'Login failed.'
+        }
+
         user_qs = User.objects.filter(email=email, is_active=False)
         if user_qs.exists():
             # email is registered but not active
@@ -134,33 +141,41 @@ class LoginForm(forms.Form):
             reconfirm_msg = """Go to <a href="{resend_link}">resend confirmation email</a>.
             """.format(resend_link=link)
             is_email_confirmable = EmailActivation.objects.filter(email=email).confirmable().exists()
+            email_activation_exists = EmailActivation.objects.email_exists(email).exists()
             if is_email_confirmable:
                 msg1 = 'Please check your email to confirm your account or ' + reconfirm_msg.lower()
-                raise forms.ValidationError(mark_safe(msg1))
-            email_activation_exists = EmailActivation.objects.email_exists(email).exists()
-            if email_activation_exists:
+                response['message'] = msg1
+                # raise forms.ValidationError(mark_safe(msg1))
+            elif email_activation_exists:
                 msg2 = 'Email not confirmed. ' + reconfirm_msg
-                raise forms.ValidationError(mark_safe(msg2))
-            raise forms.ValidationError('This user is inactive.')
+                response['message'] = msg2
+                # raise forms.ValidationError(mark_safe(msg2))
+            else:
+                response['message'] = 'This user is inactive.'
+                # raise forms.ValidationError('This user is inactive.')
+            return response
 
         user = authenticate(request, username=email, password=password)
         # If the is_active field is false, then the authenticate() method by default returns None
         if user is None:
-            raise forms.ValidationError('Invalid credentials')
+            response['message'] = 'The username or the password is incorrect! Please try again.'
+            # raise forms.ValidationError('Invalid credentials')
+            return response
         login(request, user)
+        response['success'] = True
         self.user = user  # Attach the form with the user so that the form can handle the model signals
         user_session_signal.send(user.__class__, instance=user, request=request)
         try:  # If user logs back in after registering as a guest, then delete the guest session
             del request.session['guest_obj_id']
         except:
             pass
-        return data
+        return response
 
 
 class RegisterForm(forms.ModelForm):
     """A form for creating new users. Includes all the required
     fields, plus a repeated password."""
-    full_name = forms.EmailField(label='Full Name', widget=forms.TextInput(
+    full_name = forms.CharField(label='Full Name', widget=forms.TextInput(
         attrs={'class': 'form-control my-2', 'placeholder': 'Full Name'}
     ))
     email = forms.EmailField(label='Email', widget=forms.EmailInput(

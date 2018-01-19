@@ -1,5 +1,14 @@
-<form class="account-form mx-5" method="POST" action="{% if action_url %}{{ action_url }}{% else %}{% url 'login' %}{% endif %}" data-endpoint="{{ action_url }}"> {% csrf_token %}
+<form class="mx-5" method="POST" action="{% if action_url %}{{ action_url }}{% else %}{% url 'login' %}{% endif %}" data-endpoint="{{ action_url }}"> {% csrf_token %}
 	<input type="hidden" name="next" value="{{ next_url }}">
   {{ form }}
-  <button type="submit" class="btn btn-primary my-1">Submit</button>
+  <div class="row">
+		<div class="col my-1 mr-auto">
+			<button type="submit" class="btn btn-primary">Submit</button>
+		</div>
+  	{% if user_login %}
+  		<div class="col my-3 ml-auto">
+				<a href="{% url 'password_reset' %}" target="blank">Forgot Password?</a>
+			</div>
+  	{% endif %}
+  </div>
 </form>

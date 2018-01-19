@@ -16,7 +16,14 @@
 	<div class="col-12 col-md-4 mx-auto my-3">
 		<form class="account-form" method="POST" data-endpoint="{% url 'login' %}"> {% csrf_token %}
   		{{ form }}
-  		<button type="submit" class="btn btn-primary my-1">Sign In</button>
+  		<div class="row">
+  			<div class="col my-1 mr-auto">
+  				<button type="submit" class="btn btn-primary">Sign In</button>
+  			</div>
+  			<div class="col my-3 ml-auto">
+  				<a href="{% url 'password_reset' %}" target="blank">Forgot Password?</a>
+  			</div>
+  		</div>
 		</form>
 	</div>
 </div>

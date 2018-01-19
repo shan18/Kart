@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.http import JsonResponse
 from django.contrib.auth import authenticate, login, get_user_model
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -163,7 +164,20 @@ class LoginView(AnonymousRequiredMixin, NextUrlMixin, RequestFormAttachMixin, Fo
     default_next = '/'
 
     def form_valid(self, form):   # equivalent to "if form.is_valid()"
+        request = self.request
+        response = form.cleaned_data
+        if not response.get('success'):
+            messages.warning(self.request, mark_safe(response.get('message')))
+            if request.is_ajax():
+                return JsonResponse({
+                    'success': response.get('success'), 'next_path': reverse('login')
+                })
+            return redirect('login')
         next_path = self.get_next_url()
+        if request.is_ajax():
+            return JsonResponse({
+                'success': response.get('success'), 'next_path': next_path
+            })
         return redirect(next_path)
 
     # These methods were removed because they were later used from within mixins
@@ -218,6 +232,12 @@ class RegisterView(AnonymousRequiredMixin, CreateView):
     form_class = RegisterForm
     template_name = 'accounts/register.html'
     success_url = '/login/'
+
+    def form_valid(self, form):
+        super(RegisterView, self).form_valid(form)
+        if self.request.is_ajax():
+            return JsonResponse({'success': True, 'next_path': self.success_url})
+        return redirect(self.success_url)
 
 
 # def register_page(request):
