@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<title>Hello, world!</title>
+		<!-- Required meta tags -->
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+		<!-- Bootstrap CSS -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+
+		<style>
+			/*body {
+				background-color: red;
+			}*/
+			.description {
+				height: 300px;
+				width: 250px;
+				padding: 30px 10px;
+			}
+		</style>
+	</head>
+	<body>
+
+		<div class="container">
+			<div class="row">
+				<div class="col mx-auto py-5">
+					<h1>Form</h1>
+					<form class="new-content-form" method="POST" action="/some/link/url/">
+						<textarea name="content" class="form-control"></textarea>
+						<input type="submit" value="Save">
+					</form>
+				</div>
+			</div>
+		</div>
+
+		<div class="formDataSubmitted py-3"></div>
+
+		<h1 class="header">Hello, world!</h1>
+		<h1 class="header">Hello, world!</h1>
+		<h1 id="header-3">Header 3</h1>
+		<h1>Hello, world!</h1>
+
+		<p class="description">Another Paragraph</p>
+		<p class="description"><a href="/abc/">Some Link</a></p>
+
+		<p class="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque quis elit venenatis, vehicula libero sed, imperdiet ante. Donec ipsum turpis, varius non pretium eget, ultrices non dui. Praesent suscipit malesuada lectus at blandit. Nulla quis laoreet arcu, sit amet lacinia odio. Mauris et iaculis metus. Maecenas gravida condimentum condimentum. Phasellus et aliquam orci. Integer imperdiet sed magna vel commodo.
+
+Duis eu velit bibendum, tristique libero at, maximus nisl. Sed tempor vestibulum mauris, at luctus magna pretium quis. Integer arcu nulla, pellentesque vel eleifend eget, efficitur sit amet metus. Mauris pretium mauris a ultricies tempor. Suspendisse potenti. Integer et egestas lacus. Integer sed diam in ligula sagittis malesuada. Proin justo turpis, ornare sit amet urna nec, malesuada maximus libero. Phasellus mollis imperdiet elementum. Suspendisse id tortor eget quam cursus gravida iaculis ut metus. Donec posuere lectus rhoncus, vestibulum massa sit amet, mattis nibh. Etiam condimentum, orci sed pulvinar scelerisque, dolor urna elementum lectus, id euismod ex nulla id dui. Integer mattis metus at turpis bibendum gravida.</p>
+
+		<!-- Optional JavaScript -->
+		<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+		<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+
+		<!-- Data Types, Iterations and Conditionals
+		<script type="text/javascript">
+			$(document).ready(function(){
+
+				var num = 124
+				var someString = "some string"
+				var someArray = [num, 9, 12345, "and so on"]  // list or array
+				var someBool = false  // or true
+				$.each(someArray, function(index, obj){   // loop
+					console.log(index, obj)   // print value in browser console
+					if (obj % 2 == 0) {
+						console.log(obj, "is even")
+					} else if (obj % 3 == 0 && someBool) {
+						console.log(obj, "is divisible by 3")
+					} else {
+						console.log(obj, "is not even and/or is false")
+					}
+				})
+			})
+		</script> -->
+
+		<!--  Basic Commands
+		<script type="text/javascript">
+			$(document).ready(function(){
+
+				// alert("Hello") -> Gives a popup alert
+				// $('body').css("background-color", "red")  // Change background color
+
+				var $description = $(".description")  // array to get elements of this class
+
+				$description.css("height", "300px").css("width", "250px")
+				console.log($description.length)   // total elements in this array
+				console.log($description.css("height"))
+				console.log($description.height())  // Gives integer value
+
+				setTimeout(function(){  // selectors inside it will run after specified time has passed
+					$('h1').css("color", "purple")
+					$('h1:nth-child(2)').text("Hello Again!")  // Change text in 2nd <h1>
+					$('#header-3').text("Hello Now!")  // Change text in 3rd <h1>
+					$('.header').css("background-color", "green").css("padding", "30px")  // Chaining elements
+				}, 2000)  // in ms
+			})
+		</script> -->
+
+		<!--  Performing operations on individual elements
+		<script type="text/javascript">
+			$(document).ready(function(){
+				var $descriptionItems = $(".description")
+				$.each($descriptionItems, function(index, obj){  // obj will be an HTML element
+					var item = $(this)    // get jQuery object for the obj
+					// console.log(item)     // get all available attributes for this object
+					var actualHeight = item[0].scrollHeight
+					var requiredHeight = item.height()
+					if (actualHeight > requiredHeight + 50) {  // If height is greater, add a scrollbar
+						item.css("overflow-y", "scroll")
+					}
+				})
+
+				var header3 = $("#header-3")
+				header3.click(function(event){    // On-click listener
+					var $this = $(this)
+					console.log($this)
+					console.log(event)
+					window.location.href = 'http://www.google.com/'   // Similar to <a> tag
+				})
+
+				var descriptionLinks = $(".description a")    // Get all <a> tags in description class
+				descriptionLinks.click(function(event){
+					console.log(event)
+					event.preventDefault()    // Disable the redirect to link in href
+					var $this = $(this)
+					var href = $this.attr("href")   // Get value from the href attribute
+					console.log(href)
+					alert(href)
+					window.location.href = href + "de/"
+				})
+			})
+		</script> -->
+
+		<!-- Handle form data -->
+		<script type="text/javascript">
+			$(document).ready(function(){
+				var contentForm = $(".new-content-form")
+				contentForm.submit(function(event){     // control form submit action
+					event.preventDefault()
+					var $this = $(this)
+					// console.log(contentForm.serialize())  // OR $this.serialize()  // Display form contents
+					var textAreaContent = $this.find('textarea')   // Get the <textarea> tag in form
+
+					var formMethod = $this.attr("method")
+					var formAction = $this.attr("action")
+					var data = {
+						"content": textAreaContent.val(),	// get its contents/value
+						"method": formMethod,
+						"action": formAction
+					}
+
+					$('.formDataSubmitted').text(textAreaContent.val() + " method: " + formMethod)  // transfer data to other containers
+
+					textAreaContent.val("")		// clear contents after submit
+				})
+			})
+		</script>
+
+
+
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+	</body>
+</html>
