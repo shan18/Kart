@@ -2,6 +2,7 @@ from decimal import Decimal
 
 from django.db import models
 from django.conf import settings
+from django.db.models import Sum
 from django.db.models.signals import pre_save, m2m_changed
 
 from products.models import Product
@@ -47,6 +48,11 @@ class Cart(models.Model):
     def __str__(self):
         return str(self.id)
 
+    def non_digital_products_total(self):
+        qs = self.products.filter(is_digital=False)
+        total = qs.aggregate(Sum('price'))
+        return total.get('price__sum')
+
     @property
     def is_digital(self):
         qs = self.products.filter(is_digital=False)
@@ -72,7 +78,8 @@ m2m_changed.connect(m2m_changed_cart_receiver, sender=Cart.products.through)
 # This is used to include/deduct amount from subtotal like shipping charges, discounts e.t.c.
 def pre_save_cart_receiver(sender, instance, *args, **kwargs):
     if instance.subtotal > 0:
-        instance.total = Decimal(instance.subtotal) * Decimal(1.08)  # 8% tax
+        instance.total = instance.subtotal
+        # instance.total = Decimal(instance.subtotal) * Decimal(1.08)  # 8% tax
         # OR --> instance.total = float(instance.subtotal) * float(1.08)
     else:
         instance.total = 0.00

@@ -118,7 +118,7 @@ class Order(models.Model):
     billing_address = models.ForeignKey(Address, related_name='billing_address', null=True, blank=True)
     cart = models.ForeignKey(Cart)
     status = models.CharField(max_length=120, default='created', choices=ORDER_STATUS_CHOICES)
-    shipping_total = models.DecimalField(default=50.00, max_digits=100, decimal_places=2)
+    shipping_total = models.DecimalField(default=0.00, max_digits=100, decimal_places=2)
     total = models.DecimalField(default=0.00, max_digits=100, decimal_places=2)
     active = models.BooleanField(default=True)
     timestamp = models.DateTimeField(auto_now_add=True)
@@ -143,6 +143,9 @@ class Order(models.Model):
         return 'Shipping Soon'
 
     def update_total(self):
+        cart_non_digital_total = self.cart.non_digital_products_total()
+        if cart_non_digital_total <= 15:
+            self.shipping_total = 10.00
         new_total = math.fsum([self.cart.total, self.shipping_total])
         self.total = format(new_total, '.2f')
         self.save()
