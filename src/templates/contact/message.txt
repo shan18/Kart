@@ -1,0 +1,9 @@
+You have a message from Kart user - {{ full_name }} <{{ email }}>
+
+
+Message:
+
+{{ content }}
+
+
+Thank You

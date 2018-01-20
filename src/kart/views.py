@@ -1,5 +1,8 @@
+from django.conf import settings
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
+from django.core.mail import send_mail
+from django.template.loader import get_template
 
 from .forms import ContactForm
 
@@ -25,13 +28,28 @@ def about_page(request):
 def contact_page(request):
     contact_form = ContactForm(request.POST or None)
     context = {
-        "title": "Contact",
-        "content": "This is the contact page.",
+        "title": "Contact Us",
+        "content": "Please fill out this form to send us you query.",
         "form": contact_form
     }
 
     if contact_form.is_valid():
-        print(contact_form.cleaned_data)
+        data = contact_form.cleaned_data
+
+        subject = 'Kart - Message from ' + data.get('email')
+        txt_ = get_template('contact/message.txt').render(data)
+        html_ = get_template('contact/message.html').render(data)
+        from_email = 'Kart <' + data.get('email') + '>'
+        recipient_list = [x[1] for x in settings.MANAGERS]
+        send_mail(
+            subject,
+            txt_,
+            from_email,
+            recipient_list,
+            html_message=html_,
+            fail_silently=False
+        )
+
         if request.is_ajax():
             return JsonResponse({"message": "Thank you for your response."})
 
