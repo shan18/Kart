@@ -28,11 +28,11 @@
 					<hr>
 				</div>
 				<div class="col-6">
-					{% url 'checkout_address_create' as checkout_address_create %}
+					{% url 'address:checkout_address_create' as checkout_address_create %}
 					{% include 'addresses/form.html' with form=address_form next_url=request.build_absolute_uri action_url=checkout_address_create address_type='shipping' %}
 				</div>
 				<div class="col-6">
-					{% url 'checkout_address_reuse' as checkout_address_reuse %}
+					{% url 'address:checkout_address_reuse' as checkout_address_reuse %}
 					{% include 'addresses/previous_addresses.html' with address_qs=address_qs next_url=request.build_absolute_uri address_type='shipping' action_url=checkout_address_reuse %}
 				</div>
 			</div>
@@ -43,11 +43,11 @@
 					<hr>
 				</div>
 				<div class="col-6">
-					{% url 'checkout_address_create' as checkout_address_create %}
+					{% url 'address:checkout_address_create' as checkout_address_create %}
 					{% include 'addresses/form.html' with form=address_form next_url=request.build_absolute_uri action_url=checkout_address_create address_type='billing' %}
 				</div>
 				<div class="col-6">
-					{% url 'checkout_address_reuse' as checkout_address_reuse %}
+					{% url 'address:checkout_address_reuse' as checkout_address_reuse %}
 					{% include 'addresses/previous_addresses.html' with address_qs=address_qs next_url=request.build_absolute_uri address_type='billing' action_url=checkout_address_reuse %}
 				</div>
 			</div>
@@ -61,7 +61,7 @@
 				<p>Cart Total: $ {{ object.cart.total }}</p>
 				<p>Shipping Total: $ {{ object.shipping_total }}</p>
 				<p>Order Total: $ {{ object.total }}</p>
-				<form class="form" method="POST" action=""> {% csrf_token %}
+				<form class="form checkout-form" method="POST" action="" data-endpoint="{{ request.build_absolute_uri }}"> {% csrf_token %}
 					<button type="submit" class="btn btn-success">Checkout</button>
 				</form>
 			{% else %}

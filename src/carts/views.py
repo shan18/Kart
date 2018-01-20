@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.shortcuts import render, redirect
-from django.http import JsonResponse
+from django.http import JsonResponse, Http404
+from django.core.urlresolvers import reverse
 
 import stripe
 
@@ -116,9 +117,13 @@ def checkout_home(request):
                     """ TODO: Is this the best spot for this check?
                     """
                     billing_profile.set_cards_inactive()
+                request.session['checkout_home'] = True
+                if request.is_ajax():
+                    return JsonResponse({'next_path': reverse('cart:success')})
                 return redirect('cart:success')
             else:
-                print(charge_message)
+                if request.is_ajax():
+                    return JsonResponse({'next_path': reverse('cart:checkout')})
                 return redirect('cart:checkout')
 
     context = {
@@ -136,4 +141,7 @@ def checkout_home(request):
 
 
 def checkout_done(request):
-    return render(request, 'carts/checkout_done.html', {})
+    if request.session.get('checkout_home'):
+        del request.session['checkout_home']
+        return render(request, 'carts/checkout_done.html', {})
+    raise Http404
