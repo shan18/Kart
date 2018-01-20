@@ -42,7 +42,9 @@
 				{% endif %}
 			</ul>
 			<ul class="navbar-nav ml-auto">
-				<li>{% include 'search/snippets/search-form.html' %}</li>
+				<li class="nav-item {% if request.path == cart_url %}active{% endif %}">
+					<a class="nav-link" href="{{ cart_url }}"><span class="cart-item-count">{{request.session.cart_items_number}}</span> <i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
+				</li>
 				{% if request.user.is_authenticated %}
 					<li class="nav-item dropdown">
 						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -65,9 +67,9 @@
 						<a class="nav-link" href="{{ register_url }}">Register</a>
 					</li>
 				{% endif %}
-				<li class="nav-item {% if request.path == cart_url %}active{% endif %}">
-					<a class="nav-link" href="{{ cart_url }}"><span class="cart-item-count">{{request.session.cart_items_number}}</span> <i class="fa fa-shopping-cart" aria-hidden="true"></i><small>Cart</small></a>
-				</li>
+			</ul>
+			<ul class="navbar-nav ml-4">
+				<li>{% include 'search/snippets/search-form.html' %}</li>
 			</ul>
 		</div>
 	</div>
