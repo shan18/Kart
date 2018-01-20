@@ -76,13 +76,13 @@ To make a file downloadable through django, it's path has to be provided to the 
 - With fixtures we can save desired database information before deleting the database, and then reload them back when a new database is created.
 
 - This command displays all the database data in json format:  
-`python manage.py dumpdata --format json --indent 4`
+`python manage.py dumpdata --format json --indent 2`
 
 - This command displays data of a particular model in json format:  
-`python manage.py dumpdata products.Product --format json --indent 4`
+`python manage.py dumpdata products.Product --format json --indent 2`
 
 - This command stores data of a particular app in json format in a file:  
-`python manage.py dumpdata products --format json --indent 4 > products/fixtures/products.json`
+`python manage.py dumpdata products --format json --indent 2 > products/fixtures/products.json`
 
 - After changing the database, load the data with the command:  
 `python manage.py loaddata products/fixtures/products.json`

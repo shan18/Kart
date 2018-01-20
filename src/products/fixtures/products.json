@@ -1,72 +1,218 @@
 [
 {
-    "model": "products.product",
-    "pk": 1,
-    "fields": {
-        "title": "T-shirt",
-        "slug": "t-shirt",
-        "description": "This is a star wars and Breaking Bad T-shirt.",
-        "price": "7.99",
-        "image": "products/2946056/2946056.jpg",
-        "featured": false,
-        "active": true,
-        "timestamp": "2017-12-20T21:13:25.567Z"
-    }
+  "model": "products.product",
+  "pk": 1,
+  "fields": {
+    "title": "Batman:Logo T-shirt",
+    "slug": "batmanlogo-t-shirt",
+    "description": "He is the most feared superhero of all. \r\n\r\nDark Knight. Caped Crusader. World's Greatest Detective, the Defender of Gotham. \r\nWhatever you know him as, wherever you know him from, Batman is proof you don't need superpowers to be a superhero. \r\n\r\nWith this T-shirt, you will extensively achieve mental and physical perfection, martial arts and detective skills. And also, of course, the Batmobile.",
+    "price": "7.99",
+    "image": "products/2093333/2093333.jpg",
+    "featured": false,
+    "active": true,
+    "timestamp": "2017-12-20T21:13:25.567Z",
+    "is_digital": false
+  }
 },
 {
-    "model": "products.product",
-    "pk": 2,
-    "fields": {
-        "title": "Batman Action Figure",
-        "slug": "batman",
-        "description": "A 5 feet tall Batman action figure.",
-        "price": "499.99",
-        "image": "products/940385/940385.jpg",
-        "featured": false,
-        "active": true,
-        "timestamp": "2017-12-20T21:13:25.567Z"
-    }
+  "model": "products.product",
+  "pk": 2,
+  "fields": {
+    "title": "Batman Action Figure",
+    "slug": "batman",
+    "description": "He is the most feared superhero of all. \r\n\r\nDark Knight. Caped Crusader. World's Greatest Detective, the Defender of Gotham. \r\nWhatever you know him as, wherever you know him from, Batman is proof you don't need superpowers to be a superhero. \r\n\r\nGrab this 3-feet tall awesome action figure!",
+    "price": "499.99",
+    "image": "products/940385/940385.jpg",
+    "featured": true,
+    "active": true,
+    "timestamp": "2017-12-20T21:13:25.567Z",
+    "is_digital": false
+  }
 },
 {
-    "model": "products.product",
-    "pk": 3,
-    "fields": {
-        "title": "Supercomputer",
-        "slug": "supercomputer",
-        "description": "This is a supercomputer which is primarily built for applications in Data Science.",
-        "price": "3000.00",
-        "image": "products/2565608/2565608.jpg",
-        "featured": true,
-        "active": true,
-        "timestamp": "2017-12-20T21:13:25.567Z"
-    }
+  "model": "products.product",
+  "pk": 3,
+  "fields": {
+    "title": "Alienware Gaming Laptop",
+    "slug": "alienware-gaming-laptop",
+    "description": "\u2022 NVIDIA GeForce GTX 1070 for desktop level performance\r\n\u2022 Full HD LED Backlit IPS Anti-glare 300-nits Display\r\n\u2022 1 Year Brand Onsite Warranty\r\n\u2022 Intel Core i7 Processor (7th Gen)\r\n\u2022 16 GB DDR4 RAM\r\n\u2022 64 bit Windows 10 Operating System\r\n\u2022 1 TB HDD|512 GB SSD\r\n\u2022 15.6 inch Display",
+    "price": "3000.00",
+    "image": "products/5610967/5610967.jpeg",
+    "featured": true,
+    "active": true,
+    "timestamp": "2017-12-20T21:13:25.567Z",
+    "is_digital": false
+  }
 },
 {
-    "model": "products.product",
-    "pk": 4,
-    "fields": {
-        "title": "T-shirt",
-        "slug": "t-shirt-w4h6",
-        "description": "This is a programmer t-shirt.",
-        "price": "7.99",
-        "image": "products/4321801/4321801.jpg",
-        "featured": false,
-        "active": true,
-        "timestamp": "2017-12-20T21:13:25.567Z"
-    }
+  "model": "products.product",
+  "pk": 4,
+  "fields": {
+    "title": "Coder T-shirt",
+    "slug": "coder-t-shirt",
+    "description": "1. My code doesn't work, I don't know why.\r\n2. My code works. I don't know why.\r\n\r\nProclaim your love for coding with this geeky T-shirt!",
+    "price": "7.99",
+    "image": "products/4442570/4442570.jpg",
+    "featured": true,
+    "active": true,
+    "timestamp": "2017-12-20T21:13:25.567Z",
+    "is_digital": false
+  }
 },
 {
-    "model": "products.product",
-    "pk": 5,
-    "fields": {
-        "title": "Lorem Ipsum",
-        "slug": "lorem-ipsum",
-        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec suscipit, orci at malesuada condimentum, sapien nisl venenatis nibh, a sollicitudin ligula arcu et sapien. Pellentesque in lorem id velit lobortis venenatis in quis neque. Mauris condimentum arcu dui, eget tristique nibh dictum a. Vestibulum aliquet eu lacus nec mollis. Duis justo elit, volutpat nec porttitor eu, luctus eget libero. Maecenas sed eleifend est. Maecenas ac lacus sapien. Donec quis dignissim quam. Praesent at pellentesque risus, in ullamcorper felis.\r\n\r\nCurabitur venenatis sem nec nulla ullamcorper tincidunt. Duis at ipsum faucibus, vehicula ex lobortis, iaculis enim. Vivamus rutrum dui non risus tincidunt, vitae placerat dui dictum. Morbi iaculis mauris pretium justo fermentum pharetra accumsan non magna. Maecenas feugiat vestibulum facilisis. Quisque ultricies convallis eros nec placerat. Aliquam finibus in neque et iaculis. Pellentesque eu dapibus felis, non sodales sem. Integer id scelerisque massa, a laoreet urna. Suspendisse potenti. Maecenas fermentum nulla sed dapibus aliquet. Ut sed fermentum risus, et laoreet risus. Nam felis diam, interdum iaculis odio eu, porta commodo justo. Ut maximus lorem vitae bibendum luctus.\r\n\r\nSed lectus metus, tempus a viverra sed, varius nec arcu. Etiam venenatis dolor mi, at laoreet libero sodales et. Phasellus imperdiet urna ut odio viverra scelerisque. Nam accumsan euismod nisi vel fermentum. Nam id lacinia dolor. Integer in pretium est. Praesent ipsum velit, tincidunt ac turpis a, eleifend vestibulum eros. Morbi tellus quam, condimentum quis nunc sit amet, tempus feugiat massa. Donec tincidunt aliquam sem ut semper. Morbi eu viverra sem. Nam fermentum gravida enim lobortis euismod.\r\n\r\nPhasellus hendrerit dapibus dui vel molestie. Etiam in nunc non nibh viverra malesuada vel quis libero. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Integer vitae rhoncus dolor, id tempus ex. Cras pellentesque ante sed consectetur feugiat. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Maecenas in sollicitudin turpis. Mauris eget porta felis, vulputate pulvinar neque.\r\n\r\nDonec scelerisque faucibus tempor. Etiam blandit semper euismod. Nulla ex eros, dignissim eget felis quis, rutrum fringilla urna. Vestibulum eget tortor quis nulla congue pulvinar ac nec eros. Integer at vehicula massa. Pellentesque tincidunt enim neque, eget molestie risus fringilla quis. Curabitur tincidunt est ac sem blandit commodo. Quisque at accumsan nisl. Curabitur fringilla arcu quis odio facilisis, vel commodo nulla ultrices. Ut ac ligula euismod, semper nunc sit amet, iaculis leo.",
-        "price": "10.00",
-        "image": "",
-        "featured": false,
-        "active": true,
-        "timestamp": "2017-12-20T21:13:25.567Z"
-    }
+  "model": "products.product",
+  "pk": 5,
+  "fields": {
+    "title": "Caffeine Addict T-shirt",
+    "slug": "caffeine-addict-t-shirt",
+    "description": "Everyone has a weakness. For some people it's coffee. \r\n\r\nStart your every day by wearing this awesome Coffee T-Shirt.",
+    "price": "7.99",
+    "image": "products/5444916/5444916.jpg",
+    "featured": false,
+    "active": true,
+    "timestamp": "2017-12-20T21:13:25.567Z",
+    "is_digital": false
+  }
+},
+{
+  "model": "products.product",
+  "pk": 6,
+  "fields": {
+    "title": "An Introduction to Linux Command Shell [Digital]",
+    "slug": "an-introduction-to-linux-command-shell-digital",
+    "description": "PDF Format of the book.",
+    "price": "5.99",
+    "image": "products/1642845/1642845.jpg",
+    "featured": false,
+    "active": true,
+    "timestamp": "2018-01-13T14:29:21.972Z",
+    "is_digital": true
+  }
+},
+{
+  "model": "products.product",
+  "pk": 7,
+  "fields": {
+    "title": "The Best of CES 2018 Video",
+    "slug": "the-best-of-ces-2018-video",
+    "description": "Watch the best gadgets of CES 2018 in 4k quality.",
+    "price": "15.50",
+    "image": "products/5608862/5608862.jpg",
+    "featured": true,
+    "active": true,
+    "timestamp": "2018-01-13T21:02:47.674Z",
+    "is_digital": true
+  }
+},
+{
+  "model": "products.product",
+  "pk": 8,
+  "fields": {
+    "title": "Top EDM Songs Album [Digital]",
+    "slug": "top-edm-songs-album-digital",
+    "description": "Contains the following songs:\r\n\u2022 Alesso: Heroes\r\n\u2022 Dimitri Vegas & Like Mike: Find Tomorrow\r\n\u2022 Martin Garrix: Animals\r\n\u2022 Martin Garrix: Virus",
+    "price": "10.00",
+    "image": "products/2184742/2184742.jpg",
+    "featured": false,
+    "active": true,
+    "timestamp": "2018-01-13T21:27:32.351Z",
+    "is_digital": true
+  }
+},
+{
+  "model": "products.product",
+  "pk": 9,
+  "fields": {
+    "title": "BB-8 | Star Wars T-shirt",
+    "slug": "bb-8-star-wars-t-shirt",
+    "description": "Are you a droid? Because you look BB-Gr8!\r\n\r\nGrab this awesome BB-8 tee and add it to your Star Wars collection now!",
+    "price": "7.99",
+    "image": "products/4992423/4992423.jpg",
+    "featured": false,
+    "active": true,
+    "timestamp": "2018-01-20T22:34:23.398Z",
+    "is_digital": false
+  }
+},
+{
+  "model": "products.product",
+  "pk": 10,
+  "fields": {
+    "title": "Audio Technica Headphones",
+    "slug": "audio-technica-headphones",
+    "description": "\u2022 Design: Over the Head\r\n\u2022 Compatible With: Audio Player\r\n\u2022 Headphone Jack: 6.35 mm Mini Jack\r\n\u2022 Noise Cancellation: Yes",
+    "price": "749.99",
+    "image": "products/1267913/1267913.jpg",
+    "featured": true,
+    "active": true,
+    "timestamp": "2018-01-20T23:14:13.563Z",
+    "is_digital": false
+  }
+},
+{
+  "model": "products.productfile",
+  "pk": 8,
+  "fields": {
+    "product": 8,
+    "file": "products/top-edm-album-digital/alesso-heroes.mp3",
+    "name": "Alesso - Heroes",
+    "free": false,
+    "user_required": false
+  }
+},
+{
+  "model": "products.productfile",
+  "pk": 9,
+  "fields": {
+    "product": 8,
+    "file": "products/top-edm-songs-album-digital/9/martin-garrix-animals.mp3",
+    "name": "Martin Garrix - Animals",
+    "free": false,
+    "user_required": false
+  }
+},
+{
+  "model": "products.productfile",
+  "pk": 10,
+  "fields": {
+    "product": 8,
+    "file": "products/top-edm-songs-album-digital/10/Dimitri-Vegas-Find-Tomorrow.mp3",
+    "name": "Dimitri Vegas & Like Mike - Find Tomorrow",
+    "free": false,
+    "user_required": false
+  }
+},
+{
+  "model": "products.productfile",
+  "pk": 11,
+  "fields": {
+    "product": 8,
+    "file": "products/top-edm-songs-album-digital/11/martin-garrix-virus.mp3",
+    "name": "Martin Garrix - Virus",
+    "free": false,
+    "user_required": false
+  }
+},
+{
+  "model": "products.productfile",
+  "pk": 12,
+  "fields": {
+    "product": 6,
+    "file": "products/an-introduction-to-linux-command-shell-digital/12/ShellIntro.pdf",
+    "name": "Shell Intro",
+    "free": false,
+    "user_required": false
+  }
+},
+{
+  "model": "products.productfile",
+  "pk": 13,
+  "fields": {
+    "product": 7,
+    "file": "products/movie-star-wars-the-last-jedi/13/best-of-ces-2018.mp4",
+    "name": "Best of CES 2018",
+    "free": false,
+    "user_required": false
+  }
 }
 ]
