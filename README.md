@@ -20,11 +20,11 @@ An E-commerce website built using Django.
 ### Third Party Services
 
 The following third party applications were used in this project
-- **Amazon Web Services (AWS)**: Stores all static and media files.
-- **Heroku**: Used to deploy the project in production environment.
-- **stripe**: Deals with payment related stuff.
-- **sendgrid**: Used to send transactional emails like email-id verification, order completion etc.
-- **mailchimp**: Used to send marketing emails to customers.
+	- **Amazon Web Services (AWS)**: Stores all static and media files.
+	- **Heroku**: Used to deploy the project in production environment.
+	- **stripe**: Deals with payment related stuff.
+	- **sendgrid**: Used to send transactional emails like email-id verification, order completion etc.
+	- **mailchimp**: Used to send marketing emails to customers.
 
 
 ## Instructions for setting up the project
@@ -68,3 +68,8 @@ The following third party applications were used in this project
 `python manage.py collectstatic`
 
 10. If the products are not visible then follow the **Database reloading with fixtures** section in this [guide](notes/notes.md).
+
+
+#### Note:
+
+Due to size issues, only one protected media file has been uploaded. Add the others by uploading them in the **Django Admin**, inside the **Products** section.
