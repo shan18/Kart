@@ -6,9 +6,11 @@ from django.db import models
 from django.db.models import Count, Sum, Avg
 from django.db.models.signals import pre_save, post_save
 from django.core.urlresolvers import reverse
+from django.core.mail import EmailMultiAlternatives
+from django.template.loader import get_template
 from django.utils import timezone
 
-from kart.utils import unique_order_id_generator
+from kart.utils import unique_order_id_generator, render_to_pdf
 from carts.models import Cart
 from billing.models import BillingProfile
 from addresses.models import Address
@@ -135,6 +137,9 @@ class Order(models.Model):
     def get_absolute_url(self):
         return reverse('orders:detail', kwargs={'order_id': self.order_id})
 
+    def get_invoice_url(self):
+        return reverse('orders:detail-invoice', kwargs={'order_id': self.order_id})
+
     def get_status(self):
         if self.status == 'shipped':
             return 'Shipped'
@@ -181,6 +186,34 @@ class Order(models.Model):
                 self.save()
                 self.update_purchases()
         return self.status
+
+    def generate_invoice(self):
+        if self.status == 'paid' or self.status == 'shipped':
+            invoice_data = {
+                'object': self
+            }
+            if self.shipping_address is not None:
+                invoice_data['shipping_address'] = self.shipping_address.get_address()
+            invoice = render_to_pdf('order/invoice.html', invoice_data)
+            return invoice
+        return None
+
+    def send_order_success_email(self):
+        invoice = self.generate_invoice()
+        if invoice is not None:
+            context = {
+                'order_id': self.order_id.upper()
+            }
+            subject = 'Your Order [{id}] with Kart has been confirmed.'.format(id=self.order_id.upper())
+            from_email = settings.DEFAULT_FROM_EMAIL
+            recipient = [self.billing_profile.email]
+            txt_ = get_template('order/order_success.txt').render(context)
+            html_ = get_template('order/order_success.html').render(context)
+
+            mail = EmailMultiAlternatives(subject, txt_, from_email, recipient)
+            mail.attach_alternative(html_, "text/html")
+            mail.attach('invoice.pdf', invoice.getvalue(), 'application/pdf')
+            mail.send()
 
 
 # Generate order_id

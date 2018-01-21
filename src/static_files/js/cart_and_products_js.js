@@ -14,7 +14,6 @@ $(document).ready(function(){
 			method: httpMethod,
 			data: data,
 			success: function(data){
-				console.log(data)
 				if(data.owner) {
 					submitSpan.html("<a class='btn btn-warning' href='/library/'>In Library</a>")
 				}

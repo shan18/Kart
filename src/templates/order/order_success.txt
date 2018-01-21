@@ -1,0 +1,10 @@
+Hi,
+
+Your order [{{ order_id }}] has been placed successfully.
+
+Please find the invoice attached to this email.
+
+
+Thank You,
+
+Team Kart

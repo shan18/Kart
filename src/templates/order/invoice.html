@@ -1,0 +1,89 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+	<head>
+		<title>Invoice</title>
+		<style type="text/css">
+			body {
+				font-weight: 200;
+				font-size: 14px;
+			}
+			.header {
+				font-size: 20px;
+				font-weight: 100;
+				text-align: center;
+				color: #007cae;
+			}
+			.title {
+				font-size: 22px;
+				font-weight: 100;
+				/* text-align: right;*/
+				padding: 10px 20px 0px 20px;  
+			}
+			.title span {
+				color: #007cae;
+			}
+			.details {
+				padding: 10px 20px 0px 20px;
+				text-align: left !important;
+			/*margin-left: 40%;*/
+			}
+			.hrItem {
+				border: none;
+				height: 1px;
+				/* Set the hr color */
+				color: #333; /* old IE */
+				background-color: #fff; /* Modern Browsers */
+			}
+		</style>
+	</head>
+		<body>
+		<div class='wrapper'>
+			<div class='header'>
+				<h1 class='title'><i class="fa fa-shopping-bag" aria-hidden="true"></i> Kart</h1>
+			</div>
+			<div class='details'>
+				<strong>Order # {{ object.order_id }}</strong><br/>
+				Bill to: {{ object.billing_profile.email }}<br/>
+				Date: {{ object.updated.date }}<br/>
+				{% if object.shipping_address.get_address %}
+				Shipping Address: {{ object.shipping_address.get_address }}<br/>
+				{% endif %}
+				Billing Address: {{ object.billing_address.get_address }}
+				<hr class='hrItem' />
+				<table class="table">
+					<thead>
+						<tr>
+							<th scope="col">#</th>
+							<th scope="col">Product Name</th>
+							<th scope="col">Product Price</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for product in object.cart.products.all %}
+							<tr>
+								<th scope="row">{{ forloop.counter }}</th>
+								<td>{{ product.title }}</td>
+								<td>$ {{ product.price }}</td>
+							</tr>
+						{% endfor %}
+						{% if object.shipping_total > 0 %}
+							<tr>
+								<td colspan="2"></td>
+								<td><b>Subtotal</b>: $ {{ object.cart.total }}</td>
+							</tr>
+							<tr>
+								<td colspan="2"></td>
+								<td><b>Shipping</b>: $ {{ object.shipping_total }}</td>
+							</tr>
+						{% endif %}
+						<tr>
+							<td colspan=2></td>
+							<td><b>Total</b>: $ {{ object.total }}</td>
+						</tr>
+					</tbody>
+				</table>
+				<hr class='hrItem' />
+			</div>
+		</div>
+	</body>
+</html>

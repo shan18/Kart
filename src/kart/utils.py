@@ -3,8 +3,14 @@ import random
 import string
 import datetime 
 
+from io import BytesIO
+
 from django.utils import timezone
 from django.utils.text import slugify
+from django.http import HttpResponse
+from django.template.loader import get_template
+
+from xhtml2pdf import pisa
 
 
 def get_filename(path):
@@ -99,3 +105,13 @@ def get_month_data_range(months_ago=1, include_this_month=False):
         })
     #dates_.reverse()
     return dates_ 
+
+
+def render_to_pdf(template_src, context_dict={}):
+    template = get_template(template_src)
+    html = template.render(context_dict)
+    result = BytesIO()
+    pdf = pisa.pisaDocument(BytesIO(html.encode("ISO-8859-1")), result)
+    if not pdf.err:
+        return HttpResponse(result.getvalue(), content_type='application/pdf')
+    return None
