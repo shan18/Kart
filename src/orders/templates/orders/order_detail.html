@@ -26,6 +26,7 @@
 		{% endif %}
 		<p>Order Total: {{ object.total }}</p>
 		<p>Order Status: {{ object.get_status }}</p>
+		<p><a href="{{ object.get_invoice_url }}" target="blank">{{ object.order_id }}.pdf</a></p>
 	</div>
 </div>
 
