@@ -99,7 +99,7 @@ class Product(models.Model):
         return self.title
 
     def get_downloads(self):
-        qs = self.productfile_set.all()
+        qs = self.productfile_set.all().order_by('name')
         return qs
 
 
