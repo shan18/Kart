@@ -48,10 +48,11 @@ class Cart(models.Model):
     def __str__(self):
         return str(self.id)
 
-    def non_digital_products_total(self):
-        qs = self.products.filter(is_digital=False)
-        total = qs.aggregate(Sum('price'))
-        return total.get('price__sum')
+    @property
+    def has_tax(self):
+        if self.subtotal != self.total:
+            return True
+        return False
 
     @property
     def is_digital(self):
@@ -59,6 +60,16 @@ class Cart(models.Model):
         if qs.exists():
             return False
         return True
+
+    def get_tax(self):
+        if self.has_tax:
+            return self.total - self.subtotal
+        return None
+
+    def non_digital_products_total(self):
+        qs = self.products.filter(is_digital=False)
+        total = qs.aggregate(Sum('price'))
+        return total.get('price__sum')
 
 
 def m2m_changed_cart_receiver(sender, instance, action, *args, **kwargs):

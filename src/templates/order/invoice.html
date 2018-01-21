@@ -66,11 +66,23 @@
 								<td>$ {{ product.price }}</td>
 							</tr>
 						{% endfor %}
-						{% if object.shipping_total > 0 %}
+						{% if object.cart.has_tax %}
 							<tr>
 								<td colspan="2"></td>
-								<td><b>Subtotal</b>: $ {{ object.cart.total }}</td>
+								<td><b>Subtotal</b>: <span class="cart-subtotal">$ {{ object.cart.subtotal }}</span></td>
 							</tr>
+							<tr>
+								<td colspan="2"></td>
+								<td><b>Tax</b>: <span class="cart-subtotal">$ {{ object.cart.get_tax }}</span></td>
+							</tr>
+						{% endif %}
+						{% if object.shipping_total > 0 %}
+							{% if not object.cart.has_tax %}
+								<tr>
+									<td colspan="2"></td>
+									<td><b>Subtotal</b>: $ {{ object.cart.total }}</td>
+								</tr>
+							{% endif %}
 							<tr>
 								<td colspan="2"></td>
 								<td><b>Shipping</b>: $ {{ object.shipping_total }}</td>

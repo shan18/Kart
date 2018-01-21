@@ -14,18 +14,24 @@
 </div>
 <div class="row">
 	<div class="col-12 col-md-6 mx-auto">
-		<p>Cart Items: {% for product in object.cart.products.all %}{{ product }}{% if not forloop.last %}, {% endif %}{% endfor %}</p>
+		<p><b>Cart Items:</b> {% for product in object.cart.products.all %}{{ product }}{% if not forloop.last %}, {% endif %}{% endfor %}</p>
 		{% if object.shipping_address.get_address %}
-			<p>Shipping Address: {{ object.shipping_address.get_address }}</p>
+			<p><b>Shipping Address:</b> {{ object.shipping_address.get_address }}</p>
 		{% endif %}
-		<p>Billing Address: {{ object.billing_address.get_address }}</p>
-		<p>Payment Method: {{ object.billing_profile.default_card }}</p>
+		<p><b>Billing Address:</b> {{ object.billing_address.get_address }}</p>
+		<p><b>Payment Method:</b> {{ object.billing_profile.default_card }}</p>
+		{% if object.cart.has_tax %}
+			<p><b>Subtotal:</b> $ {{ object.cart.subtotal }}</p>
+			<p><b>Tax:</b> $ {{ object.cart.get_tax }}</p>
+		{% endif %}
 		{% if object.shipping_total > 0 %}
-			<p>Subtotal: {{ object.cart.total }}</p>
-			<p>Shipping Charges: {{ object.shipping_total }}</p>
+			{% if not object.cart.has_tax %}
+				<p><b>Subtotal:</b> $ {{ object.cart.total }}</p>
+			{% endif %}
+			<p><b>Shipping:</b> $ {{ object.shipping_total }}</p>
 		{% endif %}
-		<p>Order Total: {{ object.total }}</p>
-		<p>Order Status: {{ object.get_status }}</p>
+		<p><b>Total:</b> {{ object.total }}</p>
+		<p><b>Status:</b> {{ object.get_status }}</p>
 		<p><a href="{{ object.get_invoice_url }}" target="blank">{{ object.order_id }}.pdf</a></p>
 	</div>
 </div>
