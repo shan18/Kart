@@ -76,6 +76,7 @@ class Mailchimp(object):
         # it is unsafe to send data in url directly, so the api uses the hashed form for security
         endpoint = self.get_members_endpoint() + '/' + hashed_email
         data = {
+            'email_address': email,
             'status': self.check_valid_status(status)
         }
         r = requests.put(endpoint, auth=("", self.key), data=json.dumps(data))

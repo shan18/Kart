@@ -235,6 +235,7 @@ class RegisterView(AnonymousRequiredMixin, CreateView):
 
     def form_valid(self, form):
         super(RegisterView, self).form_valid(form)
+        messages.success(self.request, 'Verification link sent! Please check your email.')
         if self.request.is_ajax():
             return JsonResponse({'success': True, 'next_path': self.success_url})
         return redirect(self.success_url)
