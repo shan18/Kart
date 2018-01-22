@@ -1,5 +1,8 @@
 from django.shortcuts import render, redirect
+from django.http import Http404
 from django.utils.http import is_safe_url
+from django.views.generic import ListView, UpdateView
+from django.core.urlresolvers import reverse
 
 from .forms import AddressForm
 from .models import Address
@@ -51,3 +54,38 @@ def checkout_address_reuse_view(request):
                     return redirect(redirect_path)
                     
     return redirect('cart:checkout')
+
+
+class AddressListView(ListView):
+    template_name = 'addresses/list.html'
+
+    def get_queryset(self):
+        return Address.objects.by_request(self.request)
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(AddressListView, self).get_context_data(*args, **kwargs)
+        context['edit_address'] = True
+        return context
+
+
+class AddressUpdateView(UpdateView):
+    form_class = AddressForm
+    template_name = 'addresses/detail_update.html'
+
+    def get_object(self):
+        qs = Address.objects.by_request(self.request).filter(pk=self.kwargs.get('address_id'))
+        if qs.count() == 1:
+            return qs.first()
+        raise Http404
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(AddressUpdateView, self).get_context_data(*args, **kwargs)
+        context['title'] = 'Edit Address'
+        return context
+
+    def get_success_url(self):
+        '''
+        This is used instead of using the class variable 'success_url' because class variable
+        cannot be used with reverse
+        '''
+        return reverse('address:list')

@@ -10,10 +10,12 @@ class AddressForm(forms.ModelForm):
         fields = [
             # 'billing_profile',
             # 'address_type',
+            'name',
             'address_line_1',
             'address_line_2',
             'city',
             'state',
             'country',
-            'postal_code'
+            'postal_code',
+            'phone_number'
         ]

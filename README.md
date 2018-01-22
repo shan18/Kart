@@ -12,14 +12,14 @@ An E-commerce website built using Django.
 
 
 ### Tools Used
+
 - **Python** - Django
 - **Javascript** - jQuery, Ajax, jsrender, Chart.js
 - **Bootstrap**
 
 
-### Third Party Services
+### Third Party Services Used
 
-The following third party applications were used in this project:  
 - **Amazon Web Services (AWS)**: Stores all static and media files.
 - **Heroku**: Used to deploy the project in production environment.
 - **stripe**: Deals with payment related stuff.
@@ -33,7 +33,9 @@ The following third party applications were used in this project:
 `git clone `
 
 2. Create a virtual environment and install the requirements  
-`pip install -r requirements.txt`
+`pip install -r requirements.txt`  
+After installing the requirements, install this package separately  
+`pip install --pre xhtml2pdf`
 
 3. Rename the file **credentials-sample.py** in *src/kart/* to **credentials.py** and replace the value of `SECRET_KEY` with the secret key of your own project. To generate a new secret key
 	- Go to terminal and create a new django project `django-admin startproject <proj-name>`.

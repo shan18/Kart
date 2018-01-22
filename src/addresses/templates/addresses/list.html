@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block base_head %}
+<title>Saved Addresses</title>
+{% endblock %}
+
+{% block content %}
+
+<div class="row">
+	<div class="col-12 my-2">
+		<h1>Saved Addresses</h1>
+	</div>
+</div>
+<hr/>
+<div class="row">
+	{% for address in object_list %}
+		<div class="col-12 col-md-3 my-2">
+			{% include 'addresses/snippets/address_card.html' with object=address %}
+		</div>
+	{% endfor %}
+</div>
+
+{% endblock %}
