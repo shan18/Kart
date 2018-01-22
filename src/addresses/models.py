@@ -49,6 +49,9 @@ class Address(models.Model):
     def get_absolute_url(self):
         return reverse('address:update', kwargs={'address_id': self.pk})
 
+    def get_delete_url(self):
+        return reverse('address:delete', kwargs={'address_id': self.pk})
+
     def get_address(self):
         return "{line1}\n{line2}\n{city}\n{state}, {postal}\n{country}\nPhone number: {phone_number}".format(
             line1 = self.address_line_1,

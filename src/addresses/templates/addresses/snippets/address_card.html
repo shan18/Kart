@@ -7,7 +7,9 @@
 		</p>
 		{% if edit_address %}
 			<a href="{{ object.get_absolute_url }}" class="card-link">Edit</a>
-			<!-- <a href="#" class="card-link">Delete</a> -->
+			<a href="" class="card-link delete-address">Delete</a>
+			<form class='delete-address-form' action="{{ object.get_delete_url }}" method='POST'> {% csrf_token %}
+			</form>
 		{% endif %}
 	</div>
 </div>

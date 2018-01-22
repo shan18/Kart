@@ -1,8 +1,10 @@
 from django.shortcuts import render, redirect
-from django.http import Http404
+from django.http import Http404, JsonResponse
 from django.utils.http import is_safe_url
-from django.views.generic import ListView, UpdateView
+from django.views.generic import ListView, UpdateView, DeleteView
 from django.core.urlresolvers import reverse
+from django.contrib import messages
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from .forms import AddressForm
 from .models import Address
@@ -56,7 +58,7 @@ def checkout_address_reuse_view(request):
     return redirect('cart:checkout')
 
 
-class AddressListView(ListView):
+class AddressListView(LoginRequiredMixin, ListView):
     template_name = 'addresses/list.html'
 
     def get_queryset(self):
@@ -68,7 +70,7 @@ class AddressListView(ListView):
         return context
 
 
-class AddressUpdateView(UpdateView):
+class AddressUpdateView(LoginRequiredMixin, UpdateView):
     form_class = AddressForm
     template_name = 'addresses/detail_update.html'
 
@@ -88,4 +90,21 @@ class AddressUpdateView(UpdateView):
         This is used instead of using the class variable 'success_url' because class variable
         cannot be used with reverse
         '''
+        return reverse('address:list')
+
+
+class AddressDeleteView(LoginRequiredMixin, DeleteView):
+    success_message = "Address deleted successfully."
+
+    def get_object(self):
+        qs = Address.objects.by_request(self.request).filter(pk=self.kwargs.get('address_id'))
+        if qs.count() == 1:
+            return qs.first()
+        raise Http404
+
+    def delete(self, *args, **kwargs):
+        messages.success(self.request, self.success_message)
+        return super(AddressDeleteView, self).delete(*args, **kwargs)
+
+    def get_success_url(self):
         return reverse('address:list')
