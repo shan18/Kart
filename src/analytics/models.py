@@ -3,6 +3,7 @@ from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.sessions.models import Session
 from django.db import models
+from django.db.models import Q
 from django.db.models.signals import post_save
 
 from .signals import object_viewed_signal
@@ -13,7 +14,7 @@ from accounts.signals import user_session_signal
 User = settings.AUTH_USER_MODEL
 
 # To disable the post_save connectors
-FORCE_SESSION_TO_ONE = getattr(settings, 'FORCE_SESSION_TO_ONE', False)
+FORCE_ONE_SESSION = getattr(settings, 'FORCE_ONE_SESSION', False)
 FORCE_INACTIVE_USER_END_SESSION = getattr(settings, 'FORCE_INACTIVE_USER_END_SESSION', False)
 
 
@@ -83,6 +84,21 @@ def object_viewed_receiver(sender, instance, request, *args, **kwargs):
 object_viewed_signal.connect(object_viewed_receiver)
 
 
+class UserSessionQuerySet(models.query.QuerySet):
+
+    def delete_inactive(self):
+        self.filter(Q(active=False) | Q(ended=True)).delete()
+
+
+class UserSessionManager(models.Manager):
+
+    def get_queryset(self):
+        return UserSessionQuerySet(self.model, using=self._db)
+
+    def delete_inactive(self):
+        self.get_queryset().delete_inactive()
+
+
 class UserSession(models.Model):
     user = models.ForeignKey(User, blank=True, null=True)
     ip_address = models.CharField(max_length=220, blank=True, null=True)
@@ -90,6 +106,8 @@ class UserSession(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
     active = models.BooleanField(default=True)  # session active
     ended = models.BooleanField(default=False)  # session ended --> logged out
+
+    objects = UserSessionManager()
 
     def __str__(self):
         return self.user.email
@@ -100,8 +118,8 @@ class UserSession(models.Model):
             self.ended = True
             self.active = False
             self.save()
-        except:
-            pass
+        except Exception as e:
+            print(e)
         return self.ended
 
 
@@ -118,14 +136,14 @@ user_session_signal.connect(user_session_receiver)
 def post_save_session_receiver(sender, instance, created, *args, **kwargs):
     if created:
         # When user logs in, delete all the sessions related to the user except the current one
+        session_limit = getattr(settings, 'SESSION_LIMIT')
         qs = UserSession.objects.filter(user=instance.user).exclude(id=instance.id)
-        for session in qs:
-            session.end_session()
+        qs.update(active=False, ended=True)
 
     if not instance.active and not instance.ended:
         instance.end_session()
 
-if FORCE_SESSION_TO_ONE:
+if FORCE_ONE_SESSION:
     post_save.connect(post_save_session_receiver, sender=UserSession)
 
 
@@ -133,9 +151,10 @@ def post_save_user_changed_receiver(sender, instance, created, *args, **kwargs):
     if not created:
         # if user becomes inactive, delete all of its inactive sessions
         if not instance.is_active:
-            qs = UserSession.objects.filter(user=instance.user, ended=False, active=False)
+            qs = UserSession.objects.filter(user=instance, ended=False)
             for session in qs:
-                session.end_session()
+                print(session.end_session())
+            UserSession.objects.filter(user=instance).delete_inactive()
 
 if FORCE_INACTIVE_USER_END_SESSION:
     post_save.connect(post_save_user_changed_receiver, sender=User)

@@ -54,8 +54,8 @@ MAILCHIMP_DATA_CENTER = os.environ.get('MAILCHIMP_DATA_CENTER')
 MAILCHIMP_EMAIL_LIST_ID = os.environ.get('MAILCHIMP_EMAIL_LIST_ID')
 
 # use session management attributes
-FORCE_SESSION_TO_ONE = False
-FORCE_INACTIVE_USER_END_SESSION = False
+FORCE_ONE_SESSION = False
+FORCE_INACTIVE_USER_END_SESSION = True
 
 
 # Application definition
