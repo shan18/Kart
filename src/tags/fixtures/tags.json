@@ -1,0 +1,377 @@
+[
+{
+  "model": "tags.tag",
+  "pk": 1,
+  "fields": {
+    "title": "tee",
+    "slug": "tee",
+    "timestamp": "2018-01-23T05:19:08.329Z",
+    "active": true,
+    "products": [
+      1,
+      4,
+      5,
+      9
+    ]
+  }
+},
+{
+  "model": "tags.tag",
+  "pk": 2,
+  "fields": {
+    "title": "tshirt",
+    "slug": "tshirt",
+    "timestamp": "2018-01-23T05:19:54.987Z",
+    "active": true,
+    "products": [
+      1,
+      4,
+      5,
+      9
+    ]
+  }
+},
+{
+  "model": "tags.tag",
+  "pk": 3,
+  "fields": {
+    "title": "Tshirt",
+    "slug": "Tshirt",
+    "timestamp": "2018-01-23T05:20:26.178Z",
+    "active": true,
+    "products": [
+      1,
+      4,
+      5,
+      9
+    ]
+  }
+},
+{
+  "model": "tags.tag",
+  "pk": 4,
+  "fields": {
+    "title": "t - shirt",
+    "slug": "t-shirt",
+    "timestamp": "2018-01-23T05:21:28.780Z",
+    "active": true,
+    "products": [
+      1,
+      4,
+      5,
+      9
+    ]
+  }
+},
+{
+  "model": "tags.tag",
+  "pk": 5,
+  "fields": {
+    "title": "t shirt",
+    "slug": "t-shirt",
+    "timestamp": "2018-01-23T05:22:23.155Z",
+    "active": true,
+    "products": [
+      1,
+      4,
+      5,
+      9
+    ]
+  }
+},
+{
+  "model": "tags.tag",
+  "pk": 6,
+  "fields": {
+    "title": "clothes",
+    "slug": "clothes",
+    "timestamp": "2018-01-23T05:23:19.177Z",
+    "active": true,
+    "products": [
+      1,
+      4,
+      5,
+      9
+    ]
+  }
+},
+{
+  "model": "tags.tag",
+  "pk": 7,
+  "fields": {
+    "title": "clothing",
+    "slug": "clothing",
+    "timestamp": "2018-01-23T05:24:09.836Z",
+    "active": true,
+    "products": [
+      1,
+      4,
+      5,
+      9
+    ]
+  }
+},
+{
+  "model": "tags.tag",
+  "pk": 8,
+  "fields": {
+    "title": "shoes",
+    "slug": "shoes",
+    "timestamp": "2018-01-23T05:24:47.067Z",
+    "active": true,
+    "products": [
+      13
+    ]
+  }
+},
+{
+  "model": "tags.tag",
+  "pk": 9,
+  "fields": {
+    "title": "footwear",
+    "slug": "footwear",
+    "timestamp": "2018-01-23T05:25:05.887Z",
+    "active": true,
+    "products": [
+      13
+    ]
+  }
+},
+{
+  "model": "tags.tag",
+  "pk": 10,
+  "fields": {
+    "title": "black shoes",
+    "slug": "black-shoes",
+    "timestamp": "2018-01-23T05:25:59.859Z",
+    "active": true,
+    "products": [
+      13
+    ]
+  }
+},
+{
+  "model": "tags.tag",
+  "pk": 11,
+  "fields": {
+    "title": "superhero",
+    "slug": "superhero",
+    "timestamp": "2018-01-23T05:27:08.592Z",
+    "active": true,
+    "products": [
+      1,
+      2
+    ]
+  }
+},
+{
+  "model": "tags.tag",
+  "pk": 12,
+  "fields": {
+    "title": "digital",
+    "slug": "digital",
+    "timestamp": "2018-01-23T05:28:12.127Z",
+    "active": true,
+    "products": [
+      6,
+      7,
+      8,
+      14
+    ]
+  }
+},
+{
+  "model": "tags.tag",
+  "pk": 13,
+  "fields": {
+    "title": "movie",
+    "slug": "movie",
+    "timestamp": "2018-01-23T05:28:31.168Z",
+    "active": true,
+    "products": [
+      7,
+      14
+    ]
+  }
+},
+{
+  "model": "tags.tag",
+  "pk": 14,
+  "fields": {
+    "title": "game",
+    "slug": "game",
+    "timestamp": "2018-01-23T05:28:45.956Z",
+    "active": true,
+    "products": [
+      15
+    ]
+  }
+},
+{
+  "model": "tags.tag",
+  "pk": 15,
+  "fields": {
+    "title": "console",
+    "slug": "console",
+    "timestamp": "2018-01-23T05:29:23.374Z",
+    "active": true,
+    "products": [
+      15
+    ]
+  }
+},
+{
+  "model": "tags.tag",
+  "pk": 16,
+  "fields": {
+    "title": "gaming console",
+    "slug": "gaming-console",
+    "timestamp": "2018-01-23T05:29:40.415Z",
+    "active": true,
+    "products": [
+      15
+    ]
+  }
+},
+{
+  "model": "tags.tag",
+  "pk": 17,
+  "fields": {
+    "title": "book",
+    "slug": "book",
+    "timestamp": "2018-01-23T05:30:35.552Z",
+    "active": true,
+    "products": [
+      6
+    ]
+  }
+},
+{
+  "model": "tags.tag",
+  "pk": 18,
+  "fields": {
+    "title": "ebook",
+    "slug": "ebook",
+    "timestamp": "2018-01-23T05:30:59.826Z",
+    "active": true,
+    "products": [
+      6
+    ]
+  }
+},
+{
+  "model": "tags.tag",
+  "pk": 19,
+  "fields": {
+    "title": "bash",
+    "slug": "bash",
+    "timestamp": "2018-01-23T05:31:10.402Z",
+    "active": true,
+    "products": [
+      6
+    ]
+  }
+},
+{
+  "model": "tags.tag",
+  "pk": 20,
+  "fields": {
+    "title": "audio",
+    "slug": "audio",
+    "timestamp": "2018-01-23T05:31:38.343Z",
+    "active": true,
+    "products": [
+      8,
+      10
+    ]
+  }
+},
+{
+  "model": "tags.tag",
+  "pk": 21,
+  "fields": {
+    "title": "music",
+    "slug": "music",
+    "timestamp": "2018-01-23T05:31:53.654Z",
+    "active": true,
+    "products": [
+      8,
+      10
+    ]
+  }
+},
+{
+  "model": "tags.tag",
+  "pk": 22,
+  "fields": {
+    "title": "electronics",
+    "slug": "electronics",
+    "timestamp": "2018-01-23T05:32:23.118Z",
+    "active": true,
+    "products": [
+      3,
+      10,
+      11,
+      12,
+      15
+    ]
+  }
+},
+{
+  "model": "tags.tag",
+  "pk": 23,
+  "fields": {
+    "title": "phone",
+    "slug": "phone",
+    "timestamp": "2018-01-23T05:33:51.917Z",
+    "active": true,
+    "products": [
+      11
+    ]
+  }
+},
+{
+  "model": "tags.tag",
+  "pk": 24,
+  "fields": {
+    "title": "mobile",
+    "slug": "mobile",
+    "timestamp": "2018-01-23T05:34:04.047Z",
+    "active": true,
+    "products": [
+      11
+    ]
+  }
+},
+{
+  "model": "tags.tag",
+  "pk": 25,
+  "fields": {
+    "title": "television",
+    "slug": "television",
+    "timestamp": "2018-01-23T05:34:26.781Z",
+    "active": true,
+    "products": [
+      12
+    ]
+  }
+},
+{
+  "model": "tags.tag",
+  "pk": 26,
+  "fields": {
+    "title": "black",
+    "slug": "black",
+    "timestamp": "2018-01-23T05:35:25.518Z",
+    "active": true,
+    "products": [
+      1,
+      2,
+      5,
+      11,
+      13,
+      15
+    ]
+  }
+}
+]

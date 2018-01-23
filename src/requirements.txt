@@ -31,3 +31,4 @@ smmap2==2.0.1
 stripe==1.75.0
 urllib3==1.22
 wheel==0.30.0
+xhtml2pdf==0.2b1

@@ -150,14 +150,78 @@
   }
 },
 {
-  "model": "products.productfile",
-  "pk": 8,
+  "model": "products.product",
+  "pk": 11,
   "fields": {
-    "product": 8,
-    "file": "products/top-edm-album-digital/alesso-heroes.mp3",
-    "name": "Alesso - Heroes",
-    "free": false,
-    "user_required": false
+    "title": "Google Pixel 2 (Just Black, 64 GB)",
+    "slug": "google-pixel-2-just-black-64-gb",
+    "description": "\u2022 4 GB RAM | 64 GB ROM |\r\n\u2022 5.0 inch Full HD Display\r\n\u2022 12.2MP Rear Camera | 8MP Front Camera\r\n\u2022 2700 mAh Battery\r\n\u2022 Qualcomm Snapdragon 835 64-bit Octa Core Processor\r\n\u2022 Android Oreo 8.0.1 | Stock Android Version\r\n\u2022 Free Unlimited Storage in Google Photos\r\n\u2022 Water Resistant",
+    "price": "750.00",
+    "image": "products/5346159/5346159.jpg",
+    "featured": true,
+    "active": true,
+    "timestamp": "2018-01-23T04:53:56.166Z",
+    "is_digital": false
+  }
+},
+{
+  "model": "products.product",
+  "pk": 12,
+  "fields": {
+    "title": "Samsung (75 inch) Ultra HD LED Smart TV",
+    "slug": "samsung-75-inch-ultra-hd-led-smart-tv",
+    "description": "\u2022 40 W Speaker Output\r\n\u2022 3840 x 2160 Ultra HD - 4X resolution of Full HD- More depth in every picture\r\n\u2022 200 Hz : Blur free picture, Smoother movements in videos\r\n\u2022 4 x HDMI : Plug in lots of devices at once\r\n\u2022 3 x USB : Easily connect your digital camera, camcorder or USB device",
+    "price": "7499.99",
+    "image": "products/3379515/3379515.jpg",
+    "featured": true,
+    "active": true,
+    "timestamp": "2018-01-23T05:00:36.423Z",
+    "is_digital": false
+  }
+},
+{
+  "model": "products.product",
+  "pk": 13,
+  "fields": {
+    "title": "Adidas TERREX GTX Outdoor Shoes",
+    "slug": "adidas-terrex-gtx-outdoor-shoes",
+    "description": "\u2022 Colour: Black\r\n\u2022 Outer Material: Synthetic Leather",
+    "price": "319.99",
+    "image": "products/2210529/2210529.jpg",
+    "featured": false,
+    "active": true,
+    "timestamp": "2018-01-23T05:04:04.062Z",
+    "is_digital": false
+  }
+},
+{
+  "model": "products.product",
+  "pk": 14,
+  "fields": {
+    "title": "Star Wars- The Last Jedi [Blu-Ray]",
+    "slug": "star-wars-the-last-jedi-blu-ray",
+    "description": "Watch the Episode VIII of this epic series in Blu-Ray quality. Buy it now!",
+    "price": "50.00",
+    "image": "products/4028139/4028139.jpg",
+    "featured": false,
+    "active": true,
+    "timestamp": "2018-01-23T05:12:14.210Z",
+    "is_digital": true
+  }
+},
+{
+  "model": "products.product",
+  "pk": 15,
+  "fields": {
+    "title": "Sony PlayStation 4 (PS4) Pro 1 TB",
+    "slug": "sony-playstation-4-ps4-pro-1-tb",
+    "description": "\u2022 Color: Black\r\n\u2022 PlayStation 4 (PS4) Pro\r\n\u2022 1 Playstation Unit\r\n\u2022 Console\r\n\u2022 PS4 Pro HD\r\n\u2022 Dynamic 4K Gaming",
+    "price": "519.99",
+    "image": "products/4961239/4961239.jpg",
+    "featured": false,
+    "active": true,
+    "timestamp": "2018-01-23T05:16:39.173Z",
+    "is_digital": false
   }
 },
 {
@@ -206,13 +270,35 @@
 },
 {
   "model": "products.productfile",
-  "pk": 13,
+  "pk": 14,
   "fields": {
     "product": 7,
-    "file": "products/movie-star-wars-the-last-jedi/13/best-of-ces-2018.mp4",
+    "file": "products/the-best-of-ces-2018-video/13/best-of-ces-2018.mp4",
     "name": "Best of CES 2018",
     "free": false,
     "user_required": false
+  }
+},
+{
+  "model": "products.productfile",
+  "pk": 15,
+  "fields": {
+    "product": 8,
+    "file": "products/top-edm-songs-album-digital/15/alesso-heroes.mp3",
+    "name": "Alesso - Heroes",
+    "free": false,
+    "user_required": false
+  }
+},
+{
+  "model": "products.productfile",
+  "pk": 16,
+  "fields": {
+    "product": 14,
+    "file": "products/star-wars-the-last-jedi-blu-ray/16/Star_Wars-_The_Last_Jedi.mp4",
+    "name": "Star Wars- The Last Jedi",
+    "free": false,
+    "user_required": true
   }
 }
 ]
