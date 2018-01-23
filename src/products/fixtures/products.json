@@ -53,7 +53,7 @@
     "description": "1. My code doesn't work, I don't know why.\r\n2. My code works. I don't know why.\r\n\r\nProclaim your love for coding with this geeky T-shirt!",
     "price": "7.99",
     "image": "products/4442570/4442570.jpg",
-    "featured": true,
+    "featured": false,
     "active": true,
     "timestamp": "2017-12-20T21:13:25.567Z",
     "is_digital": false
@@ -98,7 +98,7 @@
     "description": "Watch the best gadgets of CES 2018 in 4k quality.",
     "price": "15.50",
     "image": "products/5608862/5608862.jpg",
-    "featured": true,
+    "featured": false,
     "active": true,
     "timestamp": "2018-01-13T21:02:47.674Z",
     "is_digital": true
@@ -221,6 +221,51 @@
     "featured": false,
     "active": true,
     "timestamp": "2018-01-23T05:16:39.173Z",
+    "is_digital": false
+  }
+},
+{
+  "model": "products.product",
+  "pk": 16,
+  "fields": {
+    "title": "Samsung 826 L Frost Free French Door Refrigerator",
+    "slug": "samsung-826-l-frost-free-french-door-refrigerator",
+    "description": "\u2022 826 L : Good for large families\r\n\u2022 Digital Inverter Compressor : Consumes lower electricity in comparison to a Normal compressor\r\n\u2022 Inverter\r\n\u2022 Frost Free : Auto fridge defrost to stop ice-build up\r\n\u2022 Recommended to purchase a separate voltage stabilizer",
+    "price": "3927.37",
+    "image": "products/2842614/2842614.jpg",
+    "featured": false,
+    "active": true,
+    "timestamp": "2018-01-23T07:39:06.585Z",
+    "is_digital": false
+  }
+},
+{
+  "model": "products.product",
+  "pk": 17,
+  "fields": {
+    "title": "Cannondale Synapse Carbon Ultegra 3C",
+    "slug": "cannondale-synapse-carbon-ultegra-3c",
+    "description": "\u2022 Rider Height: 168 cm, 175 cm\r\n\u2022 Ideal For: Men, Women\r\n\u2022 Fork: Front | Frame Material: Carbon\r\n\u2022 Brake Type: Caliper Brake | Gear: 20 Speed\r\n\u2022 Tire Size: 29 inch | Frame Size:21 inch",
+    "price": "3104.62",
+    "image": "products/5461158/5461158.jpg",
+    "featured": false,
+    "active": true,
+    "timestamp": "2018-01-23T07:42:46.145Z",
+    "is_digital": false
+  }
+},
+{
+  "model": "products.product",
+  "pk": 18,
+  "fields": {
+    "title": "Nikon D5 DSLR Camera (Body Only)",
+    "slug": "nikon-d5-dslr-camera-body-only",
+    "description": "\u2022 Effective Pixels: 20.8 MP\r\n\u2022 Sensor Type: CMOS",
+    "price": "6992.50",
+    "image": "products/1198206/1198206.jpeg",
+    "featured": false,
+    "active": true,
+    "timestamp": "2018-01-23T07:47:51.473Z",
     "is_digital": false
   }
 },

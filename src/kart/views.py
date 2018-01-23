@@ -5,12 +5,14 @@ from django.core.mail import send_mail
 from django.template.loader import get_template
 
 from .forms import ContactForm
+from products.models import Product
 
 
 def home_page(request):
     context = {
-        "title": "Home",
-        "content": "Welcome to the homepage."
+        'title': "Home",
+        'featured_products': Product.objects.featured().order_by('-timestamp'),
+        'digital_products': Product.objects.filter(is_digital=True)
     }
     if request.user.is_authenticated():
         context['premium_content'] = 'You are now a member!'

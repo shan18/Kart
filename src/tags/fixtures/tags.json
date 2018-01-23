@@ -313,7 +313,9 @@
       10,
       11,
       12,
-      15
+      15,
+      16,
+      18
     ]
   }
 },
@@ -370,7 +372,85 @@
       5,
       11,
       13,
-      15
+      15,
+      18
+    ]
+  }
+},
+{
+  "model": "tags.tag",
+  "pk": 27,
+  "fields": {
+    "title": "appliances",
+    "slug": "appliances",
+    "timestamp": "2018-01-23T08:08:23.756Z",
+    "active": true,
+    "products": [
+      12,
+      16
+    ]
+  }
+},
+{
+  "model": "tags.tag",
+  "pk": 28,
+  "fields": {
+    "title": "photograph",
+    "slug": "photograph",
+    "timestamp": "2018-01-23T08:08:43.321Z",
+    "active": true,
+    "products": [
+      18
+    ]
+  }
+},
+{
+  "model": "tags.tag",
+  "pk": 29,
+  "fields": {
+    "title": "sports",
+    "slug": "sports",
+    "timestamp": "2018-01-23T08:09:15.010Z",
+    "active": true,
+    "products": [
+      17
+    ]
+  }
+},
+{
+  "model": "tags.tag",
+  "pk": 30,
+  "fields": {
+    "title": "bike",
+    "slug": "bike",
+    "timestamp": "2018-01-23T08:09:25.589Z",
+    "active": true,
+    "products": [
+      17
+    ]
+  }
+},
+{
+  "model": "tags.tag",
+  "pk": 31,
+  "fields": {
+    "title": "cycle",
+    "slug": "cycle",
+    "timestamp": "2018-01-23T08:09:35.209Z",
+    "active": true,
+    "products": []
+  }
+},
+{
+  "model": "tags.tag",
+  "pk": 32,
+  "fields": {
+    "title": "dell",
+    "slug": "dell",
+    "timestamp": "2018-01-23T08:10:31.966Z",
+    "active": true,
+    "products": [
+      3
     ]
   }
 }
