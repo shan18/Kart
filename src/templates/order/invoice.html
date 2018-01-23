@@ -48,7 +48,7 @@
 				{% if object.shipping_address.get_address %}
 				Shipping Address: {{ object.shipping_address.get_address }}<br/>
 				{% endif %}
-				Billing Address: {{ object.billing_address.get_address }}
+				Billing Address: {% if object.billing_address %}{{ object.billing_address.get_address }}{% else %}N/A{% endif %}
 				<hr class='hrItem' />
 				<table class="table">
 					<thead>

@@ -20,6 +20,13 @@
 	</div>
 </div>
 <div class="row">
+	<div class="col">
+		<div class="alert alert-dark" role="alert">
+		  <b>Warning:</b> <b><i>Editing</i></b> or <b><i>deleting</i></b> any of the saved addresses will also result in changes to the details of the corresponding orders in the order history.
+		</div>
+	</div>
+</div>
+<div class="row">
 	<div class="card-columns">
 		{% for address in object_list %}
 				{% include 'addresses/snippets/address_card.html' with object=address %}

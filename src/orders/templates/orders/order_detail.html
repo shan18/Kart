@@ -18,7 +18,7 @@
 		{% if object.shipping_address.get_address %}
 			<p><b>Shipping Address:</b> {{ object.shipping_address.get_address }}</p>
 		{% endif %}
-		<p><b>Billing Address:</b> {{ object.billing_address.get_address }}</p>
+		<p><b>Billing Address:</b> {% if object.billing_address %}{{ object.billing_address.get_address }}{% else %}N/A{% endif %}</p>
 		<p><b>Payment Method:</b> {{ object.billing_profile.default_card }}</p>
 		{% if object.cart.has_tax %}
 			<p><b>Subtotal:</b> $ {{ object.cart.subtotal }}</p>
