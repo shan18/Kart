@@ -8,7 +8,7 @@ import stripe
 from .models import Cart
 from products.models import Product
 from orders.models import Order
-from billing.models import BillingProfile
+from billing.models import BillingProfile, Card
 from accounts.models import GuestModel
 from addresses.models import Address
 
@@ -108,7 +108,14 @@ def checkout_home(request):
 
     if request.method == 'POST':
         if order_obj.check_done():
-            did_charge_paid, charge_message = billing_profile.charge(order_obj)
+
+            card_obj = None
+            card_id = request.session.get('card_id', None)
+            if card_id:
+                card_obj = Card.objects.get(id=card_id)
+                del request.session['card_id']
+
+            did_charge_paid, charge_message = billing_profile.charge(order_obj, card_obj)
             if did_charge_paid:
                 order_obj.mark_paid()  # acts as a signal when order is paid for
                 order_obj.send_order_success_email()

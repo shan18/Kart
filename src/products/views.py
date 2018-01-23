@@ -26,7 +26,7 @@ class UserProductHistoryView(LoginRequiredMixin, ListView):
 
     def get_queryset(self, *args, **kwargs):  # Custom Model Manager, overrides the queryset attribute
         request = self.request
-        views = request.user.objectviewed_set.by_model(Product, model_queryset=False)
+        views = request.user.objectviewed_set.by_model(Product, model_queryset=False)[:11]  # only first 11 views
         return views
 
 

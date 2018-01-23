@@ -8,11 +8,33 @@
 
 <!-- Stripe form -->
 
-<div class="col-10 col-md-6 mx-auto">
+<div class="col-10 col-md-6 mx-auto my-5">
 	<h1>Add Payment Method</h1>
 	<!-- This container represents a module for the stripe form -->
 	<div class="stripe-payment-form" data-token="{{ publish_key }}" data-next-url="{% if next_url %}{{ next_url }}{% endif %}" data-btn-title="Add New Method"></div>
 	<!-- Any form module can be made reusable with the help of jsrender so that the form could be used anywhere in the website -->
 </div>
+
+
+<!-- Saved Cards -->
+{% if saved_cards %}
+	<div class="row">
+		<div class="col-12 my-3">
+			<h3>Saved Cards</h3>
+			<hr/>
+		</div>
+		<form method="POST" class="saved-cards-form" action="{% url 'billing:payment-method-reuse-endpoint' %}"> {% csrf_token %}
+			<div class="card-columns">
+				{% for card in saved_cards %}
+					<label for="card-{{ card.id }}">
+						<input id="card-{{ card.id }}" type="radio" class="inline" name="card_id" value="{{ card.id }}">
+						{% include 'billing/snippets/payment_card_template.html' with object=card %}
+					</label>
+				{% endfor %}
+			</div>
+			<button type="submit" class="btn btn-success">Submit</button>
+		</form>
+	</div>
+{% endif %}
 
 {% endblock %}

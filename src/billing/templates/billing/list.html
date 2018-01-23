@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block base_head %}
+<title>Saved Payment Methods</title>
+{% endblock %}
+
+{% block content %}
+
+<div class="row">
+	<div class="col-12 my-2">
+		<h1>Payment Methods</h1>
+		<hr/>
+	</div>
+</div>
+<div class="row">
+	<div class="card-columns">
+		{% for card in object_list %}
+				{% include 'billing/snippets/payment_card_template.html' with object=card %}
+		{% endfor %}
+	</div>
+</div>
+
+{% endblock %}

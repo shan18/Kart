@@ -99,7 +99,20 @@ def billing_profile_created_receiver(sender, instance, *args, **kwargs):
 pre_save.connect(billing_profile_created_receiver, sender=BillingProfile)
 
 
+class CardQuerySet(models.query.QuerySet):
+
+    def by_request(self, request):
+        billing_profile, created = BillingProfile.objects.get_or_new(request)
+        return self.filter(billing_profile=billing_profile)
+
+
 class CardManager(models.Manager):
+
+    def get_queryset(self):
+        return CardQuerySet(self.model, using=self._db)
+
+    def by_request(self, request):
+        return self.get_queryset().by_request(request)
 
     def all(self):  # overriding the default all() method
         return self.get_queryset().filter(active=True)
@@ -145,6 +158,22 @@ class Card(models.Model):
     def __str__(self):
         return '{} {}'.format(self.brand, self.last4)
 
+    def get_card_info(self):
+        return '''{brand}<br/>xxxx xxxx xxxx {last4}<br/>Exp: {month}/{year}<br/>{country}<br/>
+        '''.format(
+            brand=self.brand,
+            last4=self.last4,
+            month=self.exp_month,
+            year=self.exp_year,
+            country=self.country
+        )
+
+    def set_default(self):
+        qs = Card.objects.exclude(id=self.id)
+        qs.update(default=False)
+        self.default = True
+        self.save()
+
 
 # on adding or setting to default a card, set it to default and make the otherse non-default.
 # this will not change the default in stripe. TODO: do this
@@ -161,6 +190,7 @@ class ChargeManager(models.Manager):
     
     def do(self, billing_profile, order_obj, card=None):
         card_obj = card
+        print(card_obj)
         if card_obj is None:
             cards = billing_profile.card_set.filter(default=True)
             if cards.exists():
@@ -169,6 +199,7 @@ class ChargeManager(models.Manager):
         if card_obj is None:
             return False, "No cards available"
 
+        print(card_obj)
         # create object in stripe
         charge = stripe.Charge.create(
             # amount has to be an integer in smallest currency unit (in this case - cents)
