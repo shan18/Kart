@@ -115,10 +115,12 @@ def checkout_home(request):
                 request.session['cart_items_number'] = 0
                 del request.session['cart_id']
                 if not billing_profile.user:
-                    """ TODO: Is this the best spot for this check?
-                    """
                     billing_profile.set_cards_inactive()
                 request.session['checkout_home'] = True
+                try:  # delete guest session
+                    del request.session['guest_obj_id']
+                except:
+                    pass
                 if request.is_ajax():
                     return JsonResponse({'next_path': reverse('cart:success')})
                 return redirect('cart:success')

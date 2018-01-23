@@ -68,8 +68,10 @@ class Cart(models.Model):
 
     def non_digital_products_total(self):
         qs = self.products.filter(is_digital=False)
-        total = qs.aggregate(Sum('price'))
-        return total.get('price__sum')
+        if qs.exists():
+            total = qs.aggregate(Sum('price'))
+            return total.get('price__sum')
+        return 0
 
 
 def m2m_changed_cart_receiver(sender, instance, action, *args, **kwargs):
