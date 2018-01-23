@@ -6,12 +6,15 @@
 		{% if address_type %}
 			<input type="hidden" name="address_type" value="{{ address_type }}">
 		{% endif %}
-		{% for address in address_qs %}
-			<label for="address-{{ address.id }}">
-				<input id="address-{{ address.id }}" type="radio" name="address_id" value="{{ address.id }}">
-				{{ address.address_line_1 }}
-			</label><br>
-		{% endfor %}
+		<div class="card-columns">
+			{% for address in address_qs %}
+				<label for="address-{{ address.id }}">
+					<input id="address-{{ address.id }}" type="radio" class="inline" name="address_id" value="{{ address.id }}">
+					{% include 'addresses/snippets/address_card.html' with object=address %}
+					<!-- {{ address.address_line_1 }} -->
+				</label><br>
+			{% endfor %}
+		</div>
 		<button type="submit" class="btn btn-success">Use Address</button>
 	</form>
 {% endif %}
