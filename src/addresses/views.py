@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import Http404, JsonResponse
 from django.utils.http import is_safe_url
-from django.views.generic import ListView, UpdateView, DeleteView
+from django.views.generic import ListView, UpdateView, DeleteView, CreateView
 from django.core.urlresolvers import reverse
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -9,6 +9,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from .forms import AddressForm
 from .models import Address
 from billing.models import BillingProfile
+from kart.mixins import RequestFormAttachMixin
 
 
 def checkout_address_create_view(request):
@@ -70,9 +71,28 @@ class AddressListView(LoginRequiredMixin, ListView):
         return context
 
 
-class AddressUpdateView(LoginRequiredMixin, UpdateView):
+class AddressCreateView(LoginRequiredMixin, RequestFormAttachMixin, CreateView):
     form_class = AddressForm
-    template_name = 'addresses/detail_update.html'
+    template_name = 'addresses/detail.html'
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(AddressCreateView, self).get_context_data(*args, **kwargs)
+        context['title'] = 'Add New Address'
+        context['button_text'] = 'Add'
+        return context
+
+    def form_valid(self, form):
+        super(AddressCreateView, self).form_valid(form)
+        messages.success(self.request, 'New address added successfully!')
+        return redirect(self.get_success_url())
+
+    def get_success_url(self):
+        return reverse('address:list')
+
+
+class AddressUpdateView(LoginRequiredMixin, RequestFormAttachMixin, UpdateView):
+    form_class = AddressForm
+    template_name = 'addresses/detail.html'
 
     def get_object(self):
         qs = Address.objects.by_request(self.request).filter(pk=self.kwargs.get('address_id'))
@@ -83,7 +103,13 @@ class AddressUpdateView(LoginRequiredMixin, UpdateView):
     def get_context_data(self, *args, **kwargs):
         context = super(AddressUpdateView, self).get_context_data(*args, **kwargs)
         context['title'] = 'Edit Address'
+        context['button_text'] = 'Update'
         return context
+
+    def form_valid(self, form):
+        super(AddressUpdateView, self).form_valid(form)
+        messages.success(self.request, 'Address updated successfully!')
+        return redirect(self.get_success_url())
 
     def get_success_url(self):
         '''

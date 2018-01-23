@@ -1,3 +1,8 @@
-body {
-	color: #00f;
+.new-address-card {
+    cursor: pointer;
+    box-shadow: 2px 4px 8px 0px rgba(46,61,73,0.2);
+}
+
+.address-card {
+	box-shadow: 2px 4px 8px 0px rgba(46,61,73,0.2);
 }

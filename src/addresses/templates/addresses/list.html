@@ -9,15 +9,22 @@
 <div class="row">
 	<div class="col-12 my-2">
 		<h1>Saved Addresses</h1>
+		<hr/>
 	</div>
 </div>
-<hr/>
 <div class="row">
-	{% for address in object_list %}
-		<div class="col-12 col-md-3 my-2">
-			{% include 'addresses/snippets/address_card.html' with object=address %}
+	<div class="col mt-2 mb-4">
+		<div class="card new-address-card bg-light mb-3 pt-5" style="width: 12rem; height: 10rem;">
+		  <p class="card-text text-center"><i class="fa fa-plus"></i><br>Add New Address</p>
 		</div>
-	{% endfor %}
+	</div>
+</div>
+<div class="row">
+	<div class="card-columns">
+		{% for address in object_list %}
+				{% include 'addresses/snippets/address_card.html' with object=address %}
+		{% endfor %}
+	</div>
 </div>
 
 {% endblock %}
