@@ -13,7 +13,7 @@ from accounts.models import GuestModel
 from addresses.models import Address
 
 from accounts.forms import LoginForm, GuestForm
-from addresses.forms import AddressForm
+from addresses.forms import AddressFormCheckout
 
 
 stripe.api_key = getattr(settings, 'STRIPE_SECRET_KEY', None)
@@ -81,7 +81,7 @@ def checkout_home(request):
 
     login_form = LoginForm(request=request)
     guest_form = GuestForm(request=request)
-    address_form = AddressForm()
+    address_form = AddressFormCheckout()
 
     shipping_address_required = not cart_obj.is_digital
 

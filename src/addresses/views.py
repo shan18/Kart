@@ -6,14 +6,14 @@ from django.core.urlresolvers import reverse
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 
-from .forms import AddressForm
+from .forms import AddressForm, AddressFormCheckout
 from .models import Address
 from billing.models import BillingProfile
 from kart.mixins import RequestFormAttachMixin
 
 
 def checkout_address_create_view(request):
-    form = AddressForm(request.POST or None)
+    form = AddressFormCheckout(request.POST or None)
     next_ = request.GET.get('next')
     next_post = request.POST.get('next')
     redirect_path = next_ or next_post or None

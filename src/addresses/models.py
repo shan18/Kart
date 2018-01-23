@@ -36,7 +36,9 @@ class Address(models.Model):
     city = models.CharField(max_length=120)
     state = models.CharField(max_length=120)
     country = models.CharField(max_length=120, default='India')
-    postal_code = models.CharField(max_length=120)
+
+    postal_code_regex = RegexValidator(regex=r'^\d{6}$', message="Postal code has only 6 digits")
+    postal_code = models.CharField(validators=[postal_code_regex], max_length=120)
 
     phone_regex = RegexValidator(regex=r'^\d{9,15}$', message="Phone number must contain 10 digits")
     phone_number = models.CharField(validators=[phone_regex], max_length=10, blank=True) # validators should be a list
