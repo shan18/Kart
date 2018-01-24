@@ -1,14 +1,16 @@
-.new-address-card {
-    cursor: pointer;
-    box-shadow: 2px 4px 8px 0px rgba(46,61,73,0.2);
+.dropdown .dropdown-menu a:hover {
+  color: #fff;
+  background-color: #000000;
+  border-color: #fff;
 }
 
-.address-card {
-	box-shadow: 2px 4px 8px 0px rgba(46,61,73,0.2);
+a.dropdown-item.active {
+  background-color: #000000 !important;
 }
 
-.payment-card {
-	box-shadow: 2px 4px 8px 0px rgba(46,61,73,0.2);
+.anchor-black {
+		text-decoration: none;
+		color: black;
 }
 
 .about-img-circular{
@@ -22,7 +24,15 @@
 	-moz-border-radius: 400px;
 }
 
-.anchor-black {
-		text-decoration: none;
-		color: black;
+.new-address-card {
+    cursor: pointer;
+    box-shadow: 2px 4px 8px 0px rgba(46,61,73,0.2);
+}
+
+.address-card {
+	box-shadow: 2px 4px 8px 0px rgba(46,61,73,0.2);
+}
+
+.payment-card {
+	box-shadow: 2px 4px 8px 0px rgba(46,61,73,0.2);
 }
