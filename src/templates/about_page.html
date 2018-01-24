@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block base_head %}
+<title>{{ title }}</title>
+{% endblock %}
+
+{% block content %}
+
+<div class="row">
+	<div class="col-12 mt-4 mb-5">
+		<h1 class="text-center">About Me</h1>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-12 mb-3" style="line-height:5px;">
+		<h3><i class="fa fa-shopping-bag" aria-hidden="true"></i> Kart</h3>
+		<p><i>Developer: Shantanu Acharya</i></p>
+		<hr style="height:2px;border:none;color:#000;background-color:#000;">
+	</div>
+	<div class="col mr-3">
+		<p>I am a Python Developer, my interests lie in Machine Learning and Backend Development. I am passionate for coding, love photography, like listening to EDM and pop music, a foodie, interested in latest technology trends, AI and gaming. I watch a lot of TV series, Anime and sci-fi movies. Die-hard fan of Batman and Star Wars.</p>
+		<p>Currently, I am pursuing a Bachelor's degree in Computer Science and Engineering at <i>National Institute of Technology, Mizoram</i>.</p>
+
+		<p>
+			<b>See my work:</b>&nbsp;
+			<a class="anchor-black" href="https://github.com/shan18" target="_blank">
+				<i class="fa fa-github" aria-hidden="true"></i>
+			</a><br>
+			<b>Find me in social media:</b>&nbsp;
+			<a class="anchor-black" href="https://www.linkedin.com/in/shanacharya" target="_blank">
+				<i class="fa fa-linkedin" aria-hidden="true"></i></a>&nbsp;
+			<a class="anchor-black" href="https://www.quora.com/profile/Shantanu-Acharya-3" target="_blank">
+				<i class="fa fa-quora" aria-hidden="true"></i></a>&nbsp;
+			<a class="anchor-black" href="https://www.instagram.com/shan_1.0" target="_blank">
+				<i class="fa fa-instagram" aria-hidden="true"></i></a>&nbsp;
+			<a class="anchor-black" href="https://www.facebook.com/greatsaiyen007" target="_blank">
+				<i class="fa fa-facebook" aria-hidden="true"></i></a>
+		</p><br>
+
+		<h5>Quotes I believe In:</h5>
+		<hr>
+		<blockquote class="blockquote blockquote-reverse">
+			<q>Work while they are sleeping. Learn while they are partying. Live like they are dreaming.</q>
+		</blockquote>
+		<blockquote class="blockquote blockquote-reverse">
+			<q>When something is important enough, you do it even if the odds are not in your favor.</q>
+			<footer class="blockquote-footer">Elon Musk</footer>
+		</blockquote>
+		<blockquote class="blockquote blockquote-reverse">
+			<q>You can't connect the dots looking forward; you can only connect them looking backwards. So you have to trust that the dots will somehow connect in your future.</q>
+			<footer class="blockquote-footer">Steve Jobs</footer>
+		</blockquote>
+	</div>
+	<div class="about-img-circular ml-auto"></div>
+</div>
+
+{% endblock %}
+
+{% block content_fluid %}
+
+{% if recently_viewed %}
+	<div class="row">
+		<div class="col-12 mt-5 mb-2">
+			<hr style="height:1px;border:none;color:#000;background-color:#000;">
+			<h3 class="text-center"><b>Your Recently Viewed Items</b></h3>
+		</div>
+		{% for recent in recently_viewed %}
+			<div class="col my-2">
+				{% include 'products/snippets/card.html' with instance=recent %}
+			</div>
+		{% endfor %}
+	</div>
+{% endif %}
+
+{% endblock %}

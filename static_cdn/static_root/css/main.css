@@ -10,3 +10,19 @@
 .payment-card {
 	box-shadow: 2px 4px 8px 0px rgba(46,61,73,0.2);
 }
+
+.about-img-circular{
+	width: 400px;
+	height: 400px;
+	background-image: url('/static/img/shan_img.jpg');
+	background-size: cover;
+	display: block;
+	border-radius: 400px;
+	-webkit-border-radius: 400px;
+	-moz-border-radius: 400px;
+}
+
+.anchor-black {
+		text-decoration: none;
+		color: black;
+}
