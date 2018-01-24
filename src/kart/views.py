@@ -15,7 +15,9 @@ def home_page(request):
         'digital_products': Product.objects.filter(is_digital=True)
     }
     if request.user.is_authenticated():
-        context['recently_viewed'] = request.user.objectviewed_set.by_model(Product, model_queryset=True)[:5]
+        context['recently_viewed'] = request.user.recently_viewed_items(
+            model_class=Product, model_queryset=True, limit=5
+        )
     return render(request, "home_page.html", context)
 
 
@@ -24,7 +26,11 @@ def about_page(request):
         "title": "About",
         "content": "This is the about page."
     }
-    return render(request, "home_page.html", context)
+    if request.user.is_authenticated():
+        context['recently_viewed'] = request.user.recently_viewed_items(
+            model_class=Product, model_queryset=True, limit=5
+        )
+    return render(request, "about_page.html", context)
 
 
 def contact_page(request):

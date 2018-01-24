@@ -17,7 +17,11 @@
 				{% else %}
 					{% include 'products/snippets/card.html' with instance=obj %}
 				{% endif %}
-		</div>
+			</div>
+			{% empty %}
+			<div class="col my-2">
+				<p>You haven't seen any products yet.</p>
+			</div>
 		{% endfor %}
 	</div>
 {% endblock %}

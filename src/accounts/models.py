@@ -95,6 +95,12 @@ class User(AbstractBaseUser):
         # Simplest possible answer: Yes, always
         return True
 
+    def recently_viewed_items(self, model_class, model_queryset, limit=None):
+        qs = self.objectviewed_set.by_model(model_class, model_queryset=model_queryset)
+        if limit:
+            qs = qs[:limit]
+        return qs
+
     @property
     def is_staff(self):
         if self.is_admin:
