@@ -15,8 +15,8 @@
       <p class="text-center">{{ content }}</p>
       <form class="contact-form" method="POST" action="{% url 'contact' %}"> {% csrf_token %}
         {{ form }}
-        <div class="text-center">
-          <button type="submit" class="btn btn-info my-2">Submit</button>
+        <div class="text-center mt-3">
+          <button type="submit" class="btn btn-info">Submit</button>
         </div>
       </form>
 

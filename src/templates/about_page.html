@@ -57,21 +57,3 @@
 </div>
 
 {% endblock %}
-
-{% block content_fluid %}
-
-{% if recently_viewed %}
-	<div class="row">
-		<div class="col-12 mt-5 mb-2">
-			<hr style="height:1px;border:none;color:#000;background-color:#000;">
-			<h3 class="text-center"><b>Your Recently Viewed Items</b></h3>
-		</div>
-		{% for recent in recently_viewed %}
-			<div class="col my-2">
-				{% include 'products/snippets/card.html' with instance=recent %}
-			</div>
-		{% endfor %}
-	</div>
-{% endif %}
-
-{% endblock %}

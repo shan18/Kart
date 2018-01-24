@@ -26,10 +26,6 @@ def about_page(request):
         "title": "About",
         "content": "This is the about page."
     }
-    if request.user.is_authenticated():
-        context['recently_viewed'] = request.user.recently_viewed_items(
-            model_class=Product, model_queryset=True, limit=5
-        )
     return render(request, "about_page.html", context)
 
 

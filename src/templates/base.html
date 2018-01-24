@@ -6,32 +6,40 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 		{% include 'base/css.html' %}
 		{% block base_head %}{% endblock %}
+	<style>
+
+	</style>
 	</head>
 	<body>
 		{% include 'base/navbar.html' with brand_name='Kart' %}
+		<div id="wrap">
+		  <div id="main" class="clear-top">
+				{% if messages %}
+				<div class="container">
+					<div class="alert alert-success messages">
+						{% for message in messages %}
+						<span{% if message.tags %} class="{{ message.tags }}"{% endif %}>
+								{% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}Important: {% endif %}
+								{{ message }}
+						</span>
+					</div>
+						{% endfor %}
+				</div>
+				{% endif %}
 
-		{% if messages %}
-		<div class="container">
-			<div class="alert alert-success messages">
-				{% for message in messages %}
-				<span{% if message.tags %} class="{{ message.tags }}"{% endif %}>
-						{% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}Important: {% endif %}
-						{{ message }}
-				</span>
+				<div class="container">
+					{% block content %}{% endblock %}
+				</div>
+
+				<div class="container-fluid">
+					{% block content_fluid %}{% endblock %}
+				</div>
 			</div>
-				{% endfor %}
 		</div>
-		{% endif %}
-
-		<div class="container">
-			{% block content %}{% endblock %}
-		</div>
-
-		<div class="container-fluid">
-			{% block content_fluid %}{% endblock %}
-		</div>
+		{% include 'base/footer.html' %}
 
 		{% include 'base/js.html' %}
 		{% block javascript %}{% endblock %}
+
 	</body>
 </html>

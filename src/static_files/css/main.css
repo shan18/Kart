@@ -1,16 +1,43 @@
+html, body {
+	height: 100%;
+}
+
+#wrap {
+	min-height: 75%;
+}
+
+#main {
+	overflow:auto;
+	padding-bottom:80px; /* this needs to be bigger than footer height*/
+}
+
+.footer {
+	position: relative;
+	margin-top: -80px; /* negative value of footer height */
+	height: 80px;
+	clear:both;
+	padding-top:20px;
+}
+
 .dropdown .dropdown-menu a:hover {
-  color: #fff;
-  background-color: #000000;
-  border-color: #fff;
+	color: #fff;
+	background-color: #000000;
+	border-color: #fff;
+}
+
+.footer-custom {
+	background-color: #dcdce1;
+	padding: 60px 40px;
+	color: #000;
 }
 
 a.dropdown-item.active {
-  background-color: #000000 !important;
+	background-color: #000000 !important;
 }
 
 .anchor-black {
-		text-decoration: none;
-		color: black;
+	text-decoration: none;
+	color: black;
 }
 
 .about-img-circular{
@@ -25,8 +52,8 @@ a.dropdown-item.active {
 }
 
 .new-address-card {
-    cursor: pointer;
-    box-shadow: 2px 4px 8px 0px rgba(46,61,73,0.2);
+	cursor: pointer;
+	box-shadow: 2px 4px 8px 0px rgba(46,61,73,0.2);
 }
 
 .address-card {
