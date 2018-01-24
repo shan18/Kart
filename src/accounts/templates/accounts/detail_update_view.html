@@ -6,8 +6,8 @@
 
 {% block content %}
 
-<div class="col-12 col-md-6 mx-auto">
-	{% if title %}<h1 class="my-3">{{ title }}</h1>{% endif %}
+<div class="col-12 col-md-6 mx-auto mt-3">
+	{% if title %}<h1>{{ title }}</h1>{% endif %}
 	<form method="POST" action="{% if action_url %}{{ action_url }}{% endif %}"> {% csrf_token %}
 		{% if next_url %}
 			<input type="hidden" name="next" value="{{ next_url }}">

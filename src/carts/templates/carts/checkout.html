@@ -7,7 +7,7 @@
 {% block content %}
 
 	{% if not billing_profile %}
-		<div class="row text-center">
+		<div class="row text-center mt-5">
 			<div class="col-12 col-md-6">
 				<p class="lead">Login</p>
 				{% include 'accounts/snippets/form.html' with form=login_form next_url=request.build_absolute_uri user_login=True %}
@@ -22,9 +22,9 @@
 		</div>
 	{% else %}
 		{% if not object.shipping_address and shipping_address_required %}
-			<div class="row">
+			<div class="row mt-4">
 				<div class="col-12">
-					<p class="lead">Shipping Address</p>
+					<h3>Shipping Address</h3>
 					<hr>
 				</div>
 				<div class="col-6">
@@ -37,9 +37,9 @@
 				</div>
 			</div>
 		{% elif not object.billing_address %}
-			<div class="row">
+			<div class="row mt-4">
 				<div class="col-12">
-					<p class="lead">Billing Address</p>
+					<h3>Billing Address</h3>
 					<hr>
 				</div>
 				<div class="col-6">
@@ -53,7 +53,7 @@
 			</div>
 		{% else %}
 			{% if has_card %}
-				<h1>Finalize Checkout</h1>
+				<h1 class="mt-5">Finalize Checkout</h1>
 				<hr/>
 				<p><b>Cart Items:</b> {% for product in object.cart.products.all %}{{ product }}{% if not forloop.last %}, {% endif %}{% endfor %}</p>
 				{% if object.shipping_address.get_address %}
