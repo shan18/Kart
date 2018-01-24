@@ -15,7 +15,7 @@ def home_page(request):
         'digital_products': Product.objects.filter(is_digital=True)
     }
     if request.user.is_authenticated():
-        context['premium_content'] = 'You are now a member!'
+        context['recently_viewed'] = request.user.objectviewed_set.by_model(Product, model_queryset=True)[:5]
     return render(request, "home_page.html", context)
 
 

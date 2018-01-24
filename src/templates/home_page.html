@@ -61,5 +61,17 @@
     </div>
   {% endfor %}
 </div>
+<br/>
+<div class="row">
+  <div class="col-12 mt-5 mb-2">
+    <h3 class="text-center"><b>Your Recently Viewed Items</b></h3>
+    <hr/>
+  </div>
+  {% for recent in recently_viewed %}
+    <div class="col my-2">
+      {% include 'products/snippets/card.html' with instance=recent %}
+    </div>
+  {% endfor %}
+</div>
 
 {% endblock %}

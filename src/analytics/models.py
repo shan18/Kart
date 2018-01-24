@@ -23,11 +23,13 @@ class ObjectViewedQuerySet(models.query.QuerySet):
     def by_model(self, model_class, model_queryset=False):
         content_type = ContentType.objects.get_for_model(model_class)
         qs = self.filter(content_type=content_type)  # all().filter(content_type__name=content_type)
-        if model_queryset:
-            viewed_ids = [x.object_id for x in qs]
-            ''' This will not give objects sorted by timestamp and will show each product only a single time
-                even if it was viewed multiple times.'''
-            return model_class.objects.filter(pk__in=viewed_ids)
+        if model_queryset: # return the model_class queryset
+            # This will show each product only a single time even if it was viewed multiple times.
+            viewed_ids = [x.object_id for x in qs]  # get all the product ids
+            unique_viewed_ids = list(dict.fromkeys(viewed_ids))  # remove duplicates while preserving the order
+            model_class_qs = list(model_class.objects.filter(pk__in=unique_viewed_ids)) # this removes the ordering
+            model_class_qs.sort(key=lambda x: unique_viewed_ids.index(x.id)) # sort based on the order of unique_viewed_ids
+            return model_class_qs
         return qs
 
 
