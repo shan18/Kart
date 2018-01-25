@@ -6,6 +6,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 		{% include 'base/css.html' %}
 		<link rel="shortcut icon" type="image/png" href="{% static 'favicon.png' %}">
+		{% include 'base/js.html' %}
 		{% block base_head %}{% endblock %}
 	<style>
 
@@ -39,7 +40,6 @@
 		</div>
 		{% include 'base/footer.html' %}
 
-		{% include 'base/js.html' %}
 		{% block javascript %}{% endblock %}
 
 	</body>
