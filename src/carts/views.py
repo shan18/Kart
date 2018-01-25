@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.shortcuts import render, redirect
 from django.http import JsonResponse, Http404
+from django.contrib import messages
 from django.core.urlresolvers import reverse
 
 import stripe
@@ -50,8 +51,19 @@ def cart_update(request):
         try:
             product_obj = Product.objects.get(id=product_id)
         except Product.DoesNotExist:
-            print("Show message to user, product gone?")
+            messages.error(request, "Oops! The product does not exist.")
             return redirect('cart:home')
+
+        # guests cannot buy digital products
+        if product_obj.is_digital and not request.user.is_authenticated():
+            if request.is_ajax():
+                json_data = {       # Additional data we want to send along with the form data
+                    "noLoginDigital": True
+                }
+                return JsonResponse(json_data, status=200)
+            messages.error(request, "You must login, in order to purchase any digital items!")
+            return redirect('login')
+
         cart_obj, new_obj = Cart.objects.get_or_new(request)
         if product_obj in cart_obj.products.all():
             cart_obj.products.remove(product_obj)

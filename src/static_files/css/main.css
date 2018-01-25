@@ -20,9 +20,8 @@ html, body {
 }
 
 .dropdown .dropdown-menu a:hover {
-	color: #fff;
-	background-color: #000000;
-	border-color: #fff;
+	background-color: #dcdce1;
+  	color: #000;
 }
 
 .footer-custom {
@@ -32,7 +31,8 @@ html, body {
 }
 
 a.dropdown-item.active {
-	background-color: #000000 !important;
+	background-color:#D9CDCA;
+  	color: #000;
 }
 
 .anchor-black {

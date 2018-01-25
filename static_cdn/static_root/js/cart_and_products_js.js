@@ -66,29 +66,50 @@ $(document).ready(function(){
 			method: httpMethod,
 			data: formData,
 			success: function(data){
-				var submitSpan = thisForm.find(".submit-span")
-				if (data.added) {
-					submitSpan.html(
-						"<div class='btn-group'><button type='submit' class='btn btn-danger'>" +
-						"<i class='fas fa-shopping-cart' aria-hidden='true'></i> " +
-						"<i class='fas fa-times' aria-hidden='true'></i>" +
-						"</button></div>"
-					)
+				if (data.noLoginDigital){
+					$.confirm({
+						icon: 'fas fa-sign-in-alt',
+						title: 'Login Required',
+						content: 'You must login, in order to purchase any digital items!',
+						type: 'dark',
+    					typeAnimated: true,
+						buttons: {
+							login: {
+								text: 'Login',
+								action: function () {
+									window.location.href = '/login/'
+								}
+							},
+							list: {
+								text: 'Continue as guest'
+							}
+						}
+					});
 				} else {
-					submitSpan.html(
-						"<button type='submit' class='btn btn-info'>" +
-						"<i class='fas fa-cart-plus' aria-hidden='true'></i> " +
-						"<i class='fas fa-long-arrow-alt-down' aria-hidden='true'></i>" +
-						"</button>"
-					)
-				}
+					var submitSpan = thisForm.find(".submit-span")
+					if (data.added) {
+						submitSpan.html(
+							"<div class='btn-group'><button type='submit' class='btn btn-danger'>" +
+							"<i class='fas fa-shopping-cart' aria-hidden='true'></i> " +
+							"<i class='fas fa-times' aria-hidden='true'></i>" +
+							"</button></div>"
+						)
+					} else {
+						submitSpan.html(
+							"<button type='submit' class='btn btn-info'>" +
+							"<i class='fas fa-cart-plus' aria-hidden='true'></i> " +
+							"<i class='fas fa-long-arrow-alt-down' aria-hidden='true'></i>" +
+							"</button>"
+						)
+					}
 
-				var cartItemCount = $(".cart-item-count")  // Refresh count in Navbar
-				cartItemCount.text(data.cartItemCount)
+					var cartItemCount = $(".cart-item-count")  // Refresh count in Navbar
+					cartItemCount.text(data.cartItemCount)
 
-				var currentPath = window.location.href      // Get current url
-				if (currentPath.indexOf("cart") != -1) {    // If url contains 'cart'
-					refreshCart()
+					var currentPath = window.location.href      // Get current url
+					if (currentPath.indexOf("cart") != -1) {    // If url contains 'cart'
+						refreshCart()
+					}
 				}
 			},
 			error: function(error){
