@@ -40,6 +40,16 @@ a.dropdown-item.active {
 	color: black;
 }
 
+.sort-hover {
+  background-color:#dcdce1;
+  color: #000;
+}
+
+.sort-select {
+  background-color:#D9CDCA;
+  color: #000;
+}
+
 .about-img-circular{
 	width: 400px;
 	height: 400px;

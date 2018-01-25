@@ -1,6 +1,22 @@
 $(document).ready(function(){
+
+	/* Products List Sort */
+	$(document).ready(function(){
+		var formB = $(".sort-btn")
+		formB.hover(
+			function(){
+				var $this = $(this)
+				$this.addClass('sort-hover');
+			},
+			function(){
+				var $this = $(this)
+				$this.removeClass('sort-hover');
+			}
+		)
+	})
+
+
 	/* Cart + Add Products */
-	
 	var productForm = $(".form-product-ajax")
 
 	function getOwnedProduct(productId, submitSpan) {

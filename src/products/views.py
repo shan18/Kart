@@ -182,6 +182,8 @@ class ProductListView(ListView):
     def get_context_data(self, *args, **kwargs):
         context = super(ProductListView, self).get_context_data(*args, **kwargs)
         cart_obj, new_obj = Cart.objects.get_or_new(self.request)
+        order = self.request.GET.get('orderby', '-featured')
+        context['active_button'] = order
         context['cart'] = cart_obj
         return context
 
@@ -191,7 +193,8 @@ class ProductListView(ListView):
         It is a custom model manager, it overrides the queryset attribute.
         '''
         request = self.request
-        return Product.objects.all()
+        order = self.request.GET.get('orderby', '-featured')
+        return Product.objects.all().order_by(order)
 
 
 def product_list_view(request):

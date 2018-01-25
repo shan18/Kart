@@ -17,7 +17,7 @@
 
 
 <!-- Saved Cards -->
-{% if saved_cards %}
+{% if saved_cards and request.user.is_authenticated %}
 	<div class="row">
 		<div class="col-12 my-3">
 			<h3>Saved Cards</h3>

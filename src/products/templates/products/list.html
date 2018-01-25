@@ -1,25 +1,35 @@
 {% extends 'base.html' %}
 
 {% block base_head %}
-  <title>Products List</title>
+<title>Products List</title>
 {% endblock %}
 
 {% block content %}
-  <div class="row">
-    <div class="col-12 mt-3">
-      <h1>Products</h1>
-      <hr/>
-    </div>
-  </div>
 	<div class="row">
-	  {% for obj in object_list %}
-	    <div class="col my-3">
-  	  {% include 'products/snippets/card.html' with instance=obj %}
-      <!-- Add horizontal line after every row -->
-      <!-- {% if forloop.counter|divisibleby:3 %}
-        </div></div><div class="row"><div class="col-12"><hr/>
-      {% endif %} -->
-  	</div>
-	  {% endfor %}
+		<div class="col-12 mt-3">
+			<h1>Products</h1>
+			<hr/>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-12">
+			<form method="get" action="{% url 'products:list' %}" class="form-group form-inline sort-form">
+				 <h5 class="ml-auto mr-3 mt-2">Sort By:</h5>
+					<button type="submit" class="mr-1 form-control sort-btn {% if active_button == '-featured' %}sort-select{% endif %}" value="-featured" name="orderby">Featured</button>
+					<button type="submit" class="mr-1 form-control sort-btn {% if active_button == 'price' %}sort-select{% endif %}" value="price" name="orderby">Price: Low to High</button>
+					<button type="submit" class="mr-1 form-control sort-btn {% if active_button == '-price' %}sort-select{% endif %}" value="-price" name="orderby">Price: High to Low</button>
+			</form>
+		</div>
+	</div>
+	<div class="row">
+		{% for obj in object_list %}
+			<div class="col my-3">
+			{% include 'products/snippets/card.html' with instance=obj %}
+			<!-- Add horizontal line after every row -->
+			<!-- {% if forloop.counter|divisibleby:3 %}
+				</div></div><div class="row"><div class="col-12"><hr/>
+			{% endif %} -->
+		</div>
+		{% endfor %}
 	</div>
 {% endblock %}
