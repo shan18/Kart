@@ -1,15 +1,22 @@
 # Kart
-An E-commerce website built using Django.
+An E-commerce website built using Django.  
+URL: [https://shan-kart.herokuapp.com/](https://shan-kart.herokuapp.com/)
 
 
 ### Features
 
 - Send email verification link to users when they sign up.
+- Render order summary as invoice pdf and send them to users after the transaction has been completed.
 - If there is a server error (code = 500), then an email is sent to the administrator notifying him of the error and the cause of the error.
 - A Library view which contains a list of and gives the ability to download all the digital items that the customer has bought.
 - Display product history in account settings which shows the products that the user has recently viewed.
 - A separate analytics view for admin/staff members which shows a graph of all the product sales over the past days/weeks/months.
 
+**Note**:  
+To use the payment api of the website, use the following dummy cards:  
+4242 4242 4242 4242&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Visa  
+5555 5555 5555 4444&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Mastercard  
+Enter any 5-digit number for CVC and any future date for expiry.
 
 ### Tools Used
 
@@ -30,7 +37,7 @@ An E-commerce website built using Django.
 ## Instructions for setting up the project
 
 1. Clone the repository  
-`git clone `
+`git clone https://github.com/shan18/Kart.git`
 
 2. Create a virtual environment and install the requirements  
 `pip install -r requirements.txt`  
@@ -69,9 +76,12 @@ After installing the requirements, install this package separately
 `python manage.py migrate`  
 `python manage.py collectstatic`
 
-10. If the products are not visible then follow the **Database reloading with fixtures** section in this [guide](notes/notes.md).
+10. Now load the **products** and the **tags** into the database  
+`python manage.py loaddata products/fixtures/products.json`
+`python manage.py loaddata tags/fixtures/tags.json`
 
 
 #### Note:
 
-Due to size issues, only one protected media file has been uploaded. Add the others by uploading them in the **Django Admin**, inside the **Products** section.
+- The project contains *two level git architecture*, inner for heroku and outer for GitHub. Thus, the reason for *two .gitignore and requirements.txt files*.
+- Due to size issues, only one protected media file has been uploaded in GitHub. Add the others by uploading them in the **Django Admin**, inside the **Products** section.
