@@ -54,15 +54,15 @@ $(document).ready(function(){
 				if (data.added) {
 					submitSpan.html(
 						"<div class='btn-group'><button type='submit' class='btn btn-danger'>" +
-						"<i class='fa fa-shopping-cart' aria-hidden='true'></i> " +
-						"<i class='fa fa-times' aria-hidden='true'></i>" +
+						"<i class='fas fa-shopping-cart' aria-hidden='true'></i> " +
+						"<i class='fas fa-times' aria-hidden='true'></i>" +
 						"</button></div>"
 					)
 				} else {
 					submitSpan.html(
 						"<button type='submit' class='btn btn-info'>" +
-						"<i class='fa fa-cart-plus' aria-hidden='true'></i> " +
-						"<i class='fa fa-long-arrow-down' aria-hidden='true'></i>" +
+						"<i class='fas fa-cart-plus' aria-hidden='true'></i> " +
+						"<i class='fas fa-long-arrow-alt-down' aria-hidden='true'></i>" +
 						"</button>"
 					)
 				}

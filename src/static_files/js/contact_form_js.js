@@ -8,7 +8,7 @@ $(document).ready(function(){
 	function submitIndicator(submitButton, defaultText, doSubmit){
 		if (doSubmit){
 			submitButton.addClass("disabled")
-			submitButton.html("<i class='fa fa-spin fa-spinner'></i>")
+			submitButton.html("<i class='fas fa-spinner fa-spin'></i>")
 		} else {
 			submitButton.removeClass("disabled")
 			submitButton.html(defaultText)

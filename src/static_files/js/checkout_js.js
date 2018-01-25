@@ -3,7 +3,7 @@ $(document).ready(function(){
 	function checkoutFormIndicator(submitButton, text, doSubmit){
 		if (doSubmit){
 			submitButton.addClass("disabled")
-			submitButton.html("<i class='fa fa-spin fa-spinner'></i> " + text + "...")
+			submitButton.html("<i class='fas fa-spinner fa-spin'></i> " + text + "...")
 		} else {
 			submitButton.removeClass("disabled")
 			submitButton.html(text)

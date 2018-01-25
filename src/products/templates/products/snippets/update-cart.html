@@ -4,10 +4,10 @@
 	<span class="submit-span">
 		{% if product in cart.products.all %}
 			<div class="btn-group">
-				<!-- <a href="{% url 'cart:home' %}" class="btn btn-link">In cart</a>  --><button type="submit" class="btn btn-danger"><i class="fa fa-shopping-cart" aria-hidden="true"></i> <i class="fa fa-times" aria-hidden="true"></i></button>
+				<!-- <a href="{% url 'cart:home' %}" class="btn btn-link">In cart</a>  --><button type="submit" class="btn btn-danger"><i class="fas fa-shopping-cart" aria-hidden="true"></i> <i class="fas fa-times" aria-hidden="true"></i></button>
 			</div>
 		{% else %}
-			<button type="submit" class="btn btn-info"><i class="fa fa-cart-plus" aria-hidden="true"></i> <i class="fa fa-long-arrow-down" aria-hidden="true"></i></button>
+			<button type="submit" class="btn btn-info"><i class="fas fa-cart-plus" aria-hidden="true"></i> <i class="fas fa-long-arrow-alt-down" aria-hidden="true"></i></button>
 		{% endif %}
 	</span>
 </form>

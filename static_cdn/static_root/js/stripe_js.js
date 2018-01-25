@@ -71,9 +71,9 @@ $(document).ready(function(){
 		// 	event.preventDefault();
 
 		// 	var loadTime = 1500
-		// 	var errorHtml = "<i class='fa fa-warning'></i> An error occured"
+		// 	var errorHtml = "<i class='fas fa-exclamation-circle'></i> An error occured"
 		// 	var errorClasses = "btn btn-danger disable my-3"
-		// 	var loadingHtml = "<t class='fa fa-spin fa-spinner'></i> Loading..."
+		// 	var loadingHtml = "<t class='fas fa-spinner fa-spin'></i> Loading..."
 		// 	var loadingClasses = "btn btn-success disable my-3"
 
 		// 	stripe.createToken(card).then(function(result) {
@@ -107,7 +107,7 @@ $(document).ready(function(){
 			*/
 			displayBtnStatus(
 				formButton,
-				"<i class='fa fa-spin fa-spinner disable'></i> Adding...",
+				"<i class='fas fa-spinner fa-spin disable'></i> Adding...",
 				"btn btn-success my-3",
 				false
 			)
@@ -119,7 +119,7 @@ $(document).ready(function(){
 					errorElement.textContent = result.error.message;
 					displayBtnStatus(
 						formButton,
-						"<i class='fa fa-warning disable'></i> An error occured",
+						"<i class='fas fa-exclamation-circle disable'></i> An error occured",
 						"btn btn-danger my-3",
 						true
 					)
@@ -165,7 +165,7 @@ $(document).ready(function(){
 					var successMsg = data.message || "Success! Your card was added."
 					card.clear()  // Clears out form contents
 					if (nextUrl){
-						successMsg += "<br><br><i class='fa fa-spin fa-spinner'></i> Redirecting..."
+						successMsg += "<br><br><i class='fas fa-spinner fa-spin'></i> Redirecting..."
 					}
 					if ($.alert){  // If the custom defined alert class exists
 						$.alert(successMsg)

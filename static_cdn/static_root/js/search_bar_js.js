@@ -3,7 +3,7 @@ $(document).ready(function(){
 
 	function searchIndicator(){
 		searchButton.addClass("disabled")
-		searchButton.html("<i class='fa fa-spin fa-spinner'></i>")
+		searchButton.html("<i class='fas fa-spinner fa-spin'></i>")
 	}
 
 	function performSearch(){
