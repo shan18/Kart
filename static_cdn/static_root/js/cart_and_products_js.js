@@ -124,7 +124,6 @@ $(document).ready(function(){
 	})
 
 	function refreshCart() {    // Refrest cart homepage if cart contents change
-		console.log("In refresh method")
 		var cartTable = $(".cart-table")
 		var cartBody = cartTable.find(".cart-body")
 		var productRow = cartBody.find(".cart-product")

@@ -223,8 +223,6 @@ class LoginView(AnonymousRequiredMixin, NextUrlMixin, RequestFormAttachMixin, Fo
 #                 return redirect(redirect_path)
 #             else:
 #                 return redirect('/')
-#         else:
-#             print("Error")
 #     return render(request, 'accounts/login.html', context)
 
 

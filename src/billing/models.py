@@ -91,10 +91,8 @@ def billing_profile_created_receiver(sender, instance, *args, **kwargs):
     # This is done as pre_save because we want to change customer_id if needed in future by just deleting
     # the id from admin panel and doing save and also delete the id from stripe panel.
     if not instance.customer_id and instance.email:
-        print("api request for stripe")
         customer = stripe.Customer.create(email=instance.email)
         instance.customer_id = customer.id
-        print(customer)
 
 pre_save.connect(billing_profile_created_receiver, sender=BillingProfile)
 
@@ -190,7 +188,6 @@ class ChargeManager(models.Manager):
     
     def do(self, billing_profile, order_obj, card=None):
         card_obj = card
-        print(card_obj)
         if card_obj is None:
             cards = billing_profile.card_set.filter(default=True)
             if cards.exists():
@@ -199,7 +196,6 @@ class ChargeManager(models.Manager):
         if card_obj is None:
             return False, "No cards available"
 
-        print(card_obj)
         # create object in stripe
         charge = stripe.Charge.create(
             # amount has to be an integer in smallest currency unit (in this case - cents)

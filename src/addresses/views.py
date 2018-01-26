@@ -19,8 +19,6 @@ def checkout_address_create_view(request):
     redirect_path = next_ or next_post or None
 
     if form.is_valid():
-        print(request.POST)
-
         instance = form.save(commit=False)  # Model objects can be created directly from the ModelForm
         billing_profile, billing_profile_created = BillingProfile.objects.get_or_new(request)
         if billing_profile is not None:
@@ -28,9 +26,7 @@ def checkout_address_create_view(request):
             instance.address_type = request.POST.get('address_type', 'shipping')
             instance.save()
             request.session[instance.address_type + '_address_id'] = instance.id
-            print(instance.address_type + '_address_id')
         else:
-            print('Error in saving the address')
             return redirect('cart:checkout')
 
         if is_safe_url(redirect_path, request.get_host()):
@@ -45,7 +41,6 @@ def checkout_address_reuse_view(request):
         next_post = request.POST.get('next')
         redirect_path = next_ or next_post or None
         if request.method == 'POST':
-            print(request.POST)
             address_id = request.POST.get('address_id', None)
             address_type = request.POST.get('address_type', 'shipping')
             billing_profile, billing_profile_created = BillingProfile.objects.get_or_new(request)

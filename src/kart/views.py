@@ -62,12 +62,7 @@ def contact_page(request):
         if request.is_ajax():
             # Since data is already in json, we use HttpResponse
             return HttpResponse(errors, status=400, content_type='application/json')
-
-    # if request.method == 'POST':
-    #   print(request.POST)
-    #   print(request.POST.get('fullname'))
-    #   print(request.POST.get('email'))
-    #   print(request.POST.get('content'))
+            
     return render(request, "contact/view.html", context)
 
 

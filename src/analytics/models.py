@@ -154,8 +154,9 @@ def post_save_user_changed_receiver(sender, instance, created, *args, **kwargs):
         # if user becomes inactive, delete all of its inactive sessions
         if not instance.is_active:
             qs = UserSession.objects.filter(user=instance, ended=False)
-            for session in qs:
-                print(session.end_session())
+            qs.update(active=False, ended=True)
+            # for session in qs:
+            #     session.end_session()
             UserSession.objects.filter(user=instance).delete_inactive()
 
 if FORCE_INACTIVE_USER_END_SESSION:

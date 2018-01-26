@@ -17,7 +17,6 @@ class SearchListView(ListView):
     def get_queryset(self, *args, **kwargs):   # Custom Model Manager
         request = self.request
         query = request.GET.get('q', None)  # request.GET['q'] will give an error if q does not exist
-        print(query)
         if query is not None:
             return Product.objects.search(query)
         return Product.objects.featured()

@@ -150,7 +150,6 @@ def product_detail_view(request, pk, *args, **kwargs):
     # try:
     #     instance = Product.objects.get(id=pk)
     # except Product.DoesNotExist:
-    #     print("No such product exists.")
     #     raise Http404("Product doesn't exist")
     # except:
     #     print('huh!')

@@ -74,7 +74,6 @@ def cart_update(request):
         request.session['cart_items_number'] = cart_obj.products.count()
 
         if request.is_ajax():   # If ajax data, then send back form data in JSON
-            print("Ajax request")
             json_data = {       # Additional data we want to send along with the form data
                 "added": added,
                 "cartItemCount": cart_obj.products.count()

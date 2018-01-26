@@ -177,7 +177,6 @@ $(document).ready(function(){
 					redirectToNext(nextUrl, 1500)
 				},
 				error: function(error) {
-					console.log(error)
 					if ($.alert){  // If the custom defined alert class exists
 						$.alert({title: "An error occured", content: "Please try adding your card again."})
 					} else {

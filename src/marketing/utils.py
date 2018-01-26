@@ -63,7 +63,6 @@ class Mailchimp(object):
     def check_subscription_status(self, email):
         # Things needed: endpoint(url), method, data, auth
         hashed_email = get_subscriber_hash(email)
-        # print(hashed_email)
         # it is unsafe to send data in url directly, so the api uses the hashed form for security
         endpoint = self.get_members_endpoint() + '/' + hashed_email
         r = requests.get(endpoint, auth=("", self.key))

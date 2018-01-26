@@ -30,7 +30,6 @@ $(document).ready(function(){
 			data: contactFormData,
 			success: function(data){
 				thisForm[0].reset()
-				console.log(data)
 				$.alert({
 					title: "Success!",
 					content: data.message,
@@ -42,7 +41,6 @@ $(document).ready(function(){
 				}, 1500)
 			},
 			error: function(error){
-				console.log(error.responseJSON)
 				var jsonData = error.responseJSON
 				var message = ""
 
