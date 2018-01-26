@@ -22,9 +22,9 @@ class MarketingPreference(models.Model):
 
 
 def make_marketing_pref_receiver(sender, instance, created, *args, **kwargs):
-    '''
+    """
     Create marketing preference when user is created
-    '''
+    """
     if created:
         MarketingPreference.objects.get_or_create(user=instance)
 
@@ -39,8 +39,8 @@ post_save.connect(marketing_preference_create_receiver, sender=MarketingPreferen
 
 
 def marketing_preference_update_receiver(sender, instance, *args, **kwargs):
-    ''' When user changes the subscription status, it updates the mailchimp db
-    '''
+    """ When user changes the subscription status, it updates the mailchimp db
+    """
     if instance.subscribed != instance.mailchimp_subscribed:
         if instance.subscribed:
             status_code, response_data = Mailchimp().subscribe(instance.user.email)
@@ -72,9 +72,9 @@ class GuestModelMarketingPreference(models.Model):
 
 
 def guest_marketing_pref_receiver(sender, instance, created, *args, **kwargs):
-    '''
+    """
     Create marketing preference when guest model is created
-    '''
+    """
     if created:
         GuestModelMarketingPreference.objects.get_or_create(guest_user=instance)
 
@@ -89,8 +89,8 @@ post_save.connect(guest_marketing_preference_create_receiver, sender=GuestModelM
 
 
 def guest_marketing_preference_update_receiver(sender, instance, *args, **kwargs):
-    ''' When user changes the subscription status, it updates the mailchimp db
-    '''
+    """ When user changes the subscription status, it updates the mailchimp db
+    """
     if instance.subscribed != instance.mailchimp_subscribed:
         if instance.subscribed:
             status_code, response_data = Mailchimp().subscribe(instance.guest_user.email)

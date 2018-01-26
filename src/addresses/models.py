@@ -4,7 +4,6 @@ from django.core.urlresolvers import reverse
 
 from billing.models import BillingProfile
 
-
 ADDRESS_TYPES = (
     ('billing', 'Billing'),
     ('shipping', 'Shipping')
@@ -12,14 +11,12 @@ ADDRESS_TYPES = (
 
 
 class AddressQuerySet(models.query.QuerySet):
-
     def by_request(self, request):
         billing_profile, created = BillingProfile.objects.get_or_new(request)
         return self.filter(billing_profile=billing_profile)
 
 
 class AddressManger(models.Manager):
-
     def get_queryset(self):
         return AddressQuerySet(self.model, using=self._db)
 
@@ -41,7 +38,7 @@ class Address(models.Model):
     postal_code = models.CharField(validators=[postal_code_regex], max_length=120)
 
     phone_regex = RegexValidator(regex=r'^\d{9,15}$', message="Phone number must contain 10 digits")
-    phone_number = models.CharField(validators=[phone_regex], max_length=10, blank=True) # validators should be a list
+    phone_number = models.CharField(validators=[phone_regex], max_length=10, blank=True)  # validators should be a list
 
     objects = AddressManger()
 
@@ -56,13 +53,13 @@ class Address(models.Model):
 
     def get_address(self):
         return "{line1}\n{line2}\n{city}\n{state}, {postal}\n{country}\nPhone number: {phone_number}".format(
-            line1 = self.address_line_1,
-            line2 = self.address_line_2 or "",
-            city = self.city,
-            state = self.state,
-            postal = self.postal_code,
-            country = self.country,
-            phone_number = self.phone_number or "N/A"
+            line1=self.address_line_1,
+            line2=self.address_line_2 or "",
+            city=self.city,
+            state=self.state,
+            postal=self.postal_code,
+            country=self.country,
+            phone_number=self.phone_number or "N/A"
         )
 
     def get_html_address(self):

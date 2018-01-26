@@ -93,7 +93,7 @@ class Product(models.Model):
         return self.title
 
     @property
-    def name(self): # optional: with this Product.name will also work
+    def name(self):  # optional: with this Product.name will also work
         return self.title
 
     def get_downloads(self):
@@ -154,9 +154,9 @@ class ProductFile(models.Model):
         return self.product.get_absolute_url()
 
     def generate_download_url(self):
-        '''
+        """
         Generates the download url for downloads through aws.
-        '''
+        """
         access_key = getattr(settings, 'AWS_ACCESS_KEY_ID')
         secret_key = getattr(settings, 'AWS_SECRET_ACCESS_KEY')
         bucket = getattr(settings, 'AWS_STORAGE_BUCKET_NAME')
@@ -168,14 +168,14 @@ class ProductFile(models.Model):
         # for aws, self.file is equivalent to self.file.path in local
         path = '{base}/{file_path}'.format(base=PROTECTED_DIR_NAME, file_path=str(self.file))
 
-        aws_dl_object =  AWSDownload(access_key, secret_key, bucket, region)
+        aws_dl_object = AWSDownload(access_key, secret_key, bucket, region)
         file_url = aws_dl_object.generate_url(path, new_filename=self.display_name)
         return file_url
 
     def get_download_url(self):
-        '''
+        """
         Gives the download url when project is used in local settings
-        '''
+        """
         # return self.file.url  # This returns the path where file is stored
         return reverse('products:download', kwargs={
             'slug': self.product.slug, 'pk': self.pk

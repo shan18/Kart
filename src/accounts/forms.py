@@ -1,6 +1,4 @@
 from django import forms
-from django.http import JsonResponse
-from django.contrib import messages
 from django.contrib.auth import authenticate, login, get_user_model
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 from django.core.urlresolvers import reverse
@@ -80,7 +78,6 @@ class UserDetailChangeForm(forms.ModelForm):
         fields = ['full_name']
 
 
-
 class GuestForm(forms.ModelForm):
     email = forms.EmailField(label='Email', widget=forms.EmailInput(
         attrs={'class': 'form-control my-2', 'placeholder': 'Email', 'id': 'guest-form-email-field'}
@@ -113,17 +110,17 @@ class LoginForm(forms.Form):
     ))
 
     def __init__(self, request, *args, **kwargs):
-        '''
+        """
         This method was overwritten because some additional data was passed to the form from the view.
-        '''
+        """
         self.request = request
         super(LoginForm, self).__init__(*args, **kwargs)
 
     def clean(self):  # This clean() method gets the entire form's data
-        '''
+        """
         With this function, the form itself handles the entire login process and only if the login
         is successful, it sends the data to the respective view.
-        '''
+        """
         request = self.request
         data = self.cleaned_data
         email = self.cleaned_data.get('email')

@@ -6,8 +6,6 @@ from .views import (
         payment_method_reuse_view,
         PaymentMethodsListView
     )
-from products.views import UserProductHistoryView
-
 
 urlpatterns = [
     url(r'^payment-method/$', payment_method_view, name='payment-method'),

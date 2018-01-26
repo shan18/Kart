@@ -173,8 +173,6 @@ class Card(models.Model):
         self.save()
 
 
-# on adding or setting to default a card, set it to default and make the otherse non-default.
-# this will not change the default in stripe. TODO: do this
 def new_card_post_save_receiver(sender, instance, created, *args, **kwargs):
     if instance.default:
         billing_profile = instance.billing_profile

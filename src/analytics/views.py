@@ -2,7 +2,7 @@ import datetime
 
 from django.shortcuts import render
 from django.views.generic import TemplateView, View
-from django.http import HttpResponse, JsonResponse
+from django.http import JsonResponse
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.utils import timezone
 
@@ -34,7 +34,7 @@ class SalesAjaxView(View):
                 data['labels'] = labels
                 data['data'] = salesItems
             elif request.GET.get('type') == 'four_weeks':
-                data['labels'] = ["Four Weeks Ago", "Three Weeks Ago", "Two Weeks Ago", "Last Week"] #, "This Week"]
+                data['labels'] = ["Four Weeks Ago", "Three Weeks Ago", "Two Weeks Ago", "Last Week"]
                 current = 5
                 data['data'] = []
                 for i in range(0, 5):

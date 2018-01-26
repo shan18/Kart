@@ -26,9 +26,9 @@ def check_email(email):
 
 
 def get_subscriber_hash(member_email):
-    '''
+    """
     This makes a email hash which is required by the Mailchimp API
-    '''
+    """
     # .encode() returns a bytes representation of the Unicode string
     member_email = check_email(member_email).lower().encode()
     m = hashlib.md5(member_email)
@@ -92,8 +92,8 @@ class Mailchimp(object):
 
     def add_email(self, email):
         # Things needed: endpoint(url), method, data, auth
-        ''' The PUT method in change_subscription_status can add an email to the list directly if
-            it does not exists. So with that, this function has become redundant. '''
+        """ The PUT method in change_subscription_status can add an email to the list directly if
+            it does not exists. So with that, this function has become redundant. """
         status = self.check_valid_status('subscribed')
         data = {
             'email_address': email,

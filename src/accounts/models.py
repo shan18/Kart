@@ -61,7 +61,7 @@ class User(AbstractBaseUser):
     email = models.EmailField(unique=True, max_length=255)
     full_name = models.CharField(max_length=255, blank=True, null=True)
     # is_active required by built in django password management
-    is_active = models.BooleanField(default=True) # can login
+    is_active = models.BooleanField(default=True)  # can login
     staff = models.BooleanField(default=False)  # staff (non superuser) user
     admin = models.BooleanField(default=False)
     timestamp = models.DateTimeField(auto_now_add=True)
@@ -120,9 +120,9 @@ class User(AbstractBaseUser):
 class EmailActivationQuerySet(models.query.QuerySet):
 
     def confirmable(self):
-        '''
+        """
         Returns those emails which can be confirmed i.e. which are not activated and expired
-        '''
+        """
         now = timezone.now()
         start_range = now - timedelta(days=DEFAULT_ACTIVATION_DAYS)
         end_range = now
@@ -144,11 +144,11 @@ class EmailActivationManager(models.Manager):
         return self.get_queryset().confirmable()
 
     def email_exists(self, email):
-        '''
+        """
         EmailActivation is created when the user is created. When only EmailActivation is deleted, User object
         still remains i.e. email still exists. But this function will send nothing because for this function
         self.get_queryset() is None. So both user and EmailActivation should exist together for this to work.
-        '''
+        """
         return self.get_queryset().filter(
             Q(email=email) | Q(user__email=email)
         ).filter(activated=False)
@@ -184,7 +184,7 @@ class EmailActivation(models.Model):
             user.is_active = True
             user.save()
             # TODO: post_save user activation signal (do something with this info)
-            self.activated=True
+            self.activated = True
             self.save()
             return True
         return False

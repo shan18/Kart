@@ -1,16 +1,15 @@
 from django.conf import settings
 from django.utils.http import is_safe_url
-from django.utils.decorators import method_decorator
 from django.shortcuts import redirect
 
 
 class RequestFormAttachMixin(object):
 
     def get_form_kwargs(self):
-        '''
+        """
         This method is overriden to send additional data from the view to the form.
         In function based view, this can be done as "form = LoginForm(request=request)"
-        '''
+        """
         kwargs = super(RequestFormAttachMixin, self).get_form_kwargs()
         kwargs['request'] = self.request
         return kwargs

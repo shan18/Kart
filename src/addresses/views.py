@@ -1,5 +1,5 @@
-from django.shortcuts import render, redirect
-from django.http import Http404, JsonResponse
+from django.shortcuts import redirect
+from django.http import Http404
 from django.utils.http import is_safe_url
 from django.views.generic import ListView, UpdateView, DeleteView, CreateView
 from django.core.urlresolvers import reverse
@@ -89,7 +89,7 @@ class AddressUpdateView(LoginRequiredMixin, RequestFormAttachMixin, UpdateView):
     form_class = AddressForm
     template_name = 'addresses/detail.html'
 
-    def get_object(self):
+    def get_object(self, **kwargs):
         qs = Address.objects.by_request(self.request).filter(pk=self.kwargs.get('address_id'))
         if qs.count() == 1:
             return qs.first()
@@ -107,17 +107,17 @@ class AddressUpdateView(LoginRequiredMixin, RequestFormAttachMixin, UpdateView):
         return redirect(self.get_success_url())
 
     def get_success_url(self):
-        '''
+        """
         This is used instead of using the class variable 'success_url' because class variable
         cannot be used with reverse
-        '''
+        """
         return reverse('address:list')
 
 
 class AddressDeleteView(LoginRequiredMixin, DeleteView):
     success_message = "Address deleted successfully."
 
-    def get_object(self):
+    def get_object(self, **kwargs):
         qs = Address.objects.by_request(self.request).filter(pk=self.kwargs.get('address_id'))
         if qs.count() == 1:
             return qs.first()

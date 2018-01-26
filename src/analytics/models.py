@@ -10,7 +10,6 @@ from .signals import object_viewed_signal
 from .utils import get_client_ip
 from accounts.signals import user_session_signal
 
-
 User = settings.AUTH_USER_MODEL
 
 # To disable the post_save connectors
@@ -19,22 +18,22 @@ FORCE_INACTIVE_USER_END_SESSION = getattr(settings, 'FORCE_INACTIVE_USER_END_SES
 
 
 class ObjectViewedQuerySet(models.query.QuerySet):
-
     def by_model(self, model_class, model_queryset=False):
         content_type = ContentType.objects.get_for_model(model_class)
         qs = self.filter(content_type=content_type)  # all().filter(content_type__name=content_type)
-        if model_queryset: # return the model_class queryset
+        if model_queryset:  # return the model_class queryset
             # This will show each product only a single time even if it was viewed multiple times.
             viewed_ids = [x.object_id for x in qs]  # get all the product ids
             unique_viewed_ids = list(dict.fromkeys(viewed_ids))  # remove duplicates while preserving the order
-            model_class_qs = list(model_class.objects.filter(pk__in=unique_viewed_ids)) # this removes the ordering
-            model_class_qs.sort(key=lambda x: unique_viewed_ids.index(x.id)) # sort based on the order of unique_viewed_ids
+            model_class_qs = list(model_class.objects.filter(pk__in=unique_viewed_ids))  # this removes the ordering
+            model_class_qs.sort(
+                key=lambda x: unique_viewed_ids.index(x.id)
+            )  # sort based on the order of unique_viewed_ids
             return model_class_qs
         return qs
 
 
 class ObjectViewedManager(models.Manager):
-
     def get_queryset(self):
         return ObjectViewedQuerySet(self.model, using=self._db)
 
@@ -74,7 +73,7 @@ def object_viewed_receiver(sender, instance, request, *args, **kwargs):
     content_type = ContentType.objects.get_for_model(sender)  # instance.__class__
     user = None
     if request.user.is_authenticated():
-        user =request.user
+        user = request.user
     new_view_obj = ObjectViewed.objects.create(
         user=user,
         ip_address=get_client_ip(request),
@@ -82,18 +81,17 @@ def object_viewed_receiver(sender, instance, request, *args, **kwargs):
         object_id=instance.id
     )
 
+
 # no need to include sender as a parameter because that is already passed along with the signal
 object_viewed_signal.connect(object_viewed_receiver)
 
 
 class UserSessionQuerySet(models.query.QuerySet):
-
     def delete_inactive(self):
         self.filter(Q(active=False) | Q(ended=True)).delete()
 
 
 class UserSessionManager(models.Manager):
-
     def get_queryset(self):
         return UserSessionQuerySet(self.model, using=self._db)
 
@@ -132,18 +130,19 @@ def user_session_receiver(sender, instance, request, *args, **kwargs):
         session_key=request.session.session_key  # Django 1.11
     )
 
+
 user_session_signal.connect(user_session_receiver)
 
 
 def post_save_session_receiver(sender, instance, created, *args, **kwargs):
     if created:
         # When user logs in, delete all the sessions related to the user except the current one
-        session_limit = getattr(settings, 'SESSION_LIMIT')
         qs = UserSession.objects.filter(user=instance.user).exclude(id=instance.id)
         qs.update(active=False, ended=True)
 
     if not instance.active and not instance.ended:
         instance.end_session()
+
 
 if FORCE_ONE_SESSION:
     post_save.connect(post_save_session_receiver, sender=UserSession)
@@ -158,6 +157,7 @@ def post_save_user_changed_receiver(sender, instance, created, *args, **kwargs):
             # for session in qs:
             #     session.end_session()
             UserSession.objects.filter(user=instance).delete_inactive()
+
 
 if FORCE_INACTIVE_USER_END_SESSION:
     post_save.connect(post_save_user_changed_receiver, sender=User)

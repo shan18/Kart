@@ -294,7 +294,6 @@ class ProductPurchaseManager(models.Manager):
         return product_qs
 
 
-
 class ProductPurchase(models.Model):
     order_id = models.CharField(max_length=120)
     billing_profile = models.ForeignKey(BillingProfile)  # reverse lookup: all purchases from a single profile

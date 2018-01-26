@@ -1,5 +1,5 @@
 from django.conf import settings
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect
 from django.views.generic import UpdateView, View
 from django.http import HttpResponse
 from django.contrib.messages.views import SuccessMessageMixin
@@ -22,10 +22,10 @@ class MarketingPreferenceUpdateView(SuccessMessageMixin, UpdateView):
     success_message = 'Your email preferences have been updated!'
 
     def dispatch(self, *args, **kwargs):
-        '''
+        """
         This function is the view part of the view. By overriding it, we first check
         some conditons and then only allow it to display the default view.
-        '''
+        """
         user = self.request.user
         if not user.is_authenticated():
             # return HttpResponse('Not authorized', status=400)
@@ -38,7 +38,7 @@ class MarketingPreferenceUpdateView(SuccessMessageMixin, UpdateView):
         context['title'] = 'Update Email Preferences'
         return context
 
-    def get_object(self):
+    def get_object(self, **kwargs):
         user = self.request.user
         obj, created = MarketingPreference.objects.get_or_create(user=user)
         return obj
@@ -51,9 +51,9 @@ class MailchimpWebhookView(CsrfExemptMixin, View):
     """
 
     def post(self, request, *args, **kwargs):
-        '''
+        """
         Handles POST data
-        '''
+        """
         data = request.POST  # response from the webhook
         list_id = data['data[list_id]']
         if str(list_id) == str(MAILCHIMP_EMAIL_LIST_ID):
@@ -71,9 +71,9 @@ class MailchimpWebhookView(CsrfExemptMixin, View):
 
 
 # def mailchimp_webhook_view(request):
-#     '''
+#     """
 #     Function based view for the mailchimp webhook handler
-#     '''
+#     """
 #     data = request.POST  # response from the webhook
 #     list_id = data['data[list_id]']
 #     if str(list_id) == str(MAILCHIMP_EMAIL_LIST_ID):

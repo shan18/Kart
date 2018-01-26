@@ -10,7 +10,6 @@ from .models import Cart
 from products.models import Product
 from orders.models import Order
 from billing.models import BillingProfile, Card
-from accounts.models import GuestModel
 from addresses.models import Address
 
 from accounts.forms import LoginForm, GuestForm
@@ -103,7 +102,7 @@ def checkout_home(request):
     address_qs = None
     has_card = False
     # if order related to the billing profile exists, use that. Else create one.
-    if billing_profile is not None: # Without billing profile, order should not exist
+    if billing_profile is not None:  # Without billing profile, order should not exist
         if request.user.is_authenticated():
             address_qs = Address.objects.filter(billing_profile=billing_profile)
         order_obj, order_obj_created = Order.objects.get_or_new(billing_profile, cart_obj)

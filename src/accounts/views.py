@@ -1,11 +1,10 @@
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
-from django.contrib.auth import authenticate, login, get_user_model
+from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
 from django.utils.decorators import method_decorator
-from django.utils.http import is_safe_url
 from django.utils.safestring import mark_safe
 from django.views.generic import CreateView, FormView, DetailView, View, UpdateView
 from django.views.generic.edit import FormMixin
@@ -13,7 +12,6 @@ from django.core.urlresolvers import reverse
 
 from .models import GuestModel, EmailActivation
 from .forms import LoginForm, RegisterForm, GuestForm, ReactivateEmailForm, UserDetailChangeForm
-from .signals import user_session_signal
 from kart.mixins import NextUrlMixin, RequestFormAttachMixin, AnonymousRequiredMixin
 
 
@@ -50,7 +48,7 @@ class UserDetailUpdateView(LoginRequiredMixin, UpdateView):
     form_class = UserDetailChangeForm
     template_name = 'accounts/detail_update_view.html'
 
-    def get_object(self):
+    def get_object(self, **kwargs):
         return self.request.user
 
     def get_context_data(self, *args, **kwargs):
@@ -59,10 +57,10 @@ class UserDetailUpdateView(LoginRequiredMixin, UpdateView):
         return context
 
     def get_success_url(self):
-        '''
+        """
         This is used instead of using the class variable 'success_url' because class variable
         cannot be used with reverse
-        '''
+        """
         return reverse('account:home')
 
 
@@ -111,10 +109,10 @@ class AccountEmailActivateView(FormMixin, View):
         return super(AccountEmailActivateView, self).form_valid(form)
 
     def form_invalid(self, form):
-        '''
-        This method had to be expicitly written because this view uses the basic django "View" class.
+        """
+        This method had to be explicitly written because this view uses the basic django "View" class.
         If it had used some other view like ListView etc. Django would have handled it automatically.
-        '''
+        """
         context = {'form': form, 'key': self.key}
         return render(self.request, 'registration/activation_error.html', context)
 

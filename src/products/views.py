@@ -54,10 +54,10 @@ class ProductDetailSlugView(ObjectViewedMixin, DetailView):
         return context
 
     def get_object(self, *args, **kwargs):
-        '''
+        """
         Exists in detail view.
         It is a custom model manager, it overrides the queryset attribute.
-        '''
+        """
         request = self.request
         slug = self.kwargs.get('slug')
         try:
@@ -78,7 +78,7 @@ class ProductDetailSlugView(ObjectViewedMixin, DetailView):
 class ProductDownloadView(View):
 
     def get(self, request, *args, **kwargs):
-        ''' Get the file object to be downloaded '''
+        """ Get the file object to be downloaded """
         slug = kwargs.get('slug')
         pk = kwargs.get('pk')
         downloads_qs = ProductFile.objects.filter(pk=pk, product__slug=slug)
@@ -187,11 +187,10 @@ class ProductListView(ListView):
         return context
 
     def get_queryset(self, *args, **kwargs):
-        '''
+        """
         Exists in list view.
         It is a custom model manager, it overrides the queryset attribute.
-        '''
-        request = self.request
+        """
         order = self.request.GET.get('orderby', '-featured')
         return Product.objects.all().order_by(order)
 
