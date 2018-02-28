@@ -4,6 +4,7 @@ notes/aws_iam_credentials.csv
 # IDE Configurations #
 ######################
 .idea/
+.vscode/
 *.sublime-project
 
 # Security Key Files #
