@@ -1,7 +1,7 @@
 # Kart
+
 An E-commerce website built using Django.  
 URL: [https://shan-kart.herokuapp.com/](https://shan-kart.herokuapp.com/)
-
 
 ### Features
 
@@ -24,7 +24,6 @@ Enter any 5-digit number for CVC and any future date for expiry.
 - **Javascript** - jQuery, Ajax, jsrender, Chart.js
 - **Bootstrap**
 
-
 ### Third Party Services Used
 
 - **Amazon Web Services (AWS)**: Stores all static and media files.
@@ -33,55 +32,57 @@ Enter any 5-digit number for CVC and any future date for expiry.
 - **sendgrid**: Used to send transactional emails like email-id verification, order completion etc.
 - **mailchimp**: Used to send marketing emails to customers.
 
-
 ## Instructions for setting up the project
 
 1. Clone the repository  
-`git clone https://github.com/shan18/Kart.git`
+   `git clone https://github.com/shan18/Kart.git`
 
 2. Create a virtual environment and install the requirements  
-`pip install -r requirements.txt`  
-After installing the requirements, install this package separately  
-`pip install --pre xhtml2pdf`
+   `pip install -r requirements.txt`  
+   After installing the requirements, install this package separately  
+   `pip install --pre xhtml2pdf`
 
-3. Rename the file **credentials-sample.py** in *src/kart/* to **credentials.py** and replace the value of `SECRET_KEY` with the secret key of your own project. To generate a new secret key
-	- Go to terminal and create a new django project `django-admin startproject <proj-name>`.
-	- Now get the value of `SECRET_KEY` in *settings.py* and use that as the secret key for the **kart project**.
-	- Now delete that new django project.
+3. Rename the file **credentials-sample.py** in _src/kart/_ to **credentials.py** and replace the value of `SECRET_KEY` with the secret key of your own project. To generate a new secret key
+
+   - Go to terminal and create a new django project `django-admin startproject <proj-name>`.
+   - Now get the value of `SECRET_KEY` in _settings.py_ and use that as the secret key for the **kart project**.
+   - Now delete that new django project.
 
 4. **Stripe setup**:
-	- Create an account on [stripe](https://stripe.com/).
-	- Go to the **API** section on the left.
-	- Fetch the values of tokens **Publishable key** and **Secret key** and add them to `STRIPE_PUBLISH_KEY` and `STRIPE_SECRET_KEY` in **credentials.py** respectively.
+
+   - Create an account on [stripe](https://stripe.com/).
+   - Go to the **API** section on the left.
+   - Fetch the values of tokens **Publishable key** and **Secret key** and add them to `STRIPE_PUBLISH_KEY` and `STRIPE_SECRET_KEY` in **credentials.py** respectively.
 
 5. **Mailchimp setup**:
-	- Create an account on [mailchimp](https://mailchimp.com/). While signing up set the company name to the name of the project.
-	- Go to the tab **Lists** and click on a list. Navigate to the **Settings** tab and click on **List name and campaign defaults**. Get the **List ID** on the right and add it to `MAILCHIMP_EMAIL_LIST_ID` in **credentials.py**
-	- Get the mailchimp data center. For example: `us17` (It will we visible in the url). Add it to `MAILCHIMP_DATA_CENTER` in **credentials.py**
-	- Go to account settings, get the **API Key** and add it to `MAILCHIMP_API_KEY` in **credentials.py**
+
+   - Create an account on [mailchimp](https://mailchimp.com/). While signing up set the company name to the name of the project.
+   - Go to the tab **Lists** and click on a list. Navigate to the **Settings** tab and click on **List name and campaign defaults**. Get the **List ID** on the right and add it to `MAILCHIMP_EMAIL_LIST_ID` in **credentials.py**
+   - Get the mailchimp data center. For example: `us17` (It will we visible in the url). Add it to `MAILCHIMP_DATA_CENTER` in **credentials.py**
+   - Go to account settings, get the **API Key** and add it to `MAILCHIMP_API_KEY` in **credentials.py**
 
 6. **Sendgrid setup**:
-	- Create an account on [sendgrid](https://sendgrid.com/).
-	- Add your sendgrid username and password to `EMAIL_HOST_USER` and `EMAIL_HOST_PASSWORD` in **credentials.py** respectively.
-	- Change the email and name in `DEFAULT_FROM_EMAIL` and `MANAGERS` in all *settings files* with your name and email.
+
+   - Create an account on [sendgrid](https://sendgrid.com/) and create an API key.
+   - Add your sendgrid API key to `EMAIL_HOST_PASSWORD` in **credentials.py** respectively.
+   - Change the email and name in `DEFAULT_FROM_EMAIL` and `MANAGERS` in all _settings files_ with your name and email.
 
 7. **Amazon Web Services (AWS) setup**:  
-	Follow this guide to setup AWS in the project: [AWS Setup](notes/aws_setup.md). After settings up AWS, add all the required values to **credentials.py** (mentioned under the comment *aws keys*).
+   Follow this guide to setup AWS in the project: [AWS Setup](notes/aws_setup.md). After settings up AWS, add all the required values to **credentials.py** (mentioned under the comment _aws keys_).
 
 8. **Heroku setup**:  
-	Follow this guide to setup Heroku in the project: [Heroku Setup](notes/heroku_setup.md).
+   Follow this guide to setup Heroku in the project: [Heroku Setup](notes/heroku_setup.md).
 
 9. Run the following commands  
-`python manage.py makemigrations`  
-`python manage.py migrate`  
-`python manage.py collectstatic`
+   `python manage.py makemigrations`  
+   `python manage.py migrate`  
+   `python manage.py collectstatic`
 
 10. Now load the **products** and the **tags** into the database  
-`python manage.py loaddata products/fixtures/products.json`
-`python manage.py loaddata tags/fixtures/tags.json`
-
+    `python manage.py loaddata products/fixtures/products.json`
+    `python manage.py loaddata tags/fixtures/tags.json`
 
 #### Note:
 
-- The project contains *two level git architecture*, inner for heroku and outer for GitHub. Thus, the reason for *two .gitignore and requirements.txt files*.
+- The project contains _two level git architecture_, inner for heroku and outer for GitHub. Thus, the reason for _two .gitignore and requirements.txt files_.
 - Due to size issues, only one protected media file has been uploaded in GitHub. Add the others by uploading them in the **Django Admin**, inside the **Products** section.
