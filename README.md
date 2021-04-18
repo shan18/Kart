@@ -84,5 +84,6 @@ Enter any 5-digit number for CVC and any future date for expiry.
 
 #### Note:
 
+- The **Contact** page in the repository has been currently disabled, to enable it uncomment `line 17 in src/kart/urls.py` and `line 30-32 in src/templates/base/navbar.html`.
 - The project contains _two level git architecture_, inner for heroku and outer for GitHub. Thus, the reason for _two .gitignore and requirements.txt files_.
 - Due to size issues, only one protected media file has been uploaded in GitHub. Add the others by uploading them in the **Django Admin**, inside the **Products** section.

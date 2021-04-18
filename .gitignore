@@ -5,6 +5,7 @@ notes/aws_iam_credentials.csv
 ######################
 .idea/
 *.sublime-project
+.prettierignore
 
 # Security Key Files #
 ######################
