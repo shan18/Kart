@@ -1,5 +1,7 @@
 # Kart
 
+### Disclaimer: A Demo of this project was hosted on the free dynos on Heroku but now since Herko have stopped the support for free dynos, a demo of the project is no longer available.
+
 An E-commerce website built using Django.  
 URL: [https://shan-kart.herokuapp.com/](https://shan-kart.herokuapp.com/)
 
